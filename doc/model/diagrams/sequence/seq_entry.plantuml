@@ -5,25 +5,39 @@ title: Virtual Schema Adapter Entrypoint for Request Handling
 
 participant "Exasol Compiler" as compiler
 participant entry
-participant request_dispatcher
-participant rls_adapter
+participant RequestDispatcher
+participant ExasolAdapter
+participant MetadataReader
 
 activate compiler
 compiler -> entry : adapter_call(request : JSON string)
 activate entry
-create rls_adapter
-entry -> rls_adapter : create
-create request_dispatcher
-entry -> request_dispatcher : create
-entry -> request_dispatcher : init(rls_adapter)
-activate request_dispatcher
-request_dispatcher -->> entry : self-pointer
-deactivate request_dispatcher
-entry --> request_dispatcher : adapter_call(request : JSON stiring)
-activate request_dispatcher
-ref over request_dispatcher, rls_adapter : **[[seq_handle_request.svg handle request]]**
-request_dispatcher -->> entry : response : JSON string
-deactivate request_dispatcher
+create MetadataReader
+entry -> MetadataReader : new(exasol_context)
+activate MetadataReader
+MetadataReader -->> entry : instance
+deactivate MetadataReader
+create ExasolAdapter
+entry -> ExasolAdapter : new(metadata_reader)
+activate ExasolAdapter
+ExasolAdapter -->> entry : instance
+deactivate ExasolAdapter
+create RequestDispatcher
+entry -> RequestDispatcher : new(adapter, property_reader_class)
+note right
+    Different Virtual Schemas support
+    different properties. Injecting the reader
+    class allows the dispatcher to construct
+    the appropriate reader for those properties.
+end note
+activate RequestDispatcher
+RequestDispatcher -->> entry : instance
+deactivate RequestDispatcher
+entry --> RequestDispatcher : adapter_call(request : JSON stiring)
+activate RequestDispatcher
+ref over RequestDispatcher, ExasolAdapter : **[[seq_handle_request.svg handle request]]**
+RequestDispatcher -->> entry : response : JSON string
+deactivate RequestDispatcher
 entry --> compiler : response : JSON string
 deactivate entry
 

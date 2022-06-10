@@ -1,26 +1,27 @@
-' [dsn->req~filtering-tables~1]
+' [dsn -> req~reading-source-metadata~1]
+' [dsn -> req~filtering-tables~1]
 
 @startuml
 !include ../clean.skin
 
 title: Create Virtual Schema
 
-Participant metadata_reader
+Participant MetadataReader
 
-activate metadata_reader
+activate MetadataReader
 
 alt table filter exists
     loop for each table in filter
-        metadata_reader -> metadata_reader : translate table metadata (schema, table)
-        activate metadata_reader
-        deactivate metadata_reader
+        MetadataReader -> MetadataReader : translate table metadata (schema, table)
+        activate MetadataReader
+        deactivate MetadataReader
     end
 else no table filter
     loop for each table in source schema
-        metadata_reader -> metadata_reader : translate table metadata (schema, table)
-        activate metadata_reader
-        deactivate metadata_reader
+        MetadataReader -> MetadataReader : translate table metadata (schema, table)
+        activate MetadataReader
+        deactivate MetadataReader
     end
 end
-deactivate metadata_reader
+deactivate MetadataReader
 @enduml

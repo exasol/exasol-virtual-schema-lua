@@ -1,14 +1,16 @@
+' [dsn -> req~setting-properties~1]
+
 @startuml
 !include ../clean.skin
 
 title: Set Properties
 
-Participant request_dispatcher
-Participant rls_adapter
+Participant RequestDispatcher
+Participant ExasolAdapter
 
-activate request_dispatcher
-request_dispatcher -> rls_adapter : set properties (request)
-activate rls_adapter
-rls_adapter -->> request_dispatcher
-deactivate rls_adapter 
+activate RequestDispatcher
+RequestDispatcher -> ExasolAdapter : set properties (request)
+activate ExasolAdapter
+ExasolAdapter -->> RequestDispatcher
+deactivate ExasolAdapter
 @enduml

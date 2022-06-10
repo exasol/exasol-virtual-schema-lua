@@ -1,4 +1,4 @@
-' [qs->qr~rls-protected-query-execution-time~1]
+' [qs->qr~query-execution-time~1]
 
 @startuml
 !include ../clean.skin

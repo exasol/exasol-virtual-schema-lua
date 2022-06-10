@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <artifactId>row-level-security-lua-generated-parent</artifactId>
-    <version>1.2.0</version>
+    <version>0.1.0</version>
     <packaging>pom</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -14,7 +14,7 @@
     <licenses>
         <license>
             <name>MIT License</name>
-            <url>https://github.com/exasol/row-level-security-lua/blob/main/LICENSE</url>
+            <url>https://github.com/exasol/exasol-virtual-schema-lua/blob/main/LICENSE</url>
             <distribution>repo</distribution>
         </license>
     </licenses>
@@ -27,9 +27,9 @@
         </developer>
     </developers>
     <scm>
-        <connection>scm:git:https://github.com/exasol/row-level-security-lua.git</connection>
-        <developerConnection>scm:git:https://github.com/exasol/row-level-security-lua.git</developerConnection>
-        <url>https://github.com/exasol/row-level-security-lua/</url>
+        <connection>scm:git:https://github.com/exasol/exasol-virtual-schema-lua.git</connection>
+        <developerConnection>scm:git:https://github.com/exasol/exasol-virtual-schema-lua.git</developerConnection>
+        <url>https://github.com/exasol/exasol-virtual-schema-lua/</url>
     </scm>
     <dependencies/>
     <build>

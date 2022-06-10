@@ -1,7 +1,7 @@
 package.path = "src/main/lua/?.lua;" .. package.path
 require("busted.runner")()
 local mockagne = require("mockagne")
-local MetadataReader = require("exasolrls.MetadataReader")
+local MetadataReader = require("exasolvs.MetadataReader")
 
 local CATALOG_QUERY <const> = '/*snapshot execution*/ SELECT "TABLE_NAME" FROM "SYS"."EXA_ALL_TABLES" WHERE '
         .. '"TABLE_SCHEMA" = :s'
@@ -51,33 +51,6 @@ describe("Metadata reader", function()
         end
         mock_read_table_catalog(schema_id, tables)
     end
-
-    it("hides control tables", function()
-        mock_tables("S",
-                {
-                    table = "T2",
-                    columns = {{COLUMN_NAME = "C2", COLUMN_TYPE = "DATE"}}
-                },
-                {
-                    table = "EXA_RLS_USERS"
-                },
-                {
-                    table = "EXA_ROLE_MAPPING"
-                }
-        )
-        assert.are.same(
-                {
-                    tables = {
-                        {
-                            name = "T2",
-                            columns = {{name = "C2", dataType = {type = "DATE"}}}
-                        }
-                    },
-                    adapterNotes = "T2:---"
-                },
-                reader:read("S")
-        )
-    end)
 
     it("hides control columns", function()
         mock_tables("S",

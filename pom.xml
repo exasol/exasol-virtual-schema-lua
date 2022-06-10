@@ -3,10 +3,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <artifactId>row-level-security-lua</artifactId>
-    <version>1.2.0</version>
+    <version>0.1.0</version>
     <name>Exasol Row Level Security (Lua)</name>
     <description>This projects provides a plug-in to the Exasol database that adds per-row access control.</description>
-    <url>https://github.com/exasol/row-level-security-lua/</url>
+    <url>https://github.com/exasol/exasol-virtual-schema-lua/</url>
     <properties>
         <junit.version>5.8.2</junit.version>
         <junit.platform.version>1.8.2</junit.platform.version>
@@ -138,36 +138,6 @@
                             </arguments>
                         </configuration>
                     </execution>
-                    <execution>
-                        <id>Administration SQL Scripts Assembler</id>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>${basedir}/tools/assemble_sql_scripts.sh</executable>
-                            <useMavenLogger>true</useMavenLogger>
-                            <arguments>
-                                <argument>target/administration-sql-scripts-${project.version}.sql</argument>
-                                <!-- Administration scripts: -->
-                                <argument>${source.admin.scripts}/exa_rls_base.lua</argument>
-                                <argument>${source.admin.scripts}/exa_identifier.lua</argument>
-                                <argument>${source.admin.scripts}/add_rls_role.lua</argument>
-                                <argument>${source.admin.scripts}/assign_roles_to_user.lua</argument>
-                                <argument>${source.admin.scripts}/delete_rls_role.lua</argument>
-                                <argument>${source.admin.scripts}/add_user_to_group.lua</argument>
-                                <argument>${source.admin.scripts}/remove_user_from_group.lua</argument>
-                                <argument>${source.admin.scripts}/list_all_groups.lua</argument>
-                                <argument>${source.admin.scripts}/list_user_groups.lua</argument>
-                                <argument>${source.admin.scripts}/list_all_roles.lua</argument>
-                                <argument>${source.admin.scripts}/bit_positions.lua</argument>
-                                <argument>${source.admin.scripts}/list_user_roles.lua</argument>
-                                <argument>${source.admin.scripts}/list_users_and_roles.lua</argument>
-                                <!-- SQL scripts -->
-                                <argument>${source.sql.scripts}/role_mask.sql</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -204,19 +174,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>com.exasol</groupId>
-                <artifactId>error-code-crawler-maven-plugin</artifactId>
-                <version>1.1.1</version>
-                <executions>
-                    <execution>
-                        <!-- Prevent the crawler from running, Java is only used for tests. -->
-                        <id>verify</id>
-                        <goals/>
-                        <phase/>
-                    </execution>
-                </executions>
-            </plugin>
             <!-- Since this is a Lua project, no production JAR should be created. Empty JAR gets skipped. -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -250,11 +207,12 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>error-code-crawler-maven-plugin</artifactId>
+                <version>1.1.1</version>
                 <executions>
                     <execution>
                         <id>verify</id>
                         <!-- intentionally switched off the Java crawler for Lua projects -->
-                        <phase>dont-execute</phase>
+                        <phase>none</phase>
                     </execution>
                 </executions>
             </plugin>
@@ -293,7 +251,7 @@
     <parent>
         <artifactId>row-level-security-lua-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>1.2.0</version>
+        <version>0.1.0</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>

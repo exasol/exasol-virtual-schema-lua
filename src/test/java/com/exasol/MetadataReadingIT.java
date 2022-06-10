@@ -1,7 +1,5 @@
 package com.exasol;
 
-import static com.exasol.RlsTestConstants.IDENTIFIER_TYPE;
-import static com.exasol.RlsTestConstants.ROW_GROUP_COLUMN;
 import static com.exasol.matcher.ResultSetStructureMatcher.table;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anything;
@@ -20,34 +18,19 @@ import com.exasol.matcher.ResultSetStructureMatcher.Builder;
 
 @Testcontainers
 class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
-    /***
-     * This is a regression test for <a href="https://github.com/exasol/row-level-security-lua/issues/33">#33</a>.
-     *
-     * A table is created after the creation of the group membership table.
-     */
-    @Test
-    void testTableRegisteredAfterRlsMetaTable() {
-        final Schema sourceSchema = createSchema("SCHEMA_FOR_LATE_REGISTERED_TABLE");
-        final String groupName = "GROUP_THE_USER_HAS";
-        createGroupToUserMappingTable(sourceSchema) //
-                .insert(groupName, "USER_FOR_LATE_REGISTERED_TABLE");
-        sourceSchema.createTable("T", "C1", "BOOLEAN", ROW_GROUP_COLUMN, IDENTIFIER_TYPE) //
-                .insert(true, groupName) //
-                .insert(false, "GROUP_THE_USER_DOES_NOT_HAVE");
-        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
-        final User user = createUserWithVirtualSchemaAccess("USER_FOR_LATE_REGISTERED_TABLE", virtualSchema);
-        assertRlsQueryWithUser("SELECT C1 FROM " + virtualSchema.getName() + ".T", user, table().row(true).matches());
-    }
+
+    public static final String BOOLEAN = "BOOLEAN";
+    public static final String DOUBLE = "DOUBLE";
 
     @Test
     void testDetermineColumnTypes() {
         final Schema sourceSchema = createSchema("SCHEMA_COLUMN_TYPES");
         final Table table = sourceSchema.createTableBuilder("T") //
-                .column("BO", "BOOLEAN") //
+                .column("BO", BOOLEAN) //
                 .column("CA", "CHAR(34) ASCII") //
                 .column("CU", "CHAR(345) UTF8") //
                 .column("DA", "DATE") //
-                .column("DO", "DOUBLE") //
+                .column("DO", DOUBLE) //
                 .column("DE", "DECIMAL(15,9)") //
                 .column("G1", "GEOMETRY(7)") //
                 .column("G2", "GEOMETRY") //
@@ -64,11 +47,11 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
                 .build();
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess("USER_COLUMN_TYPE", virtualSchema);
-        assertVirtualTableStructure(table, user, expectRows("BO", "BOOLEAN", //
+        assertVirtualTableStructure(table, user, expectRows("BO", BOOLEAN, //
                 "CA", "CHAR(34) ASCII", //
                 "CU", "CHAR(345) UTF8", //
                 "DA", "DATE", //
-                "DO", "DOUBLE", //
+                "DO", DOUBLE, //
                 "DE", "DECIMAL(15,9)", //
                 "G1", "GEOMETRY(7)", //
                 "G2", "GEOMETRY", //
@@ -103,15 +86,15 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
     @Test
     void testRefreshMetadata() {
         final Schema sourceSchema = createSchema("SCHEMA_FOR_REFRESH");
-        final Table originalTable = sourceSchema.createTable("T", "BO", "BOOLEAN", "DA", "DATE");
+        final Table originalTable = sourceSchema.createTable("T", "BO", BOOLEAN, "DA", "DATE");
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess("USER_FOR_SCHEMA_REFRESH", virtualSchema);
-        assertVirtualTableStructure(originalTable, user, expectRows("BO", "BOOLEAN", "DA", "DATE"));
+        assertVirtualTableStructure(originalTable, user, expectRows("BO", BOOLEAN, "DA", "DATE"));
         originalTable.drop();
 
-        final Table modifiedTable = sourceSchema.createTable("T", "VU", "VARCHAR(40)", "DO", "DOUBLE");
+        final Table modifiedTable = sourceSchema.createTable("T", "VU", "VARCHAR(40)", "DO", DOUBLE);
         refreshVirtualSchema(virtualSchema);
-        assertVirtualTableStructure(modifiedTable, user, expectRows("VU", "VARCHAR(40) UTF8", "DO", "DOUBLE"));
+        assertVirtualTableStructure(modifiedTable, user, expectRows("VU", "VARCHAR(40) UTF8", "DO", DOUBLE));
     }
 
     private void refreshVirtualSchema(final VirtualSchema virtualSchema) {
@@ -130,27 +113,11 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
     }
 
     @Test
-    void testProtectTableAfterRefresh() throws SQLException {
-        final Schema sourceSchema = createSchema("SCHEMA_FOR_PROTECT_AFTER_REFRESH");
-        final Table originalTable = sourceSchema.createTable("T", "C1", "BOOLEAN").insert(true).insert(false);
-        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
-        final User user = createUserWithVirtualSchemaAccess("USER_FOR_PROTECT_AFTER_REFRESH", virtualSchema);
-        assertVirtualTableStructure(originalTable, user, expectRows("C1", "BOOLEAN"));
-        assertRlsQueryWithUser("SELECT * FROM " + virtualSchema.getName() + ".T", user,
-                table().row(true).row(false).matches());
-        execute("ALTER TABLE " + originalTable.getFullyQualifiedName() + " ADD COLUMN EXA_ROW_TENANT VARCHAR(128)");
-        execute("UPDATE " + originalTable.getFullyQualifiedName() + " SET EXA_ROW_TENANT = '" + user.getName()
-                + "' WHERE C1 = true");
-        refreshVirtualSchema(virtualSchema);
-        assertRlsQueryWithUser("SELECT * FROM " + virtualSchema.getName() + ".T", user, table().row(true).matches());
-    }
-
-    @Test
     void testTableFilter() throws SQLException {
         final Schema sourceSchema = createSchema("SCHEMA_FOR_TABLE_FILTER");
-        sourceSchema.createTable("T1", "C1_1", "BOOLEAN");
-        sourceSchema.createTable("T2", "C2_1", "BOOLEAN");
-        sourceSchema.createTable("T3", "C3_1", "BOOLEAN");
+        sourceSchema.createTable("T1", "C1_1", BOOLEAN);
+        sourceSchema.createTable("T2", "C2_1", BOOLEAN);
+        sourceSchema.createTable("T3", "C3_1", BOOLEAN);
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema, Map.of("TABLE_FILTER", "T2, T3"));
         final String sql = "/*snapshot execution*/"
                 + " SELECT TABLE_NAME FROM SYS.EXA_ALL_TABLES WHERE TABLE_SCHEMA = ? ORDER BY TABLE_NAME";

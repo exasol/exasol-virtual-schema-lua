@@ -144,10 +144,6 @@ function MetadataReader:_translate_columns_metadata(schema_id, table_id)
     end
 end
 
-function MetadataReader:_is_rls_metadata_table(table_id)
-    return (table_id == "EXA_RLS_USERS") or (table_id == "EXA_ROLE_MAPPING") or (table_id == "EXA_GROUP_MEMBERS")
-end
-
 function MetadataReader:_is_included_table(table_id, include_tables_lookup)
     return include_tables_lookup[table_id]
 end
@@ -174,8 +170,7 @@ function MetadataReader:_translate_table_scan_results(schema_id, result, include
     local include_tables_lookup = self:_create_lookup(include_tables)
     for i = 1, #result do
         local table_id = result[i].TABLE_NAME
-        if self:_is_included_table(table_id, include_tables_lookup) and not self:_is_rls_metadata_table(table_id)
-        then
+        if self:_is_included_table(table_id, include_tables_lookup) then
             local columns, tenant_protected, role_protected, group_protected =
                     self:_translate_columns_metadata(schema_id, table_id)
             table.insert(tables, {name = table_id, columns = columns})
