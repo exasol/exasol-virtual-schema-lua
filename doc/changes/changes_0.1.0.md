@@ -4,7 +4,7 @@ Code name: Initial release
  
 ## Summary
  
-In Version 0.1.0 is the initial release of the Lua-based Exasol Virtual Schema. It is derived from RLS Lua.
+Version 0.1.0 is the initial release of the Lua-based Exasol Virtual Schema. It is derived from RLS Lua.
 
 ### Known Limitations
 

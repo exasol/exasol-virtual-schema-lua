@@ -42,14 +42,14 @@ Requirement, design documents and coverage tags are written in [OpenFastTrace](h
 
 #### Lua Dependencies
 
-Running the Exasol Virtual Schema (Lua) requires a Exasol with built-in Lua 5.4 or later.
+Running the Exasol Virtual Schema (Lua) requires an Exasol database with built-in Lua 5.4 or later.
 
 | Dependency                               | Purpose                                                | License                       |
 |------------------------------------------|--------------------------------------------------------|-------------------------------|
 | [Lua CJSON][luacjson]                    | JSON parsing and writing                               | MIT License                   |
 | [remotelog][remotelog]                   | Logging through a TCP socket                           | MIT License                   |
 
-`remotelog` has a transitive dependency to [LuaSocket][luasocket] (MIT License). Note that Lua CSON and LuaSucket are pre-installed on an Exasol database.
+`remotelog` has a transitive dependency to [LuaSocket][luasocket] (MIT License). Note that Lua CSON and LuaSocket are pre-installed on an Exasol database.
 
 For local unit testing you need to install them on the test machine though.
 
