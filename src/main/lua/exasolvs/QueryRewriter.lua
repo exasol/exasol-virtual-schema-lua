@@ -1,6 +1,6 @@
 local QueryRenderer = require("exasolvs.QueryRenderer")
 local log = require("remotelog")
-local exaerror = require("exaerror")
+local ExaError = require("ExaError")
 
 --- This class rewrites the query.
 -- @classmod QueryRewriter
@@ -8,11 +8,11 @@ local QueryRewriter = {}
 
 local function validate(query)
     if not query then
-        exaerror.error("E-RLSL-QRW-1", "Unable to rewrite query because it was <nil>.")
+        ExaError.error("E-RLSL-QRW-1", "Unable to rewrite query because it was <nil>.")
     end
     local push_down_type = query.type
     if(push_down_type ~= "select") then
-        exaerror.error("E-RLSL-QRW-2", "Unable to rewrite push-down query of type {{query_type}}"
+        ExaError.error("E-RLSL-QRW-2", "Unable to rewrite push-down query of type {{query_type}}"
             .. ". Only 'select' is supported.", {query_type =  push_down_type})
     end
 end

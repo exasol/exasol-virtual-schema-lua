@@ -20,16 +20,16 @@ Version 0.1.0 is the initial release of the Lua-based Exasol Virtual Schema. It 
 
 ### Test Dependency Updates
 
-* Added `com.exasol:exasol-jdbc:7.1.10`
-* Added `com.exasol:exasol-testcontainers:6.1.1`
+* Added `com.exasol:exasol-jdbc:7.1.11`
+* Added `com.exasol:exasol-testcontainers:6.1.2`
 * Added `com.exasol:hamcrest-resultset-matcher:1.5.1`
 * Added `com.exasol:maven-project-version-getter:1.1.0`
-* Added `com.exasol:test-db-builder-java:3.3.2`
+* Added `com.exasol:test-db-builder-java:3.3.3`
 * Added `org.hamcrest:hamcrest:2.2`
 * Added `org.junit.jupiter:junit-jupiter-engine:5.8.2`
 * Added `org.junit.jupiter:junit-jupiter-params:5.8.2`
 * Added `org.slf4j:slf4j-jdk14:1.7.36`
-* Added `org.testcontainers:junit-jupiter:1.17.2`
+* Added `org.testcontainers:junit-jupiter:1.17.3`
 
 ### Plugin Dependency Updates
 
