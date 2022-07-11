@@ -4,7 +4,7 @@
 @startuml
 !include ../clean.skin
 
-title: Create Virtual Schema
+title: Read Table Metadata
 
 Participant MetadataReader
 

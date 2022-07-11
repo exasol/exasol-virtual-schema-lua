@@ -39,12 +39,12 @@ Virtual Schema Owners (short "VS Owners") have elevated rights on the database, 
 
 Virtual Schema Consumers (short "VS Consumers") are users querying the data projected by the Virtual Schema.
 
-### Terms and Abbreviations
+## Terms and Abbreviations
 
 The following list gives you an overview of terms and abbreviations commonly used in OFT documents.
 
 * Schema: database schema. In Exasol the top-level grouping element for tables and scripts in a database.
-* Virtual Schema: projection of data from a data source that from the end-user's perspective looks like a regular schema.
+* Virtual Schema: projection of data from a data source that - from the end-user's perspective - looks like a regular schema.
 
 In the following subsections central terms are explained in more detail.
 
@@ -91,7 +91,7 @@ EVSL (re-)reads the metadata from the data source whenever one of the following 
 
 Rationale:
 
-The Exasol database needs to know how the data sources structure and data types should be mapped to Exasol tables and types in the projection the Virtual Schema creates. 
+It is obvious that the metadata needs to be read upon creation. This is necessary to allow the Exasol database to map source structure and data types to the Virtual Schema. Refreshing allows updating this information in case there is a change in the source that affects the source structure or types. Finally, changing the properties can impact which part of the source the Virtual Schema takes into account and can also affect the mapping and therefore also requires re-reading the metadata.  
 
 Covers:
 
@@ -102,7 +102,7 @@ Needs: dsn
 ### Dropping a Virtual Schema
 `req~dropping-a-virtual-schema~1`
 
-Database Administrators can drop a Virtual Schema.
+VS Owners can drop a Virtual Schema.
 
 Covers:
 
@@ -113,7 +113,8 @@ Needs: dsn
 ### Refreshing a Virtual Schema
 `req~refreshing-a-virtual-schema~1`
 
-Data Owners can refresh a Virtual Schema, causing the metadata of the underlying schema to be re-read.
+VS Owners can refresh a Virtual Schema, causing the metadata of the underlying schema to be re-read.
+
 Rationale:
 
 This allows updating the structure of the underlying schema.
@@ -142,13 +143,13 @@ Needs: dsn
 ### Excluding Capabilities
 `req~excluding-capabilities~1`
 
-Users can exclude zero or more Virtual Schema capabilities.
+VS Owners can exclude zero or more Virtual Schema capabilities.
 
 Rationale:
 
-When a Virtual Schema excludes a capability from the list of supported capabilities, then the core database constructs push-down queries that only take the remaining capabilities into account. If users for example switch off a scalar function, that function won't be pushed down to the Virtual Schema. Instead the core database applies it on the results of the push-down.
+When a Virtual Schema excludes a capability from the list of supported capabilities, then the core database constructs push-down queries that only take the remaining capabilities into account. If VS Owners for example switch off a scalar function, that function won't be pushed down to the Virtual Schema. Instead the core database applies it on the results of the push-down.
 
-Users can do this in case the resulting query turns out to be more efficient for example.
+VS Owners can do this in case the resulting query turns out to be more efficient for example.
 
 Covers:
 
@@ -159,11 +160,11 @@ Needs: dsn
 ### Filtering Tables
 `req~filtering-tables~1`
 
-Database administrators can specify, which tables of the source schema should be visible through the Virtual Schema.
+VS Owners can specify, which tables of the source schema should be visible through the Virtual Schema.
 
 Rationale:
 
-This serves two purposes. It allows to reduce the amount of tables scanned for metadata, thus speeding up the creation and update of the Virtual Schema. And data owner can limit the visibility of tables in case not all tables are relevant in the Virtual Schema.
+This serves two purposes. It allows to reduce the number of tables scanned for metadata, thus speeding up the creation and update of the Virtual Schema. And VS Owners can limit the visibility of tables in case not all tables are relevant in the Virtual Schema.
 
 Covers:
 

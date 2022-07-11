@@ -23,7 +23,7 @@ activate ExasolAdapter
 ExasolAdapter -->> entry : instance
 deactivate ExasolAdapter
 create RequestDispatcher
-entry -> RequestDispatcher : new(adapter, property_reader_class)
+entry -> RequestDispatcher : new(adapter, metadata_reader)
 note right
     Different Virtual Schemas support
     different properties. Injecting the reader
@@ -33,7 +33,7 @@ end note
 activate RequestDispatcher
 RequestDispatcher -->> entry : instance
 deactivate RequestDispatcher
-entry --> RequestDispatcher : adapter_call(request : JSON stiring)
+entry --> RequestDispatcher : adapter_call(request : JSON string)
 activate RequestDispatcher
 ref over RequestDispatcher, ExasolAdapter : **[[seq_handle_request.svg handle request]]**
 RequestDispatcher -->> entry : response : JSON string

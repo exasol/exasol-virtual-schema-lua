@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# This script finds and runs Lua unit tests, collects coverage and runs static code analysis.
+# This script runs Lua unit tests, collects coverage and runs static code analysis.
 
 readonly script_dir=$(dirname "$(readlink -f "$0")")
 if [[ -v $1 ]]
