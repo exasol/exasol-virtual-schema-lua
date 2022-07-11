@@ -1,4 +1,4 @@
-# exasol-virtual-schema-lua, released 2022-06-??
+# exasol-virtual-schema-lua, released 2022-07-11
  
 Code name: Initial release
  
@@ -16,6 +16,7 @@ Version 0.1.0 is the initial release of the Lua-based Exasol Virtual Schema. It 
 ## Refactoring
  
 * #2: Ported sources from [`row-level-security-lua`](https://github.com/exasol/row-level-security-lua).
+
 ## Dependency Updates
 
 ### Test Dependency Updates
