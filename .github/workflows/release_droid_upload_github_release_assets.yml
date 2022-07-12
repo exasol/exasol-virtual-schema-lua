@@ -25,6 +25,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get -y install lua5.4 liblua5.4 lua-any luarocks
+      - name: Install Lua dependencies
+        run: |
+          luarocks make --local
       - name: Build with Maven skipping tests
         run: mvn --batch-mode clean verify -DskipTests
       - name: Generate sha256sum files
