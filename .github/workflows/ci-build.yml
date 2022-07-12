@@ -32,7 +32,7 @@ jobs:
       - name: "Install prerequisites"
         run: |
           sudo apt-get update
-          sudo apt-get -y install lua${{ matrix.lua_version }} liblua${{ matrix.lua_version }} lua-any luarocks
+          sudo apt-get -y install lua5.4 liblua5.4 lua-any luarocks
       - name: Print versions
         run: |
           lua -v

@@ -1,1 +1,1 @@
-User guide will be ported from EVS Java (https://github.com/exasol/exasol-virtual-schema-lua/issues/5)
+User guide will be ported from EVS Java: https://github.com/exasol/exasol-virtual-schema-lua/issues/5
