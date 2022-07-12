@@ -30,9 +30,9 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: "Install prerequisites"
-          run: |
-            sudo apt-get update
-            sudo apt-get -y install lua${{ matrix.lua_version }} liblua${{ matrix.lua_version }} lua-any luarocks
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install lua${{ matrix.lua_version }} liblua${{ matrix.lua_version }} lua-any luarocks
       - name: Print versions
         run: |
           lua -v

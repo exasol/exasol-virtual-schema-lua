@@ -22,9 +22,9 @@ jobs:
           java-version: 11
           cache: 'maven'
       - name: "Install prerequisites"
-          run: |
-            sudo apt-get update
-            sudo apt-get -y install lua${{ matrix.lua_version }} liblua${{ matrix.lua_version }} lua-any luarocks
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install lua${{ matrix.lua_version }} liblua${{ matrix.lua_version }} lua-any luarocks
       - name: Build with Maven skipping tests
         run: mvn --batch-mode clean verify -DskipTests
       - name: Generate sha256sum files
