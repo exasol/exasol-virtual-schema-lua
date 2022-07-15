@@ -1,7 +1,7 @@
 rockspec_format = "3.0"
 
-local tag = "1.2.0"
-local project = "row-level-security-lua"
+local tag = "0.1.0"
+local project = "exasol-virtual-schema-lua"
 local src = "src/main/lua"
 
 package = project
@@ -13,16 +13,16 @@ source = {
 }
 
 description = {
-    summary = "Row-level security implementation based on Exasol's Virtual Schemas for Lua",
+    summary = "Lua-based Virtual Schema for Exasol databases",
     detailed = [[This project adds a Virtual Schema (a concept closely related to a database view) on top of an existing
-    Exasol database schema, makes it read-only and adds access controls on a per-row level.]],
+    Exasol database schema and makes it read-only.]],
     homepage = "https://github.com/exasol/" .. project,
     license = "MIT",
     maintainer = 'Exasol <opensource@exasol.com>'
 }
 
 dependencies = {
-    "virtual-schema-common-lua = 2.0.0"
+    "virtual-schema-common-lua = 2.0.1"
 }
 
 build_dependencies = {
@@ -41,9 +41,9 @@ test = {
 }
 
 local package_items = {
-    "exasolrls.adapter_capabilities", "exasolrls.RlsAdapterProperties", "exasolrls.RlsAdapter",
-    "exasolrls.MetadataReader", "exasolrls.TableProtectionReader", "exasolrls.QueryRewriter", "remotelog", "exaerror",
-    "message_expander",
+    "exasolvs.adapter_capabilities", "exasolvs.ExasolAdapterProperties", "exasolvs.ExasolAdapter",
+    "exasolvs.MetadataReader", "exasolvs.QueryRewriter", "remotelog", "ExaError",
+    "MessageExpander",
     -- from virtual-schema-common-lua"
     "exasolvs.AbstractVirtualSchemaAdapter", "exasolvs.AdapterProperties", "exasolvs.RequestDispatcher",
     "exasolvs.Query", "exasolvs.QueryRenderer",

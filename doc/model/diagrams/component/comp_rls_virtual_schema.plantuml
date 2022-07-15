@@ -1,43 +1,40 @@
 @startuml
 !include ../clean.skin
 
-title: RLS Lua Components
+title: Exasol Virtual Schema Components
 
-component row-level-security-lua {
+component exasol-virtual-schema-lua {
     component entry
 
-    package exasolrls {
-        component rls_adapter
-        component metadata_reader
-        component query_rewriter
-        component table_protection_reader
-        
-        rls_adapter -l-> metadata_reader
-        rls_adapter -d-> table_protection_reader
-        rls_adapter -d-> query_rewriter
-    }
-   
     package exasolvs {
-        component query_renderer
-        component request_dispatcher
-        interface "adapter" <<interface>>
+        component ExasolAdapter
+        component MetadataReader
+        component QueryRewriter
+
+        ExasolAdapter -l-> MetadataReader
+        ExasolAdapter -d-> QueryRewriter
+
+        component QueryRenderer
+        component RequestDispatcher
+        interface "Adapter" <<interface>>
         note as interface_note
             Lua interface
             implicitly defined
         end note
         
-        adapter .d. interface_note
+        Adapter .d. interface_note
         
-        request_dispatcher -d-> query_renderer
-        request_dispatcher .l.> adapter : use
+        RequestDispatcher -d-> QueryRenderer
+        RequestDispatcher .l.> Adapter : use
     }
     
-    entry -d-> request_dispatcher : create
-    entry -d-> rls_adapter : create
+    entry -d-> RequestDispatcher : create
+    entry -d-> ExasolAdapter : create
+    entry -d-> MetadataReader : create
     
-    rls_adapter -r- adapter
+    ExasolAdapter -r- Adapter
 }
 
 url of entry is [[../sequence/seq_entry.svg]]
-url of request_dispatcher is [[../sequence/seq_handle_request.svg]]
+url of RequestDispatcher is [[../sequence/seq_handle_request.svg]]
 @enduml

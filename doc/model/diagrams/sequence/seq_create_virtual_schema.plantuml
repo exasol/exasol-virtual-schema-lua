@@ -1,3 +1,4 @@
+' [dsn -> req~creating-a-local-virtual-schema~1]
 ' [dsn->req~filtering-tables~1]
 
 @startuml
@@ -5,25 +6,18 @@
 
 title: Create Virtual Schema
 
-Participant request_dispatcher
-Participant rls_adapter
-Participant metadata_reader
+Participant RequestDispatcher
+Participant ExasolAdapter
+Participant MetadataReader
 
-activate request_dispatcher
-request_dispatcher -> rls_adapter : create virtual schema (request)
-activate rls_adapter
-rls_adapter -> metadata_reader : read (schema, table[])
-activate metadata_reader
-ref over metadata_reader : **[[seq_read_table_metadata.svg read table metadata]]**
-metadata_reader -->> rls_adapter : schema metadata,\ntable protection type
-deactivate metadata_reader
-rls_adapter -->> request_dispatcher : schema metadata, adapter notes
-note right
-    Response contains information
-    about protection scheme for each
-    table as adapter notes.
-    Adapter notes serve as cache
-    across requests.
-end note
-deactivate rls_adapter 
+activate RequestDispatcher
+RequestDispatcher -> ExasolAdapter : create virtual schema (request)
+activate ExasolAdapter
+ExasolAdapter -> MetadataReader : read (schema, table[])
+activate MetadataReader
+ref over MetadataReader : **[[seq_read_table_metadata.svg read table metadata]]**
+MetadataReader -->> ExasolAdapter : schema metadata
+deactivate MetadataReader
+ExasolAdapter -->> RequestDispatcher : schema metadata, adapter notes
+deactivate ExasolAdapter
 @enduml

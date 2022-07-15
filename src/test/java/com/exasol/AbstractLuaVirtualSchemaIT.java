@@ -1,6 +1,6 @@
 package com.exasol;
 
-import static com.exasol.RlsTestConstants.*;
+import static com.exasol.ExasolVirtualSchemaTestConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -109,8 +109,7 @@ abstract class AbstractLuaVirtualSchemaIT {
     protected ResultSet executeRlsQueryWithUser(final String query, final User user) throws SQLException {
         final Statement statement = EXASOL.createConnectionForUser(user.getName(), user.getPassword())
                 .createStatement();
-        final ResultSet result = statement.executeQuery(query);
-        return result;
+        return statement.executeQuery(query);
     }
 
     protected TimedResultSet executeTimedRlsQueryWithUser(final String query, final User user) throws SQLException {
@@ -120,15 +119,6 @@ abstract class AbstractLuaVirtualSchemaIT {
         final ResultSet result = statement.executeQuery(query);
         final long after = System.nanoTime();
         return new TimedResultSet(result, Duration.ofNanos(after - before));
-    }
-
-    protected Table createUserConfigurationTable(final Schema schema) {
-        return schema.createTable(USERS_TABLE, USER_NAME_COLUMN, IDENTIFIER_TYPE, ROLE_MASK_COLUMN, ROLE_MASK_TYPE);
-    }
-
-    protected Table createGroupToUserMappingTable(final Schema sourceSchema) {
-        return sourceSchema.createTable(GROUP_MEMBERSHIP_TABLE, GROUP_COLUMN, IDENTIFIER_TYPE, USER_NAME_COLUMN,
-                IDENTIFIER_TYPE);
     }
 
     protected User createUserWithVirtualSchemaAccess(final String name, final VirtualSchema virtualSchema) {

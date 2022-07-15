@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.io.IOException;
 import java.util.Map;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -23,7 +22,7 @@ class PropertiesValidationIT extends AbstractLuaVirtualSchemaIT {
         final VirtualSchema.Builder virtualSchemaBuilder = factory.createVirtualSchemaBuilder(virtualSchemaName) //
                 .adapterScript(adapter) //
                 .properties(addDebugProperties(Map.of()));
-        final Exception exception = assertThrows(Exception.class, () -> virtualSchemaBuilder.build());
+        final Exception exception = assertThrows(Exception.class, virtualSchemaBuilder::build);
         assertThat(exception.getCause().getMessage(), containsString("Missing mandatory property 'SCHEMA_NAME'"));
     }
 }

@@ -1,7 +1,9 @@
+' [dsn -> req~getting-the-suppoted-capabilities~1]
+
 @startuml
 !include ../clean.skin
 
-title: RLS Deployment Overview
+title: Deployment Overview
 
 node ExasolDataNode {
     component exasql {
@@ -12,22 +14,22 @@ node ExasolDataNode {
         Compiler -d-> interpreter : call for Lua\nVirtual Schema\nfragments
     }
 
-    artifact "row-level-security-dist.lua" as dist
-    component "RLS Virtual Schema Adapter" as rls_vs_adapter
+    artifact "exasol-virtual-schema-level-security-dist.lua" as dist
+    component "Virtual Schema Adapter" as vs_adapter
     
     interpreter -> dist : load
-    interpreter -d-> rls_vs_adapter : execute
-    dist -> rls_vs_adapter : define
+    interpreter -d-> vs_adapter : execute
+    dist -> vs_adapter : define
     
 }
 
 database "Source Schema" as source
-database "RLS Protected Schema" as protected
+database "Virtual Schema" as vs
 
 Engine - source
-Engine - protected
+Engine - vs
 
-source -[hidden]d- protected
+source -[hidden]d- vs
 
-url of rls_vs_adapter is [[../component/comp_rls_virtual_schema.svg]]
+url of vs_adapter is [[../component/comp_virtual_schema.svg]]
 @enduml

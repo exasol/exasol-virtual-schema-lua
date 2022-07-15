@@ -5,15 +5,15 @@
 
 title: Get Capabilities
 
-Participant request_dispatcher
-Participant rls_adapter
+Participant RequestDispatcher
+Participant ExasolAdapter
 
-activate request_dispatcher
-request_dispatcher -> rls_adapter : get capabilities (request)
-activate rls_adapter
-rls_adapter -> rls_adapter : subtract excluded capabilities()
-activate rls_adapter
-deactivate rls_adapter
-rls_adapter -->> request_dispatcher : capability[]
-deactivate rls_adapter 
+activate RequestDispatcher
+RequestDispatcher -> ExasolAdapter : get capabilities (request)
+activate ExasolAdapter
+ExasolAdapter -> ExasolAdapter : subtract excluded capabilities()
+activate ExasolAdapter
+deactivate ExasolAdapter
+ExasolAdapter -->> RequestDispatcher : capability[]
+deactivate ExasolAdapter
 @enduml

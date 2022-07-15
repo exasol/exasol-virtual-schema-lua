@@ -1,0 +1,13 @@
+@startuml
+!include ../clean.skin
+
+title: Query rewriting
+
+start
+if(select in request) then (present)
+    :treat as\nSELECT *;
+else (absent)
+    :replace select list with\nconstant expression;
+endif
+end
+@enduml

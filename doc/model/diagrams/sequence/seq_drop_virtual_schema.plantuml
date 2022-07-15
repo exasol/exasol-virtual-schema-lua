@@ -1,14 +1,16 @@
+` [dsn -> req~dropping-a-virtual-schema~1]
+
 @startuml
 !include ../clean.skin
 
 title: Drop Virtual Schema
 
-Participant request_dispatcher
-Participant rls_adapter
+Participant RequestDispatcher
+Participant ExasolAdapter
 
-activate request_dispatcher
-request_dispatcher -> rls_adapter : drop virtual schema (request)
-activate rls_adapter
-rls_adapter -->> request_dispatcher
-deactivate rls_adapter 
+activate RequestDispatcher
+RequestDispatcher -> ExasolAdapter : drop virtual schema (request)
+activate ExasolAdapter
+ExasolAdapter -->> RequestDispatcher
+deactivate ExasolAdapter 
 @enduml

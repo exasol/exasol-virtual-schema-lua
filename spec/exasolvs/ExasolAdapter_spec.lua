@@ -2,12 +2,12 @@ package.path = "src/main/lua/?.lua;" .. package.path
 require("busted.runner")()
 local assert = require("luassert")
 local mockagne = require("mockagne")
-local adapter_capabilities = require("exasolrls.adapter_capabilities")
-local RlsAdapter = require("exasolrls.RlsAdapter")
-require("exasolrls.RlsAdapterProperties")
+local adapter_capabilities = require("exasolvs.adapter_capabilities")
+local RlsAdapter = require("exasolvs.ExasolAdapter")
+require("exasolvs.ExasolAdapterProperties")
 local pom = require("spec.pom.reader")
 
-describe("RlsAdapter", function()
+describe("ExasolAdapter", function()
     local adapter
     local metadata_reader_mock
     local properties_stub
@@ -26,7 +26,7 @@ describe("RlsAdapter", function()
     end)
 
     it("reports the name of the adapter", function()
-        assert.are.equal("Row-level Security adapter (Lua)", adapter:get_name())
+        assert.are.equal("Exasol Virtual Schema adapter (Lua)", adapter:get_name())
     end)
 
     it("answers a request to create the Virtual Schema with the metadata of the source schema", function()
@@ -59,6 +59,7 @@ describe("RlsAdapter", function()
     it("raises an error if the SCHEMA parameter is missing when trying to create a Virtual Schema", function()
         properties_stub.validate = function() error("validation failed") end
         local request = {schemaMetadataInfo = {name = "V"}}
-        assert.error_matches(function() adapter:create_virtual_schema(request, properties_stub) end, "validation failed")
+        assert.error_matches(function() adapter:create_virtual_schema(request, properties_stub) end,
+                "validation failed")
     end)
 end)

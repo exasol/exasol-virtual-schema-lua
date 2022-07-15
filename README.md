@@ -1,9 +1,9 @@
 # Exasol Virtual Schema (Lua)
 
-[![Build Status](https://github.com/exasol/row-level-security-lua/actions/workflows/ci-build.yml/badge.svg)](https://github.com/exasol/row-level-security-lua/actions/workflows/ci-build.yml)
+[![Build Status](https://github.com/exasol/exasol-virtual-schema-lua/actions/workflows/ci-build.yml/badge.svg)](https://github.com/exasol/exasol-virtual-schema-lua/actions/workflows/ci-build.yml)
 
 <!-- Remove this block after https://github.com/exasol/project-keeper-maven-plugin/issues/167 is complete
-[![Build Status](https://github.com/exasol/row-level-security-lua/actions/workflows/ci-build.yml/badge.svg)](https://github.com/exasol/row-level-security-lua/actions/workflows/ci-build.yml)
+[![Build Status](https://github.com/exasol/exasol-virtual-schema-lua/actions/workflows/ci-build.yml/badge.svg)](https://github.com/exasol/exasol-virtual-schema-lua/actions/workflows/ci-build.yml)
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Arow-level-security-lua&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.exasol%3Arow-level-security-lua)
 
@@ -29,7 +29,6 @@ Abstract read access from Exasol to Exasol via a Virtual Schema.
 ### Information for Users
 
 * [User Guide](doc/user_guide/user_guide.md)
-* [Tutorial](doc/user_guide/tutorial.md)
 * [Changelog](doc/changes/changelog.md)
 
 ### Information for Contributors

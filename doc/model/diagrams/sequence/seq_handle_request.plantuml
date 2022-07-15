@@ -4,31 +4,31 @@
 title Dispatch Request
 
 participant entry
-participant request_dispatcher
-participant rls_adapter
+participant RequestDispatcher
+participant ExasolAdapter
 
 activate entry
-entry --> request_dispatcher : adapter_call(request : JSON stiring)
-activate request_dispatcher
+entry --> RequestDispatcher : adapter_call(request : JSON string)
+activate RequestDispatcher
 alt
-    request_dispatcher -> rls_adapter : [[seq_create_virtual_schema.svg create virtual schema (request)]]
-    activate rls_adapter
+    RequestDispatcher -> ExasolAdapter : [[seq_create_virtual_schema.svg create virtual schema (request)]]
+    activate ExasolAdapter
 else
-    request_dispatcher -> rls_adapter : [[seq_get_capabilities.svg get capabilities (request)]]
+    RequestDispatcher -> ExasolAdapter : [[seq_get_capabilities.svg get capabilities (request)]]
 else
-    request_dispatcher -> rls_adapter : [[seq_set_properties.svg set properties (request)]]
+    RequestDispatcher -> ExasolAdapter : [[seq_set_properties.svg set properties (request)]]
 else
-    request_dispatcher -> rls_adapter : [[seq_pushdown.svg pushdown (request)]]
+    RequestDispatcher -> ExasolAdapter : [[seq_pushdown.svg pushdown (request)]]
 else
-    request_dispatcher -> rls_adapter : [[seq_refresh.svg refresh (request)]]
+    RequestDispatcher -> ExasolAdapter : [[seq_refresh.svg refresh (request)]]
 else
-    request_dispatcher -> rls_adapter : [[seq_drop_virtual_schema.svg drop virtual schema(request)]]
+    RequestDispatcher -> ExasolAdapter : [[seq_drop_virtual_schema.svg drop virtual schema(request)]]
 end
-activate rls_adapter
+activate ExasolAdapter
 ...
-rls_adapter -->> request_dispatcher : response
-deactivate rls_adapter
-request_dispatcher -->> entry : response : JSON string
-deactivate request_dispatcher
+ExasolAdapter -->> RequestDispatcher : response
+deactivate ExasolAdapter
+RequestDispatcher -->> entry : response : JSON string
+deactivate RequestDispatcher
 
 @enduml
