@@ -43,7 +43,7 @@ jobs:
           luarocksVersion: "3.8.0"
       - name: Install Lua dependencies
         run: |
-          luarocks make --local
+          luarocks --local install --only-deps *.rockspec
       - name: Enable testcontainer reuse
         run: echo 'testcontainers.reuse.enable=true' > "$HOME/.testcontainers.properties"
       - name: Run tests and build with Maven
