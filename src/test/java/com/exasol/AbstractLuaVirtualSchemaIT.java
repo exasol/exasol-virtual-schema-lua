@@ -27,7 +27,7 @@ abstract class AbstractLuaVirtualSchemaIT {
     private static final String LOG_PORT_PROPERTY = "com.exasol.log.port";
     private static final String LOG_HOST_PROPERTY = "com.exasol.log.host";
     private static final String VERSION = MavenProjectVersionGetter.getCurrentProjectVersion();
-    private static final Path RLS_PACKAGE_PATH = Path.of("target/row-level-security-dist-" + VERSION + ".lua");
+    private static final Path RLS_PACKAGE_PATH = Path.of("target/exasol-virtual-schema-dist-" + VERSION + ".lua");
     @Container
     protected static final ExasolContainer<? extends ExasolContainer<?>> EXASOL = //
             new ExasolContainer<>(DOCKER_DB) //

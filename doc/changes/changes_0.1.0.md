@@ -17,6 +17,10 @@ Version 0.1.0 is the initial release of the Lua-based Exasol Virtual Schema. It 
  
 * #2: Ported sources from [`row-level-security-lua`](https://github.com/exasol/row-level-security-lua).
 
+## Documentation
+
+* #5: Ported user guide
+
 ## Dependency Updates
 
 ### Test Dependency Updates
