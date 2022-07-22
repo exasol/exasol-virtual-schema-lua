@@ -11,7 +11,12 @@ Exasol Virtual Schema comes in two flavors:
 
 Local access means that origin schema and Virtual Schema must be on the same database. The remote database connection is more useful, as it allows projecting a schema from a different Exasol database into your own.
 
-Remote connections are not yet implemented in the Lua-Variant. If you need it, please use [Exasol Virtual Schema for Java](https://github.com/exasol/exasol-virtual-schema). Remote support is on the roadmap for the Lua variant. You can check [ticket #80](https://github.com/exasol/exasol-virtual-schema/issues/80) to monitor the progress.
+Remote connections are not yet implemented in the Lua variant. If you need it, please use [Exasol Virtual Schema for Java](https://github.com/exasol/exasol-virtual-schema). Remote support is on the roadmap for the Lua variant. You can check [ticket #80](https://github.com/exasol/exasol-virtual-schema/issues/80) to monitor the progress.
+
+or 
+
+```suggestion
+Remote connections are not yet implemented in the Lua-Variant. If you need it, please use [Exasol Virtual Schema for Java](https://github.com/exasol/exasol-virtual-schema). Remote support is on the roadmap for the Lua-Variant. You can check [ticket #80](https://github.com/exasol/exasol-virtual-schema/issues/80) to monitor the progress.
 
 ## Introduction
 
@@ -55,7 +60,7 @@ If your EVSL uses local access the output query will also be a `SELECT` statemen
 
 In the remote connection case the output query is an `IMPORT` statement, thus allowing to get data via a network connection.
 
-Make sure you always use local access if source and Virtual schema are on the same database, because this is much more efficient.
+Make sure you always use local access if source and Virtual Schema are on the same database, because this is much more efficient.
 
 The output query is also called "push-down query", since it is pushed down to the data source. See section ["Examining the Push-down query"](#examining-the-push-down-query)
 
@@ -239,5 +244,5 @@ EXPLAIN VIRTUAL SELECT * FROM EVSL_VIRTUAL_SCHEMA.<table>
 
 ## Known Limitations
 
-* `SELECT *` is not yet supported due to an issue between the core database and the LUA Virtual Schemas in push-down requests (SPOT-10626)
+* `SELECT *` is not yet supported due to an issue between the core database and the Lua Virtual Schemas in push-down requests (SPOT-10626)
 * Source Schema and Virtual Schema must be on the same database.
