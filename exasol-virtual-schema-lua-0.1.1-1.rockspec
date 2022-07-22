@@ -60,7 +60,7 @@ end
 build = {
     type = "command",
     build_command = "cd " .. src .. " && amalg.lua "
-            .. "-o ../../../target/row-level-security-dist-" .. tag .. ".lua "
+            .. "-o ../../../target/exasol-virtual-schema-dist-" .. tag .. ".lua "
             .. "-s entry.lua"
             .. item_path_list
 }
