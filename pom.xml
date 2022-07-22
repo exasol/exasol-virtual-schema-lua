@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.exasol</groupId>
     <artifactId>row-level-security-lua</artifactId>
-    <version>0.1.0</version>
+    <version>0.1.1</version>
     <name>Exasol Row Level Security (Lua)</name>
     <description>This projects provides a plug-in to the Exasol database that adds per-row access control.</description>
     <url>https://github.com/exasol/exasol-virtual-schema-lua/</url>
@@ -251,7 +251,7 @@
     <parent>
         <artifactId>row-level-security-lua-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>0.1.0</version>
+        <version>0.1.1</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>

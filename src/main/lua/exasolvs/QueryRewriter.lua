@@ -1,9 +1,10 @@
+--- This class rewrites the query.
+-- @classmod QueryRewriter
+
 local QueryRenderer = require("exasolvs.QueryRenderer")
 local log = require("remotelog")
 local ExaError = require("ExaError")
 
---- This class rewrites the query.
--- @classmod QueryRewriter
 local QueryRewriter = {}
 
 local function validate(query)

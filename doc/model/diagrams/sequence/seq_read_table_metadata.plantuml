@@ -1,12 +1,12 @@
-' [dsn -> req~reading-source-metadata~1]
-' [dsn -> req~filtering-tables~1]
+' [dsn -> req~reading-source-metadata~1 >> impl, utest, itest]
+' [dsn -> req~filtering-tables~1 >> impl, utest, itest]
 
 @startuml
 !include ../clean.skin
 
 title: Read Table Metadata
 
-Participant MetadataReader
+participant MetadataReader
 
 activate MetadataReader
 

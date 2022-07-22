@@ -1,6 +1,5 @@
----
--- This module contains the list of supported adapter capabilities.
---
+--- This module contains the list of supported adapter capabilities.
+-- @module adapter_properties
 return {
     -- Main capabilities
     "SELECTLIST_PROJECTION", "SELECTLIST_EXPRESSIONS", "AGGREGATE_GROUP_BY_COLUMN", "AGGREGATE_GROUP_BY_TUPLE",

@@ -1,10 +1,10 @@
 <head><link href="oft_spec.css" rel="stylesheet"></head>
 
-# System Requirement Specification Exasol Row Level Security
+# System Requirement Specification Exasol Virtual Schema for Lua
 
 ## Introduction
 
-Exasol Virtual Schema for Lua (short "EVSL") is a plug-in for Exasol that allows creating a Virtual Schema that connects to a regular Exasol Schema.
+Exasol Virtual Schema for Lua (short "EVSL") is a plug-in for Exasol that allows creating a [Virtual Schema](https://docs.exasol.com/db/latest/database_concepts/virtual_schemas.htm) that connects to a regular Exasol Schema.
 
 Virtual Schemas are conceptually related to database views. The main difference compared to database views is that Virtual Schema sources can be almost any data source. To make this possible, you need a so-called "Virtual Schema adapter", an Exasol extension that contains the logic to translate between the source and the projection provided by the Virtual Schema.
 
@@ -91,7 +91,7 @@ EVSL (re-)reads the metadata from the data source whenever one of the following 
 
 Rationale:
 
-It is obvious that the metadata needs to be read upon creation. This is necessary to allow the Exasol database to map source structure and data types to the Virtual Schema. Refreshing allows updating this information in case there is a change in the source that affects the source structure or types. Finally, changing the properties can impact which part of the source the Virtual Schema takes into account and can also affect the mapping and therefore also requires re-reading the metadata.  
+It is obvious that the metadata needs to be read upon creation. This is necessary to allow the Exasol database to map source structure and data types to the Virtual Schema. Refreshing allows updating this information, in case there is a change in the source that affects the source structure or types. Finally, changing the properties can impact which part of the source the Virtual Schema takes into account and can also affect the mapping and therefore also requires re-reading the metadata.  
 
 Covers:
 
@@ -126,7 +126,7 @@ Covers:
 Needs: dsn
 
 ### Getting the Supported Capabilities
-`req~getting-the-suppoted-capabilities~1`
+`req~getting-the-supported-capabilities~1`
 
 EVSL offers a list of capabilities supported by the adapter on request of the Exasol database.
 
@@ -147,7 +147,7 @@ VS Owners can exclude zero or more Virtual Schema capabilities.
 
 Rationale:
 
-When a Virtual Schema excludes a capability from the list of supported capabilities, then the core database constructs push-down queries that only take the remaining capabilities into account. If VS Owners for example switch off a scalar function, that function won't be pushed down to the Virtual Schema. Instead the core database applies it on the results of the push-down.
+When a Virtual Schema excludes a capability from the list of supported capabilities, then the core database constructs push-down queries that only take the remaining capabilities into account. If VS Owners for example switch off a scalar function, that function won't be pushed down to the Virtual Schema. Instead, the core database applies it on the results of the push-down.
 
 VS Owners can do this in case the resulting query turns out to be more efficient for example.
 
@@ -179,7 +179,7 @@ EVSL can query the data source.
 
 Rationale:
 
-Depending on the filter, grouping and aggregation capabilities the data source offers, a query to a Virtual Schema can in parts or as a whole be push-down to the data source. This reduces the amount of data transferred between Exasol and the data source compared to a full data copy.
+Depending on the filter, grouping and aggregation capabilities the data source offers, a query to a Virtual Schema can in parts or as a whole be pushed down to the data source. This reduces the amount of data transferred between Exasol and the data source compared to a full data copy.
 
 Comment:
 
@@ -221,18 +221,18 @@ Needs: dsn
 #### Performance
 
 ##### Query Execution Time
-`qr~query-execution-time~1`
+`qr~query-execution-time~2`
 
 The Performance degradation caused by an EVSL query compared to the same query without EVSL is below the greater of
 
-* half a second
+* 100 ms
 * 10%
 
 on top of the original execution time.
 
 Comment:
 
-This is the complete runtime as the database client experiences it including the involved upstart times for the UDF language container and the contained runtime environment.
+This is the complete runtime as the database client experiences it including the involved execution of the Lua code and ExaLoader work.
 
 Covers:
 

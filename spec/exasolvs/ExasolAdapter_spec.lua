@@ -29,6 +29,7 @@ describe("ExasolAdapter", function()
         assert.are.equal("Exasol Virtual Schema adapter (Lua)", adapter:get_name())
     end)
 
+    -- [utest -> dsn~creating-a-local-virtual-schema~0]
     it("answers a request to create the Virtual Schema with the metadata of the source schema", function()
         local schema_metadata = {
             tables = {
@@ -45,10 +46,12 @@ describe("ExasolAdapter", function()
         assert.are.same(expected, actual)
     end)
 
+    -- [utest -> dsn~dropping-a-virtual-schema~0]
     it("confirms a request to drop the Virtual Schema with an empty response", function()
         assert.are.same({type = "dropVirtualSchema"}, adapter:drop_virtual_schema())
     end)
 
+    -- [utest -> dsn~getting-the-supported-capabilities~0]
     it("reports the supported capabilities", function()
         local request = {}
         local expected = {type = "getCapabilities", capabilities = adapter_capabilities}

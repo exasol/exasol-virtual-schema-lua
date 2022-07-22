@@ -1,11 +1,12 @@
+--- This class reads schema, table and column metadata from the source.
+-- @classmod MetadataReader
+
 local log = require("remotelog")
 local text = require("text")
 local ExaError = require("ExaError")
 
 local DEFAULT_SRID <const> = 0
 
---- This class reads schema, table and column metadata from the source.
--- @type MetadataReader
 local MetadataReader = {}
 MetadataReader.__index = MetadataReader
 
@@ -164,6 +165,7 @@ function MetadataReader:_create_lookup(include_tables)
     return lookup
 end
 
+-- [impl -> dsn~filtering-tables~0]
 function MetadataReader:_translate_table_scan_results(schema_id, result, include_tables)
     local tables = {}
     local table_protection = {}
@@ -200,10 +202,12 @@ end
 -- The scan can optionally be limited to a set of user-defined tables. If the list of tables to include in the scan
 -- is omitted, then all tables in the source schema are scanned and reported.
 -- </p>
--- @param schema schema to be scanned
+-- @param schema_id schema to be scanned
 -- @param include_tables list of tables to be included in the scan (optional, defaults to all tables in the schema)
 -- @return schema metadata
+-- @cover [impl -> dsn~reading-source-metadata~0]
 function MetadataReader:read(schema_id, include_tables)
+    log.debug("Reading metadata of source schema '" .. schema_id .. "'")
     local tables, table_protection = self:_translate_table_metadata(schema_id, include_tables)
     return {tables = tables, adapterNotes = table.concat(table_protection, ",")}
 end

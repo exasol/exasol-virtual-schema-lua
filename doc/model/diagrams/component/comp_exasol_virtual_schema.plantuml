@@ -14,8 +14,8 @@ component exasol-virtual-schema-lua {
         ExasolAdapter -l-> MetadataReader
         ExasolAdapter -d-> QueryRewriter
 
-        component QueryRenderer
         component RequestDispatcher
+        component QueryRenderer
         interface "Adapter" <<interface>>
         note as interface_note
             Lua interface
@@ -24,7 +24,7 @@ component exasol-virtual-schema-lua {
         
         Adapter .d. interface_note
         
-        RequestDispatcher -d-> QueryRenderer
+        QueryRewriter -d-> QueryRenderer
         RequestDispatcher .l.> Adapter : use
     }
     
