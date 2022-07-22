@@ -35,7 +35,7 @@ EVSL requires Exasol 7.1 or later to run, since Virtual Schema support for the L
 
 ### Exasol Virtual Schema Lua Supersedes the Java Variant
 
-Since the Lua variant is a lot faster, we will retire the Java variant once EVSL is a feature parity (i.e. version 1.0.0) and Exasol 7.0 goes out of support. See our [product livecycle](https://www.exasol.com/portal/display/DOWNLOAD/Exasol+Life+Cycle) for details.
+Since the Lua variant is a lot faster, we will retire the Java variant once EVSL is a feature parity (i.e. version 1.0.0) and Exasol 7.0 goes out of support. See our [product life cycle](https://www.exasol.com/portal/display/DOWNLOAD/Exasol+Life+Cycle) for details.
 
 ### Use Cases
 
