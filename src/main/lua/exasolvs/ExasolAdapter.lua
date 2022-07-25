@@ -77,7 +77,7 @@ function ExasolAdapter:set_properties(request, old_properties, new_properties)
     log.debug("Old properties " .. tostring(old_properties))
     log.debug("New properties " .. tostring(new_properties))
     local merged_properties = old_properties:merge(new_properties)
-    log.debug("Merged properties " .. tostring(new_properties))
+    log.debug("Merged properties " .. tostring(merged_properties))
     merged_properties:validate()
     return {type = "setProperties", schemaMetadata = self:_handle_schema_scanning_request(request, merged_properties)}
 end

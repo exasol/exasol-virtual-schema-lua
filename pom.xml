@@ -169,6 +169,7 @@
                                     so that OFT can scan them. -->
                                 <source>src/main/lua</source>
                                 <source>src/test/lua</source>
+                                <source>spec</source>
                             </sources>
                         </configuration>
                     </execution>

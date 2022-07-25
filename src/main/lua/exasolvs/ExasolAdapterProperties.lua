@@ -22,6 +22,12 @@ function ExasolAdapterProperties:_init(raw_properties)
     AdapterProperties._init(self, raw_properties)
 end
 
+--- Get the class of the object
+-- @return class
+function ExasolAdapterProperties:class()
+    return ExasolAdapterProperties
+end
+
 local SCHEMA_NAME_PROPERTY <const> = "SCHEMA_NAME"
 local TABLE_FILTER_PROPERTY <const> = "TABLE_FILTER"
 
