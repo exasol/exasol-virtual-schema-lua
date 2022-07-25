@@ -1,9 +1,10 @@
+--- This class abstracts access to the user-defined properties of the Virtual Schema.
+-- @classmod ExasolAdapterProperties
+
 local text = require("text")
 local ExaError = require("ExaError")
 local AdapterProperties = require("exasolvs.AdapterProperties")
 
---- This class abstracts access to the user-defined properties of the Virtual Schema.
--- @classmod ExasolAdapterProperties
 local ExasolAdapterProperties = {}
 ExasolAdapterProperties.__index = ExasolAdapterProperties
 setmetatable(ExasolAdapterProperties, AdapterProperties)
@@ -19,6 +20,12 @@ end
 
 function ExasolAdapterProperties:_init(raw_properties)
     AdapterProperties._init(self, raw_properties)
+end
+
+--- Get the class of the object
+-- @return class
+function ExasolAdapterProperties:class()
+    return ExasolAdapterProperties
 end
 
 local SCHEMA_NAME_PROPERTY <const> = "SCHEMA_NAME"
@@ -50,6 +57,10 @@ end
 function ExasolAdapterProperties:get_table_filter()
     local filtered_tables = self:get(TABLE_FILTER_PROPERTY)
     return text.split(filtered_tables)
+end
+
+function ExasolAdapterProperties:__tostring()
+    return AdapterProperties.__tostring(self)
 end
 
 return ExasolAdapterProperties

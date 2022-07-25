@@ -1,4 +1,4 @@
-' [qs->qr~query-execution-time~1]
+' [qs -> qr~query-execution-time~2 >> itest]
 
 @startuml
 !include ../clean.skin
@@ -6,9 +6,9 @@
 
 title: Query Push-down Performance
 
-Participant Engine
-Participant entry
-Participant ExaLoader
+participant Engine
+participant entry
+participant ExaLoader
 
 activate Engine
 
@@ -20,7 +20,7 @@ note right
     **invariant:**
     t<sub>1</sub> <= t<sub>0</sub> / 10
     and
-    t<sub>1</sub> <= 0.5 sec
+    t<sub>1</sub> <= 100 ms
 end note 
 
 {end_adapter} entry -->> Engine : re-written query

@@ -1,12 +1,13 @@
-' [dsn->req~excluding-capabilities~1]
+' [dsn -> req~getting-the-supported-capabilities~1 >> impl, utest]
+' [dsn -> req~excluding-capabilities~1] handled by base class from external library
 
 @startuml
 !include ../clean.skin
 
 title: Get Capabilities
 
-Participant RequestDispatcher
-Participant ExasolAdapter
+participant RequestDispatcher
+participant ExasolAdapter
 
 activate RequestDispatcher
 RequestDispatcher -> ExasolAdapter : get capabilities (request)

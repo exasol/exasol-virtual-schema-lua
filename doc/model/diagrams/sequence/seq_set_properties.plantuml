@@ -1,16 +1,22 @@
-' [dsn -> req~setting-properties~1]
+' [dsn -> req~setting-properties~1 >> impl]
 
 @startuml
 !include ../clean.skin
 
 title: Set Properties
 
-Participant RequestDispatcher
-Participant ExasolAdapter
+participant RequestDispatcher
+participant ExasolAdapter
+participant MetadataReader
 
 activate RequestDispatcher
 RequestDispatcher -> ExasolAdapter : set properties (request)
 activate ExasolAdapter
-ExasolAdapter -->> RequestDispatcher
+ExasolAdapter -> MetadataReader : read (schema)
+activate MetadataReader
+ref over MetadataReader : **[[seq_read_table_metadata.svg read table metadata]]**
+MetadataReader -->> ExasolAdapter : schema metadata
+deactivate MetadataReader
+ExasolAdapter -->> RequestDispatcher : schema metadata, adapter notes
 deactivate ExasolAdapter
 @enduml

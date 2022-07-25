@@ -1,14 +1,13 @@
-' [dsn -> req~creating-a-local-virtual-schema~1]
-' [dsn->req~filtering-tables~1]
+' [dsn -> req~creating-a-local-virtual-schema~1 >> impl, utest, itest]
 
 @startuml
 !include ../clean.skin
 
 title: Create Virtual Schema
 
-Participant RequestDispatcher
-Participant ExasolAdapter
-Participant MetadataReader
+participant RequestDispatcher
+participant ExasolAdapter
+participant MetadataReader
 
 activate RequestDispatcher
 RequestDispatcher -> ExasolAdapter : create virtual schema (request)

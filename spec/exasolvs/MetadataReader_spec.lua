@@ -102,6 +102,7 @@ describe("Metadata reader", function()
                          adapterNotes = "T:---"}, reader:read("S"))
     end
 
+    -- [utest -> dsn~reading-source-metadata~0]
     describe("translates column type:", function()
         local parameters = {
             {"BOOLEAN", {type = "BOOLEAN"}},
@@ -130,6 +131,7 @@ describe("Metadata reader", function()
         end
     end)
 
+    -- [utest -> dsn~filtering-tables~0]
     it("can filter the tables it reads the metadata of", function()
         mock_tables("S",
                 {table = "T1", columns = {{COLUMN_NAME = "C1_1", COLUMN_TYPE = "BOOLEAN"}}},
