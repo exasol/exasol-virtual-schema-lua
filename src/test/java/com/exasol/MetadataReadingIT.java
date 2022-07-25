@@ -160,8 +160,7 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
         }
     }
 
-    void changeVirtualSchemaSource(final VirtualSchema virtualSchema, final Schema sourceSchema)
-    {
+    void changeVirtualSchemaSource(final VirtualSchema virtualSchema, final Schema sourceSchema) {
         final String sql = "ALTER VIRTUAL SCHEMA " + virtualSchema.getFullyQualifiedName()
                 + " SET SCHEMA_NAME = '" + sourceSchema.getName() +"'";
         try {
