@@ -11,11 +11,6 @@ Exasol Virtual Schema comes in two flavors:
 
 Local access means that origin schema and Virtual Schema must be on the same database. The remote database connection is more useful, as it allows projecting a schema from a different Exasol database into your own.
 
-Remote connections are not yet implemented in the Lua variant. If you need it, please use [Exasol Virtual Schema for Java](https://github.com/exasol/exasol-virtual-schema). Remote support is on the roadmap for the Lua variant. You can check [ticket #80](https://github.com/exasol/exasol-virtual-schema/issues/80) to monitor the progress.
-
-or 
-
-```suggestion
 Remote connections are not yet implemented in the Lua-Variant. If you need it, please use [Exasol Virtual Schema for Java](https://github.com/exasol/exasol-virtual-schema). Remote support is on the roadmap for the Lua-Variant. You can check [ticket #80](https://github.com/exasol/exasol-virtual-schema/issues/80) to monitor the progress.
 
 ## Introduction
