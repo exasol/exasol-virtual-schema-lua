@@ -1,3 +1,5 @@
+// Add missing test [itest -> qs~query-execution-time~0] : https://github.com/exasol/exasol-virtual-schema-lua/issues/8
+
 package com.exasol;
 
 import static com.exasol.matcher.ResultSetStructureMatcher.table;

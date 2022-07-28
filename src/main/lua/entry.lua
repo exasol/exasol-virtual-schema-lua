@@ -1,5 +1,6 @@
 --- Main entry point of the Lua Virtual Schema adapter.
 -- It is responsible for creating and wiring up the main adapter objects.
+-- @script entry.lua
 
 local ExasolAdapter = require("exasolvs.ExasolAdapter")
 local ExasolAdapterProperties = require("exasolvs.ExasolAdapterProperties")

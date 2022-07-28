@@ -1,11 +1,11 @@
----
--- This module contains the list of supported adapter capabilities.
---
+--- This module contains the list of supported adapter capabilities.
+-- @module adapter_properties
 return {
     -- Main capabilities
     "SELECTLIST_PROJECTION", "SELECTLIST_EXPRESSIONS", "AGGREGATE_GROUP_BY_COLUMN", "AGGREGATE_GROUP_BY_TUPLE",
     "AGGREGATE_GROUP_BY_EXPRESSION", "AGGREGATE_SINGLE_GROUP", "LIMIT", "LIMIT_WITH_OFFSET", "ORDER_BY_COLUMN",
-    "ORDER_BY_EXPRESSION",
+    "ORDER_BY_EXPRESSION", "JOIN", "JOIN_CONDITION_EQUI", "JOIN_TYPE_INNER",  "JOIN_TYPE_FULL_OUTER",
+    "JOIN_TYPE_LEFT_OUTER", "JOIN_TYPE_RIGHT_OUTER",
     -- Literal capabilities
     "LITERAL_BOOL", "LITERAL_DATE", "LITERAL_DOUBLE", "LITERAL_EXACTNUMERIC", "LITERAL_INTERVAL", "LITERAL_NULL",
     "LITERAL_STRING", "LITERAL_TIMESTAMP", "LITERAL_TIMESTAMP_UTC",

@@ -27,7 +27,7 @@ abstract class AbstractLuaVirtualSchemaIT {
     private static final String LOG_PORT_PROPERTY = "com.exasol.log.port";
     private static final String LOG_HOST_PROPERTY = "com.exasol.log.host";
     private static final String VERSION = MavenProjectVersionGetter.getCurrentProjectVersion();
-    private static final Path RLS_PACKAGE_PATH = Path.of("target/row-level-security-dist-" + VERSION + ".lua");
+    private static final Path VS_PACKAGE_PATH = Path.of("target/exasol-virtual-schema-dist-" + VERSION + ".lua");
     @Container
     protected static final ExasolContainer<? extends ExasolContainer<?>> EXASOL = //
             new ExasolContainer<>(DOCKER_DB) //
@@ -94,19 +94,19 @@ abstract class AbstractLuaVirtualSchemaIT {
     }
 
     protected AdapterScript createAdapterScript(final String prefix) throws IOException {
-        final String content = EXASOL_LUA_MODULE_LOADER_WORKAROUND + Files.readString(RLS_PACKAGE_PATH);
+        final String content = EXASOL_LUA_MODULE_LOADER_WORKAROUND + Files.readString(VS_PACKAGE_PATH);
         return scriptSchema.createAdapterScript(prefix + "_ADAPTER", AdapterScript.Language.LUA, content);
     }
 
     protected String getVirtualSchemaName(final String sourceSchemaName) {
-        return sourceSchemaName + "_RLS";
+        return sourceSchemaName + "_VS";
     }
 
     protected String getVirtualSchemaName(final Schema sourceSchema) {
         return getVirtualSchemaName(sourceSchema.getName());
     }
 
-    protected ResultSet executeRlsQueryWithUser(final String query, final User user) throws SQLException {
+    protected ResultSet executeQueryWithUser(final String query, final User user) throws SQLException {
         final Statement statement = EXASOL.createConnectionForUser(user.getName(), user.getPassword())
                 .createStatement();
         return statement.executeQuery(query);
@@ -129,12 +129,12 @@ abstract class AbstractLuaVirtualSchemaIT {
         return factory.createSchema(sourceSchemaName);
     }
 
-    protected void assertRlsQueryWithUser(final String sql, final User user, final Matcher<ResultSet> expected) {
+    protected void assertQueryWithUser(final String sql, final User user, final Matcher<ResultSet> expected) {
         try {
-            final ResultSet result = executeRlsQueryWithUser(sql, user);
+            final ResultSet result = executeQueryWithUser(sql, user);
             assertThat(result, expected);
         } catch (final SQLException exception) {
-            throw new AssertionError("Unable to run assertion query.", exception);
+            throw new AssertionError("Unable to run assertion query:" + exception.getMessage());
         }
     }
 
@@ -147,11 +147,5 @@ abstract class AbstractLuaVirtualSchemaIT {
         } catch (final SQLException exception) {
             throw new AssertionError("Unable to run assertion query.", exception);
         }
-    }
-
-    protected void assertRlsQueryThrowsExceptionWithMessageContaining(final String sql, final User user,
-            final String expectedMessageFragment) {
-        final SQLException exception = assertThrows(SQLException.class, () -> executeRlsQueryWithUser(sql, user));
-        assertThat(exception.getMessage(), containsString(expectedMessageFragment));
     }
 }

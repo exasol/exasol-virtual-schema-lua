@@ -1,5 +1,3 @@
-' [dsn -> req~getting-the-suppoted-capabilities~1]
-
 @startuml
 !include ../clean.skin
 

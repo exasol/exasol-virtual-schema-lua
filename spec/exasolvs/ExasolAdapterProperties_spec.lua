@@ -57,4 +57,9 @@ describe("adapter_properties", function()
             assert.is(test.expected, ExasolAdapterProperties:new({TABLE_FILTER = test.filter}):get_table_filter(), test)
         end
     end)
+
+    it("can produce a string representation", function()
+        local properties = ExasolAdapterProperties:new({a = 1, b = 2, c = 3})
+        assert.are.equals("(a = 1, b = 2, c = 3)", tostring(properties))
+    end)
 end)

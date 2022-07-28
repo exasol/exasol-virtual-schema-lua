@@ -1,9 +1,10 @@
+--- This class rewrites the query.
+-- @classmod QueryRewriter
+
 local QueryRenderer = require("exasolvs.QueryRenderer")
 local log = require("remotelog")
 local ExaError = require("ExaError")
 
---- This class rewrites the query.
--- @classmod QueryRewriter
 local QueryRewriter = {}
 
 local function validate(query)
@@ -42,8 +43,32 @@ local function rewrite(query)
     expand_select_list(query)
 end
 
+local function extend_query_element_with_source_schema(element, source_schema_id)
+    local extended_element = {}
+    if(type(element) == "table") then
+        for key, value in pairs(element) do
+            if(type(value) == "table") then
+                extended_element[key] = extend_query_element_with_source_schema(value, source_schema_id)
+            else
+                extended_element[key] = value
+            end
+        end
+        if(element.type ~= nil and element.type == "table" and element.schema == nil) then
+            log.debug("Extending: " .. element.name)
+            extended_element.schema = source_schema_id
+        end
+    end
+    return extended_element
+end
+
+--- Add the source database schema to all query elements that represent a table.
+-- Table elements in the query structure are lacking the information which schema they belong too. But without this
+-- information, the database cannot locate the table, because the table name is only valid in the context of the
+-- containing schema. So this method adds the missing information by adding the source schema of the Virtual Schema
+-- into the table elements.
+-- @return query with table elements that contain the source schema
 local function extend_query_with_source_schema(query, source_schema_id)
-    query.from.schema = source_schema_id
+    return extend_query_element_with_source_schema(query, source_schema_id)
 end
 
 --- Rewrite the original query.
@@ -54,9 +79,8 @@ end
 -- @return string containing the rewritten query
 function QueryRewriter.rewrite(original_query, source_schema_id, _, _)
     validate(original_query)
-    local query = original_query
+    local query = extend_query_with_source_schema(original_query, source_schema_id)
     rewrite(query)
-    extend_query_with_source_schema(query, source_schema_id)
     local renderer = QueryRenderer:new(query)
     return renderer:render()
 end

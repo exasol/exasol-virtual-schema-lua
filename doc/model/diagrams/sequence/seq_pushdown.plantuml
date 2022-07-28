@@ -1,14 +1,14 @@
-' [dsn -> req~push-down~1]
+' [dsn -> req~push-down~1 >> impl, itest]
 
 @startuml
 !include ../clean.skin
 
 title: Query Push-down
 
-Participant RequestDispatcher
-Participant ExasolAdapter
-Participant QueryRewriter
-Participant QueryRenderer
+participant RequestDispatcher
+participant ExasolAdapter
+participant QueryRewriter
+participant QueryRenderer
 
 activate RequestDispatcher
 RequestDispatcher -> ExasolAdapter : push down (request)

@@ -1,22 +1,22 @@
-' [dsn->req~refreshing-a-virtual-schema~1]
-' [dsn->req~filtering-tables~1]
+' [dsn->req~refreshing-a-virtual-schema~1 >> impl, itest]
 
 @startuml
 !include ../clean.skin
 
 title: Refresh Virtual Schema
 
-Participant RequestDispatcher
-Participant ExasolAdapter
+participant RequestDispatcher
+participant ExasolAdapter
+participant MetadataReader
 
 activate RequestDispatcher
 RequestDispatcher -> ExasolAdapter : refresh (request, table[])
 activate ExasolAdapter
-ExasolAdapter -> metadata_reader : read (schema)
-activate metadata_reader
-ref over metadata_reader : **[[seq_read_table_metadata.svg read table metadata]]**
-metadata_reader -->> ExasolAdapter : schema metadata
-deactivate metadata_reader
+ExasolAdapter -> MetadataReader : read (schema)
+activate MetadataReader
+ref over MetadataReader : **[[seq_read_table_metadata.svg read table metadata]]**
+MetadataReader -->> ExasolAdapter : schema metadata
+deactivate MetadataReader
 ExasolAdapter -->> RequestDispatcher : schema metadata, adapter notes
 deactivate ExasolAdapter
 @enduml

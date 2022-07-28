@@ -20,7 +20,7 @@ class ScalarFunctionsIT extends AbstractLuaVirtualSchemaIT {
         sourceSchema.createTable("T", "C1", "BOOLEAN").insert(true).insert(false);
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess("IPROC_USER", virtualSchema);
-        assertRlsQueryWithUser("SELECT IPROC() FROM " + getVirtualSchemaName(sourceSchema) + ".T", user,
+        assertQueryWithUser("SELECT IPROC() FROM " + getVirtualSchemaName(sourceSchema) + ".T", user,
                 table().row(0).row(0).matches(NO_JAVA_TYPE_CHECK));
     }
 
@@ -37,7 +37,7 @@ class ScalarFunctionsIT extends AbstractLuaVirtualSchemaIT {
         sourceSchema.createTable("T", "C1", "Decimal", "C2", "Decimal").insert(left, right);
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess(testName + "_USER", virtualSchema);
-        assertRlsQueryWithUser("SELECT C1 " + operator + " C2 FROM " + getVirtualSchemaName(sourceSchema) + ".T", user,
+        assertQueryWithUser("SELECT C1 " + operator + " C2 FROM " + getVirtualSchemaName(sourceSchema) + ".T", user,
                 table().row(expected).matches(NO_JAVA_TYPE_CHECK));
     }
 
@@ -47,7 +47,7 @@ class ScalarFunctionsIT extends AbstractLuaVirtualSchemaIT {
         sourceSchema.createTable("T", "C1", "Decimal").insert(16);
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess("UNARY_MINUS_USER", virtualSchema);
-        assertRlsQueryWithUser("SELECT -C1 FROM " + getVirtualSchemaName(sourceSchema) + ".T", user,
+        assertQueryWithUser("SELECT -C1 FROM " + getVirtualSchemaName(sourceSchema) + ".T", user,
                 table().row(-16).matches(NO_JAVA_TYPE_CHECK));
     }
 }

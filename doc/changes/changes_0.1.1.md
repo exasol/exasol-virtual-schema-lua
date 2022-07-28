@@ -1,25 +1,16 @@
-# exasol-virtual-schema-lua, released 2022-07-11
- 
-Code name: Initial release
- 
+# exasol-virtual-schema-lua 0.1.1, released 2022-07-25
+
+Code name: Documentation complete
+
 ## Summary
- 
-Version 0.1.0 is the initial release of the Lua-based Exasol Virtual Schema. It is derived from RLS Lua.
 
-### Known Limitations
+Version 0.1.1 brings updated (and now complete) user requirements, design and requirement tracing.
 
-* Only supports local Exasol virtual schemas. This means source schema and virtual schema need to be on the same database. Network is not yet supported.
-* Aggregate functions are not yet supported.
- 
-## Features / Enhancements
+We also fixed an issue in the "set properties" request. The VS API does not behave like it was described in the API documentation, causing property changes to be ignored. The API documentation was fixed in [virtual-schema-common-java #247](https://github.com/exasol/virtual-schema-common-java/issues/247) after which we fixed the Lua implementation. 
 
-## Refactoring
- 
-* #2: Ported sources from [`row-level-security-lua`](https://github.com/exasol/row-level-security-lua).
+## Features
 
-## Documentation
-
-* #5: Ported user guide
+* #1: Completed system requirements, design and requirement tracing.
 
 ## Dependency Updates
 

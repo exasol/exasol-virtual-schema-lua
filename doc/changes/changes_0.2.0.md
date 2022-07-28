@@ -1,25 +1,14 @@
-# exasol-virtual-schema-lua, released 2022-07-11
- 
-Code name: Initial release
- 
+# Exasol Row Level Security (Lua) 0.2.0, released 2022-07-27
+
+Code name: Join support
+
 ## Summary
- 
-Version 0.1.0 is the initial release of the Lua-based Exasol Virtual Schema. It is derived from RLS Lua.
 
-### Known Limitations
+In version 0.2.0 of the Exasol Virtual Schema for Lua we activated support for JOINs.
 
-* Only supports local Exasol virtual schemas. This means source schema and virtual schema need to be on the same database. Network is not yet supported.
-* Aggregate functions are not yet supported.
- 
-## Features / Enhancements
+## Features
 
-## Refactoring
- 
-* #2: Ported sources from [`row-level-security-lua`](https://github.com/exasol/row-level-security-lua).
-
-## Documentation
-
-* #5: Ported user guide
+* #13: Join support
 
 ## Dependency Updates
 

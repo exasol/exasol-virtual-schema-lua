@@ -22,6 +22,7 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
     public static final String BOOLEAN = "BOOLEAN";
     public static final String DOUBLE = "DOUBLE";
 
+    // [itest -> dsn~reading-source-metadata~0]
     @Test
     void testDetermineColumnTypes() {
         final Schema sourceSchema = createSchema("SCHEMA_COLUMN_TYPES");
@@ -69,7 +70,7 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
 
     private void assertVirtualTableStructure(final Table table, final User user,
             final Matcher<ResultSet> tableMatcher) {
-        assertRlsQueryWithUser("/*snapshot execution*/DESCRIBE " + getVirtualSchemaName(table.getParent().getName())
+        assertQueryWithUser("/*snapshot execution*/DESCRIBE " + getVirtualSchemaName(table.getParent().getName())
                         + "." + table.getName(), user, tableMatcher);
     }
 
@@ -83,6 +84,7 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
         return builder.matches();
     }
 
+    // [itest -> dsn~refreshing-a-virtual-schema~0]
     @Test
     void testRefreshMetadata() {
         final Schema sourceSchema = createSchema("SCHEMA_FOR_REFRESH");
@@ -112,6 +114,7 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
         }
     }
 
+    // [itest -> dsn~filtering-tables~0]
     @Test
     void testTableFilter() throws SQLException {
         final Schema sourceSchema = createSchema("SCHEMA_FOR_TABLE_FILTER");
@@ -131,6 +134,42 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
         }
     }
 
+    // [itest -> dsn~filtering-tables~0]
+    @Test
+    void testSetPropertiesRereadsMetadata() throws SQLException {
+        final Schema sourceSchemaA = createSchema("SCHEMA_FOR_SET_SOURCE_A");
+        sourceSchemaA.createTable("TA", "CB", BOOLEAN);
+        final Schema sourceSchemaB = createSchema("SCHEMA_FOR_SET_SOURCE_B");
+        sourceSchemaB.createTable("TB", "CV", "VARCHAR(27)");
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchemaA);
+        final String sql = "/*snapshot execution*/"
+                + " SELECT TABLE_NAME FROM SYS.EXA_ALL_TABLES WHERE TABLE_SCHEMA = ? ORDER BY TABLE_NAME";
+        try ( //
+                final Connection connection = EXASOL.createConnection(); //
+                final PreparedStatement statement = connection.prepareStatement(sql) //
+        ) {
+            statement.setString(1, virtualSchema.getName());
+            final ResultSet resultSetA = statement.executeQuery();
+            assertThat(resultSetA, table().row("TA").matches());
+
+            changeVirtualSchemaSource(virtualSchema, sourceSchemaB);
+
+            statement.setString(1, virtualSchema.getName());
+            final ResultSet resultSetB = statement.executeQuery();
+            assertThat(resultSetB, table().row("TB").matches());
+        }
+    }
+
+    void changeVirtualSchemaSource(final VirtualSchema virtualSchema, final Schema sourceSchema) {
+        final String sql = "ALTER VIRTUAL SCHEMA " + virtualSchema.getFullyQualifiedName()
+                + " SET SCHEMA_NAME = '" + sourceSchema.getName() +"'";
+        try {
+            execute(sql);
+        } catch (final SQLException exception) {
+            throw new AssertionError("Unable to change source schema using query '" + sql + "'", exception);
+        }
+    }
+
     @Test
     void testSwitchingSourceSchemaWithAlterVirtualSchema() throws SQLException {
         final String expectedText = "Hello";
@@ -141,10 +180,10 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
         schemaB.createTable("T", "C1", "DATE").insert(expectedDate);
         final VirtualSchema virtualSchema = createVirtualSchema(schemaA);
         final User user = createUserWithVirtualSchemaAccess("USER_SET_PROPS", virtualSchema);
-        assertRlsQueryWithUser("SELECT * FROM " + virtualSchema.getName() + ".T", user,
+        assertQueryWithUser("SELECT * FROM " + virtualSchema.getName() + ".T", user,
                 table().row(expectedText).matches());
         execute("ALTER VIRTUAL SCHEMA " + virtualSchema.getName() + " SET SCHEMA_NAME = '" + schemaB.getName() + "'");
-        assertRlsQueryWithUser("SELECT * FROM " + virtualSchema.getName() + ".T", user,
+        assertQueryWithUser("SELECT * FROM " + virtualSchema.getName() + ".T", user,
                 table().row(expectedDate).matches());
     }
 }

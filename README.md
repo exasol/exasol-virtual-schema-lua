@@ -2,20 +2,20 @@
 
 [![Build Status](https://github.com/exasol/exasol-virtual-schema-lua/actions/workflows/ci-build.yml/badge.svg)](https://github.com/exasol/exasol-virtual-schema-lua/actions/workflows/ci-build.yml)
 
-<!-- Remove this block after https://github.com/exasol/project-keeper-maven-plugin/issues/167 is complete
+<!-- Reenable when Sonar is set up
 [![Build Status](https://github.com/exasol/exasol-virtual-schema-lua/actions/workflows/ci-build.yml/badge.svg)](https://github.com/exasol/exasol-virtual-schema-lua/actions/workflows/ci-build.yml)
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Arow-level-security-lua&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.exasol%3Arow-level-security-lua)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-virtual-schema-lua&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-virtual-schema-lua)
 
-[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Arow-level-security-lua&metric=security_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Arow-level-security-lua)
-[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Arow-level-security-lua&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Arow-level-security-lua)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Arow-level-security-lua&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Arow-level-security-lua)
-[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Arow-level-security-lua&metric=sqale_index)](https://sonarcloud.io/dashboard?id=com.exasol%3Arow-level-security-lua)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-virtual-schema-lua&metric=security_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-virtual-schema-lua)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-virtual-schema-lua&metric=reliability_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-virtual-schema-lua)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-virtual-schema-lua&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-virtual-schema-lua)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-virtual-schema-lua&metric=sqale_index)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-virtual-schema-lua)
 
-[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Arow-level-security-lua&metric=code_smells)](https://sonarcloud.io/dashboard?id=com.exasol%3Arow-level-security-lua)
-[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Arow-level-security-lua&metric=coverage)](https://sonarcloud.io/dashboard?id=com.exasol%3Arow-level-security-lua)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Arow-level-security-lua&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=com.exasol%3Arow-level-security-lua)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Arow-level-security-lua&metric=ncloc)](https://sonarcloud.io/dashboard?id=com.exasol%3Arow-level-security-lua)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-virtual-schema-lua&metric=code_smells)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-virtual-schema-lua)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-virtual-schema-lua&metric=coverage)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-virtual-schema-lua)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-virtual-schema-lua&metric=duplicated_lines_density)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-virtual-schema-lua)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=com.exasol%3Aexasol-virtual-schema-lua&metric=ncloc)](https://sonarcloud.io/dashboard?id=com.exasol%3Aexasol-virtual-schema-lua)
 -->
 
 Abstract read access from Exasol to Exasol via a Virtual Schema.

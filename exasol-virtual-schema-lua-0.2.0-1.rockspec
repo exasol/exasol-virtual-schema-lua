@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 
-local tag = "0.2        .0"
+local tag = "0.2.0"
 local project = "exasol-virtual-schema-lua"
 local src = "src/main/lua"
 
@@ -22,7 +22,7 @@ description = {
 }
 
 dependencies = {
-    "virtual-schema-common-lua = 2.0.1"
+    "virtual-schema-common-lua = 2.1.0"
 }
 
 build_dependencies = {
@@ -60,7 +60,7 @@ end
 build = {
     type = "command",
     build_command = "cd " .. src .. " && amalg.lua "
-            .. "-o ../../../target/row-level-security-dist-" .. tag .. ".lua "
+            .. "-o ../../../target/exasol-virtual-schema-dist-" .. tag .. ".lua "
             .. "-s entry.lua"
             .. item_path_list
 }

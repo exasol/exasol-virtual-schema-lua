@@ -34,9 +34,9 @@ class StringFunctionsIT extends AbstractLuaVirtualSchemaIT {
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess("FUNCTION_" + function + "_USER", virtualSchema);
         final String select = "SELECT " + function + "(C) FROM " + getVirtualSchemaName(sourceSchema) + ".T";
-        assertRlsQueryWithUser(select, user, table().row(expected).matches(NO_JAVA_TYPE_CHECK));
+        assertQueryWithUser(select, user, table().row(expected).matches(NO_JAVA_TYPE_CHECK));
         final String explain = "EXPLAIN VIRTUAL " + select;
-        assertRlsQueryWithUser(explain, user, table().row(anything(),
+        assertQueryWithUser(explain, user, table().row(anything(),
                 Matchers.containsString(function + "(\"T\".\"C\")"), anything(), anything()).matches());
     }
 }

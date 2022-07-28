@@ -52,7 +52,7 @@ class CapabilitiesIT extends AbstractLuaVirtualSchemaIT {
     }
 
     private void assertQueryWithUserRewrittenTo(final String sql, final User user, final String expectedQuery) {
-        assertRlsQueryWithUser("EXPLAIN VIRTUAL " + sql, user,
+        assertQueryWithUser("EXPLAIN VIRTUAL " + sql, user,
                 table().row(anything(), equalTo(expectedQuery), anything(), anything()).matches());
     }
 }

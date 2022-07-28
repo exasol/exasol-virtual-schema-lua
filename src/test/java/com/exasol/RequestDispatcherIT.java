@@ -20,7 +20,7 @@ class RequestDispatcherIT extends AbstractLuaVirtualSchemaIT {
                 .insert("false");
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess("UP_USER", virtualSchema);
-        assertRlsQueryWithUser("SELECT C1 FROM " + getVirtualSchemaName(sourceSchemaName) + ".T", user,
+        assertQueryWithUser("SELECT C1 FROM " + getVirtualSchemaName(sourceSchemaName) + ".T", user,
                 table("BOOLEAN").row(true).row(false).matches());
     }
 }
