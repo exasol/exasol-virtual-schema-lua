@@ -3,6 +3,7 @@ package com.exasol;
 import static com.exasol.ExasolVirtualSchemaTestConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
@@ -12,7 +13,9 @@ import java.sql.*;
 import java.time.Duration;
 import java.util.*;
 
+import com.exasol.matcher.ResultSetStructureMatcher;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.containers.JdbcDatabaseContainer.NoDriverFoundException;
 import org.testcontainers.junit.jupiter.Container;
@@ -146,6 +149,22 @@ abstract class AbstractLuaVirtualSchemaIT {
             return timedResult.getDuration();
         } catch (final SQLException exception) {
             throw new AssertionError("Unable to run assertion query.", exception);
+        }
+    }
+
+    protected void assertJoinQuery(final String sql, final User user,
+                                   final ResultSetStructureMatcher.Builder resultMatcher, final String expectedPushDown) {
+        assertAll(()-> assertQueryWithUser(sql, user, resultMatcher.matches()),
+                ()->assertPushDownMatches(sql, user, expectedPushDown));
+    }
+
+    private void assertPushDownMatches(final String sql, final User user, final String expectedPattern) {
+        try (final ResultSet result = executeQueryWithUser("EXPLAIN VIRTUAL " + sql, user)){
+            result.next();
+            final String pushDownSql = result.getString("PUSHDOWN_SQL");
+            assertThat(pushDownSql, Matchers.matchesPattern(expectedPattern));
+        } catch (final SQLException exception) {
+            throw new AssertionError("Unable to run push-down assertion query:" + exception.getMessage());
         }
     }
 }

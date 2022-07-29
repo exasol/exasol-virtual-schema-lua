@@ -54,7 +54,7 @@ local function extend_query_element_with_source_schema(element, source_schema_id
             end
         end
         if(element.type ~= nil and element.type == "table" and element.schema == nil) then
-            log.debug("Extending: " .. element.name)
+            log.debug("Extended table '%s' with source schema '%s' ", element.name, source_schema_id)
             extended_element.schema = source_schema_id
         end
     end

@@ -4,21 +4,14 @@ import static com.exasol.matcher.ResultSetStructureMatcher.table;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 
-import com.exasol.matcher.ResultSetStructureMatcher;
 import com.exasol.matcher.TypeMatchMode;
-import org.hamcrest.Matchers;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.exasol.dbbuilder.dialects.Schema;
 import com.exasol.dbbuilder.dialects.User;
 import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 // [itest -> dsn~creating-a-local-virtual-schema~0] implicitly tested with each query on a Virtual Schema
 @Testcontainers
@@ -121,10 +114,28 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
                 table().row("L+R", "L+R").row(null, "R"), "SELECT.*FROM.*RIGHT OUTER JOIN.*");
     }
 
-    private void assertJoinQuery(final String sql, final User user,
-                                 final ResultSetStructureMatcher.Builder resultMatcher, final String expectedPushDown) {
-        assertAll(()-> assertQueryWithUser(sql, user, resultMatcher.matches()),
-                ()->assertPushDownMatches(sql, user, expectedPushDown));
+    // Test for complex join conditions.
+    // To understand the next test, we need a bit of explanation. We use an expression in the join condition here based
+    // on the string length of two columns in the source schema.
+    //
+    // The following logic table shows which combinations match the join criteria.
+    //
+    // Left    Right   Length
+    // -----------------------------
+    // L       L+R     1 >? 3 : true
+    // L+R     L+R     3 >? 3 : false
+    // L       R       1 >? 1 : false
+    // L+R     R       3 >? 1 : false
+    @Test
+    void testComplexJoinCriteria() {
+        final Schema sourceSchema = createJoinSchema("COMPLEX_JOIN_SCHEMA");
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("COMPLEX_JOIN_USER", virtualSchema);
+        final String virtualSchemaName = getVirtualSchemaName(sourceSchema.getName());
+        assertJoinQuery("SELECT LJC, RJC FROM " + virtualSchemaName + ".T_LEFT"
+                        + " INNER JOIN " + virtualSchemaName + ".T_RIGHT"
+                        + " ON LENGTH(LJC) < LENGTH(RJC) ORDER BY LJC, RJC", user,
+                table().row("L", "L+R"), "SELECT.*FROM.*INNER JOIN.*ON \\(LENGTH.*");
     }
 
     @NotNull
@@ -133,15 +144,5 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
         sourceSchema.createTable("T_LEFT", "LJC", "VARCHAR(3)").insert("L").insert("L+R");
         sourceSchema.createTable("T_RIGHT", "RJC", "VARCHAR(3)").insert("L+R").insert("R");
         return sourceSchema;
-    }
-
-    private void assertPushDownMatches(final String sql, final User user, final String expectedPattern) {
-        try (final ResultSet result = executeQueryWithUser("EXPLAIN VIRTUAL " + sql, user)){
-            result.next();
-            final String pushDownSql = result.getString("PUSHDOWN_SQL");
-            assertThat(pushDownSql, Matchers.matchesPattern(expectedPattern));
-        } catch (final SQLException exception) {
-            throw new AssertionError("Unable to run push-down assertion query:" + exception.getMessage());
-        }
     }
 }

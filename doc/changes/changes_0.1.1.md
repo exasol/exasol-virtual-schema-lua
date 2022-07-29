@@ -1,4 +1,4 @@
-# exasol-virtual-schema-lua 0.1.1, released 2022-07-25
+# eExasol Virtual Schema (Lua) 0.1.1, released 2022-07-25
 
 Code name: Documentation complete
 
