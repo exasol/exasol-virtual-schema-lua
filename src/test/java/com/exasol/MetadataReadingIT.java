@@ -70,7 +70,7 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
 
     private void assertVirtualTableStructure(final Table table, final User user,
             final Matcher<ResultSet> tableMatcher) {
-        assertRlsQueryWithUser("/*snapshot execution*/DESCRIBE " + getVirtualSchemaName(table.getParent().getName())
+        assertQueryWithUser("/*snapshot execution*/DESCRIBE " + getVirtualSchemaName(table.getParent().getName())
                         + "." + table.getName(), user, tableMatcher);
     }
 
@@ -180,10 +180,10 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
         schemaB.createTable("T", "C1", "DATE").insert(expectedDate);
         final VirtualSchema virtualSchema = createVirtualSchema(schemaA);
         final User user = createUserWithVirtualSchemaAccess("USER_SET_PROPS", virtualSchema);
-        assertRlsQueryWithUser("SELECT * FROM " + virtualSchema.getName() + ".T", user,
+        assertQueryWithUser("SELECT * FROM " + virtualSchema.getName() + ".T", user,
                 table().row(expectedText).matches());
         execute("ALTER VIRTUAL SCHEMA " + virtualSchema.getName() + " SET SCHEMA_NAME = '" + schemaB.getName() + "'");
-        assertRlsQueryWithUser("SELECT * FROM " + virtualSchema.getName() + ".T", user,
+        assertQueryWithUser("SELECT * FROM " + virtualSchema.getName() + ".T", user,
                 table().row(expectedDate).matches());
     }
 }

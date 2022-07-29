@@ -3,6 +3,7 @@ package com.exasol;
 import static com.exasol.ExasolVirtualSchemaTestConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
@@ -12,7 +13,9 @@ import java.sql.*;
 import java.time.Duration;
 import java.util.*;
 
+import com.exasol.matcher.ResultSetStructureMatcher;
 import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.containers.JdbcDatabaseContainer.NoDriverFoundException;
 import org.testcontainers.junit.jupiter.Container;
@@ -27,7 +30,7 @@ abstract class AbstractLuaVirtualSchemaIT {
     private static final String LOG_PORT_PROPERTY = "com.exasol.log.port";
     private static final String LOG_HOST_PROPERTY = "com.exasol.log.host";
     private static final String VERSION = MavenProjectVersionGetter.getCurrentProjectVersion();
-    private static final Path RLS_PACKAGE_PATH = Path.of("target/exasol-virtual-schema-dist-" + VERSION + ".lua");
+    private static final Path VS_PACKAGE_PATH = Path.of("target/exasol-virtual-schema-dist-" + VERSION + ".lua");
     @Container
     protected static final ExasolContainer<? extends ExasolContainer<?>> EXASOL = //
             new ExasolContainer<>(DOCKER_DB) //
@@ -94,19 +97,19 @@ abstract class AbstractLuaVirtualSchemaIT {
     }
 
     protected AdapterScript createAdapterScript(final String prefix) throws IOException {
-        final String content = EXASOL_LUA_MODULE_LOADER_WORKAROUND + Files.readString(RLS_PACKAGE_PATH);
+        final String content = EXASOL_LUA_MODULE_LOADER_WORKAROUND + Files.readString(VS_PACKAGE_PATH);
         return scriptSchema.createAdapterScript(prefix + "_ADAPTER", AdapterScript.Language.LUA, content);
     }
 
     protected String getVirtualSchemaName(final String sourceSchemaName) {
-        return sourceSchemaName + "_RLS";
+        return sourceSchemaName + "_VS";
     }
 
     protected String getVirtualSchemaName(final Schema sourceSchema) {
         return getVirtualSchemaName(sourceSchema.getName());
     }
 
-    protected ResultSet executeRlsQueryWithUser(final String query, final User user) throws SQLException {
+    protected ResultSet executeQueryWithUser(final String query, final User user) throws SQLException {
         final Statement statement = EXASOL.createConnectionForUser(user.getName(), user.getPassword())
                 .createStatement();
         return statement.executeQuery(query);
@@ -129,12 +132,12 @@ abstract class AbstractLuaVirtualSchemaIT {
         return factory.createSchema(sourceSchemaName);
     }
 
-    protected void assertRlsQueryWithUser(final String sql, final User user, final Matcher<ResultSet> expected) {
+    protected void assertQueryWithUser(final String sql, final User user, final Matcher<ResultSet> expected) {
         try {
-            final ResultSet result = executeRlsQueryWithUser(sql, user);
+            final ResultSet result = executeQueryWithUser(sql, user);
             assertThat(result, expected);
         } catch (final SQLException exception) {
-            throw new AssertionError("Unable to run assertion query.", exception);
+            throw new AssertionError("Unable to run assertion query:" + exception.getMessage());
         }
     }
 
@@ -149,9 +152,19 @@ abstract class AbstractLuaVirtualSchemaIT {
         }
     }
 
-    protected void assertRlsQueryThrowsExceptionWithMessageContaining(final String sql, final User user,
-            final String expectedMessageFragment) {
-        final SQLException exception = assertThrows(SQLException.class, () -> executeRlsQueryWithUser(sql, user));
-        assertThat(exception.getMessage(), containsString(expectedMessageFragment));
+    protected void assertJoinQuery(final String sql, final User user,
+                                   final ResultSetStructureMatcher.Builder resultMatcher, final String expectedPushDown) {
+        assertAll(()-> assertQueryWithUser(sql, user, resultMatcher.matches()),
+                ()->assertPushDownMatches(sql, user, expectedPushDown));
+    }
+
+    private void assertPushDownMatches(final String sql, final User user, final String expectedPattern) {
+        try (final ResultSet result = executeQueryWithUser("EXPLAIN VIRTUAL " + sql, user)){
+            result.next();
+            final String pushDownSql = result.getString("PUSHDOWN_SQL");
+            assertThat(pushDownSql, Matchers.matchesPattern(expectedPattern));
+        } catch (final SQLException exception) {
+            throw new AssertionError("Unable to run push-down assertion query:" + exception.getMessage());
+        }
     }
 }

@@ -1,8 +1,11 @@
 package com.exasol;
 
 import static com.exasol.matcher.ResultSetStructureMatcher.table;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import com.exasol.matcher.TypeMatchMode;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -21,7 +24,7 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
         sourceSchema.createTable("T", "C1", "BOOLEAN").insert(true).insert(false);
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess("SELECT_STAR_USER", virtualSchema);
-        assertRlsQueryWithUser("SELECT * FROM " + getVirtualSchemaName(sourceSchemaName) + ".T", user,
+        assertQueryWithUser("SELECT * FROM " + getVirtualSchemaName(sourceSchemaName) + ".T", user,
                 table().row(true).row(false).matches());
     }
 
@@ -37,7 +40,7 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
         sourceSchema.createTable("T", "C1", "BOOLEAN").insert(true).insert(false);
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess("EMPTY_SELECT_USER", virtualSchema);
-        assertRlsQueryWithUser("SELECT 'foo' FROM " + getVirtualSchemaName(sourceSchemaName) + ".T", user,
+        assertQueryWithUser("SELECT 'foo' FROM " + getVirtualSchemaName(sourceSchemaName) + ".T", user,
                 table().row("foo").row("foo").matches());
     }
 
@@ -49,7 +52,7 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
         sourceSchema.createTable("T", "NR", "INTEGER").insert(1).insert(2).insert(3);
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess("ORDER_LIMIT_USER", virtualSchema);
-        assertRlsQueryWithUser("SELECT NR FROM " + getVirtualSchemaName(sourceSchemaName)
+        assertQueryWithUser("SELECT NR FROM " + getVirtualSchemaName(sourceSchemaName)
                         + ".T ORDER BY NR LIMIT 2", user,
                 table().row(1).row(2).matches(TypeMatchMode.NO_JAVA_TYPE_CHECK));
     }
@@ -62,8 +65,84 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
         sourceSchema.createTable("T", "TXT", "VARCHAR(10)").insert("a").insert("bb").insert("ccc").insert("dddd");
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess("ORDER_LIMIT_OFFSET_USER", virtualSchema);
-        assertRlsQueryWithUser("SELECT TXT FROM " + getVirtualSchemaName(sourceSchemaName)
+        assertQueryWithUser("SELECT TXT FROM " + getVirtualSchemaName(sourceSchemaName)
                         + ".T ORDER BY LENGTH(TXT) LIMIT 2 OFFSET 1", user,
                 table().row("bb").row("ccc").matches());
+    }
+
+    @Test
+    void testInnerJoin() {
+        final Schema sourceSchema = createJoinSchema("INNER_JOIN_SCHEMA");
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("INNER_JOIN_USER", virtualSchema);
+        final String virtualSchemaName = getVirtualSchemaName(sourceSchema.getName());
+        assertJoinQuery("SELECT LJC, RJC FROM " + virtualSchemaName + ".T_LEFT"
+                + " INNER JOIN " + virtualSchemaName + ".T_RIGHT ON LJC = RJC ORDER BY LJC, RJC", user,
+                table().row("L+R", "L+R"), "SELECT.*FROM.*INNER JOIN.*");
+    }
+
+    @Test
+    void testFullOuterJoin() {
+        final Schema sourceSchema = createJoinSchema("FULL_OUTER_JOIN_SCHEMA");
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("FULL_OUTER_JOIN_USER", virtualSchema);
+        final String virtualSchemaName = getVirtualSchemaName(sourceSchema.getName());
+        assertJoinQuery("SELECT LJC, RJC FROM " + virtualSchemaName + ".T_LEFT"
+                + " FULL OUTER JOIN " + virtualSchemaName + ".T_RIGHT ON LJC = RJC ORDER BY LJC, RJC", user,
+                table().row("L", null).row("L+R", "L+R").row(null, "R"), "SELECT.*FROM.*FULL OUTER JOIN.*");
+    }
+
+    @Test
+    void testLeftJoin() {
+        final Schema sourceSchema = createJoinSchema("LEFT_JOIN_SCHEMA");
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("LEFT_JOIN_USER", virtualSchema);
+        final String virtualSchemaName = getVirtualSchemaName(sourceSchema.getName());
+        assertJoinQuery("SELECT LJC, RJC FROM " + virtualSchemaName + ".T_LEFT"
+                + " LEFT JOIN " + virtualSchemaName + ".T_RIGHT ON LJC = RJC ORDER BY LJC, RJC", user,
+                table().row("L", null).row("L+R", "L+R"), "SELECT.*FROM.*LEFT OUTER JOIN.*");
+    }
+
+    @Test
+    void testRightJoin() {
+        final Schema sourceSchema = createJoinSchema("RIGHT_JOIN_SCHEMA");
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("RIGHT_JOIN_USER", virtualSchema);
+        final String virtualSchemaName = getVirtualSchemaName(sourceSchema.getName());
+        assertJoinQuery("SELECT LJC, RJC FROM " + virtualSchemaName + ".T_LEFT"
+                + " RIGHT JOIN " + virtualSchemaName + ".T_RIGHT ON LJC = RJC ORDER BY LJC, RJC", user,
+                table().row("L+R", "L+R").row(null, "R"), "SELECT.*FROM.*RIGHT OUTER JOIN.*");
+    }
+
+    // Test for complex join conditions.
+    // To understand the next test, we need a bit of explanation. We use an expression in the join condition here based
+    // on the string length of two columns in the source schema.
+    //
+    // The following logic table shows which combinations match the join criteria.
+    //
+    // Left    Right   Length
+    // -----------------------------
+    // L       L+R     1 >? 3 : true
+    // L+R     L+R     3 >? 3 : false
+    // L       R       1 >? 1 : false
+    // L+R     R       3 >? 1 : false
+    @Test
+    void testComplexJoinCriteria() {
+        final Schema sourceSchema = createJoinSchema("COMPLEX_JOIN_SCHEMA");
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("COMPLEX_JOIN_USER", virtualSchema);
+        final String virtualSchemaName = getVirtualSchemaName(sourceSchema.getName());
+        assertJoinQuery("SELECT LJC, RJC FROM " + virtualSchemaName + ".T_LEFT"
+                        + " INNER JOIN " + virtualSchemaName + ".T_RIGHT"
+                        + " ON LENGTH(LJC) < LENGTH(RJC) ORDER BY LJC, RJC", user,
+                table().row("L", "L+R"), "SELECT.*FROM.*INNER JOIN.*ON \\(LENGTH.*");
+    }
+
+    @NotNull
+    private Schema createJoinSchema(final String sourceSchemaName) {
+        final Schema sourceSchema = createSchema(sourceSchemaName);
+        sourceSchema.createTable("T_LEFT", "LJC", "VARCHAR(3)").insert("L").insert("L+R");
+        sourceSchema.createTable("T_RIGHT", "RJC", "VARCHAR(3)").insert("L+R").insert("R");
+        return sourceSchema;
     }
 }
