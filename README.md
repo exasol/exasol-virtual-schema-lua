@@ -67,7 +67,7 @@ Unit tests are written in Lua.
 | [busted][busted]     | Unit testing framework                                 | BSD License                   |
 | [Mockagne][mockagne] | Mocking framework                                      | MIT License                   |
 
-[busted]: http://olivinelabs.com/busted/
+[busted]: https://lunarmodules.github.io/busted/
 [mockagne]: https://github.com/vertti/mockagne
 
 #### Integration Test Dependencies
