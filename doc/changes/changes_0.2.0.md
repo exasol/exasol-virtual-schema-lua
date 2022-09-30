@@ -1,4 +1,4 @@
-# Exasol Virtual Schema (Lua) 0.2.0, released 2022-07-29
+# Exasol Virtual Schema (Lua) 0.2.0, released 2022-09-28
 
 Code name: Join support
 
