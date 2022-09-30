@@ -22,7 +22,7 @@ description = {
 }
 
 dependencies = {
-    "virtual-schema-common-lua = 2.1.0"
+    "virtual-schema-common-lua = 2.2.0"
 }
 
 build_dependencies = {
@@ -48,7 +48,8 @@ local package_items = {
     "exasolvs.AbstractVirtualSchemaAdapter", "exasolvs.AdapterProperties", "exasolvs.RequestDispatcher",
     "exasolvs.Query", "exasolvs.QueryRenderer",
     "exasolvs.queryrenderer.AbstractQueryAppender", "exasolvs.queryrenderer.ExpressionAppender",
-    "exasolvs.queryrenderer.ScalarFunctionAppender", "exasolvs.queryrenderer.SelectAppender",
+    "exasolvs.queryrenderer.ScalarFunctionAppender", "exasolvs.queryrenderer.AggregateFunctionAppender",
+    "exasolvs.queryrenderer.SelectAppender",
     "text"
 }
 
