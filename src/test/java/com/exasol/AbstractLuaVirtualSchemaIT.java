@@ -4,7 +4,6 @@ import static com.exasol.ExasolVirtualSchemaTestConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,7 +14,6 @@ import java.util.*;
 
 import com.exasol.matcher.ResultSetStructureMatcher;
 import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.containers.JdbcDatabaseContainer.NoDriverFoundException;
 import org.testcontainers.junit.jupiter.Container;
@@ -116,8 +114,9 @@ abstract class AbstractLuaVirtualSchemaIT {
     }
 
     protected TimedResultSet executeTimedRlsQueryWithUser(final String query, final User user) throws SQLException {
-        final Statement statement = EXASOL.createConnectionForUser(user.getName(), user.getPassword())
-                .createStatement();
+        final Connection uncachedConnection = EXASOL.createConnectionForUser(user.getName(), user.getPassword());
+        final Statement statement = uncachedConnection.createStatement();
+        statement.execute("ALTER SESSION SET QUERY_CACHE = 'OFF'");
         final long before = System.nanoTime();
         final ResultSet result = statement.executeQuery(query);
         final long after = System.nanoTime();
@@ -141,8 +140,8 @@ abstract class AbstractLuaVirtualSchemaIT {
         }
     }
 
-    protected Duration assertTimedRlsQueryWithUser(final String sql, final User user,
-            final Matcher<ResultSet> expected) {
+    protected Duration assertTimedVsQueryWithUser(final String sql, final User user,
+                                                  final Matcher<ResultSet> expected) {
         try {
             final TimedResultSet timedResult = executeTimedRlsQueryWithUser(sql, user);
             assertThat(timedResult.getResultSet(), expected);

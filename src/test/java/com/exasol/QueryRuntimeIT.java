@@ -1,16 +1,13 @@
-// Add missing test [itest -> qs~query-execution-time~0] : https://github.com/exasol/exasol-virtual-schema-lua/issues/8
-
 package com.exasol;
 
 import static com.exasol.matcher.ResultSetStructureMatcher.table;
 import static com.exasol.matcher.TypeMatchMode.NO_JAVA_TYPE_CHECK;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.lessThanOrEqualTo;
-import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.hamcrest.Matchers.*;
 
 import java.sql.ResultSet;
-import java.time.Duration;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Stream;
 
 import com.exasol.dbbuilder.dialects.Table;
@@ -26,9 +23,16 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
 class QueryRuntimeIT extends AbstractLuaVirtualSchemaIT {
+    private static final Logger LOGGER = Logger.getLogger(QueryRuntimeIT.class.getName());
+    private static final int RUNS = 100;
+    private static final long MAX_ALLOWED_OVERHEAD_MILLIS = 50;
+
+    // [itest -> qs~query-execution-time-local-connection~0]
     @ValueSource(ints = {1, 10, 100})
     @ParameterizedTest
     void testVirtualSchemaOverheadAcceptable(final int scalingFactor) {
+        final long[] sourceQueryMillis = new long[RUNS];
+        final long[] vsQueryMillis = new long[RUNS];
         final Schema sourceSchema = createPerformanceTestSchema(scalingFactor);
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User sourceUser = factory.createLoginUser("PTEST_SOURCE_USER_SCALE" + scalingFactor)
@@ -42,16 +46,30 @@ class QueryRuntimeIT extends AbstractLuaVirtualSchemaIT {
                 .row(scalingFactor, "type_000001") //
                 .row(scalingFactor, "type_000002") //
                 .matches(NO_JAVA_TYPE_CHECK);
-        final Duration sourceQueryDuration = assertTimedRlsQueryWithUser(sourceSql, sourceUser, expectedResult);
-        final Duration vsQueryDuration = assertTimedRlsQueryWithUser(vsSql, vsUser, expectedResult);
-        final Duration absoluteOverhead = vsQueryDuration.minus(sourceQueryDuration);
-        final long relativeOverheadPercent = absoluteOverhead.multipliedBy(100).dividedBy(sourceQueryDuration);
-        assertAll(
-                () -> assertThat("Absolute overhead must be less than 100ms", absoluteOverhead,
-                        lessThanOrEqualTo(Duration.ofMillis(500))),
-                () -> assertThat("Relative overhead must be less than 10%", relativeOverheadPercent,
-                        lessThanOrEqualTo(15l))
-        );
+        assertPushDown(vsSql, vsUser, equalTo("SELECT COUNT(*), \"TICKETS\".\"TYPE\" "
+                + "FROM \"PERFORMANCE_TEST_SCHEMA_SCALE" + scalingFactor + "\".\"TICKETS\" "
+                + "LEFT OUTER JOIN \"PERFORMANCE_TEST_SCHEMA_SCALE" + scalingFactor + "\".\"TICKET_TYPES\" "
+                + "ON (\"TICKETS\".\"TYPE\" = \"TICKET_TYPES\".\"TYPE\") "
+                + "GROUP BY \"TICKETS\".\"TYPE\" "
+                + "ORDER BY \"TICKETS\".\"TYPE\" ASC NULLS LAST LIMIT 2"));
+        warmUpQueryAndIndexes(sourceUser, sourceSql, expectedResult);
+        for(int run = 0; run < RUNS; ++run) {
+            sourceQueryMillis[run] = assertTimedVsQueryWithUser(sourceSql, sourceUser, expectedResult).toMillis();
+            vsQueryMillis[run] = assertTimedVsQueryWithUser(vsSql, vsUser, expectedResult).toMillis();
+        }
+        final long averageSourceQueryMillis = average(sourceQueryMillis);
+        final long averageVsQueryMillis = average(vsQueryMillis);
+        final long averageAbsoluteOverhead = averageVsQueryMillis - averageSourceQueryMillis;
+        final long relativeOverheadPercent = 100 * averageAbsoluteOverhead / averageSourceQueryMillis;
+        reportDurations(scalingFactor, averageSourceQueryMillis, averageVsQueryMillis, relativeOverheadPercent);
+        assertThat("Average absolute overhead must be less than " + MAX_ALLOWED_OVERHEAD_MILLIS +"ms",
+                averageAbsoluteOverhead, lessThanOrEqualTo(MAX_ALLOWED_OVERHEAD_MILLIS));
+    }
+
+    // Do a dry-run first and ignore the results to make sure that indices are committed before measuring.
+    private void warmUpQueryAndIndexes(final User sourceUser, final String sourceSql,
+                                       final Matcher<ResultSet> expectedResult) {
+        assertQueryWithUser(sourceSql, sourceUser, expectedResult);
     }
 
     private Schema createPerformanceTestSchema(final int scalingFactor) {
@@ -74,12 +92,28 @@ class QueryRuntimeIT extends AbstractLuaVirtualSchemaIT {
         tickets.bulkInsert(ticketRows);
     }
 
-
     private Stream<Integer> createIteratedStreamUpTo(final int max) {
         return Stream.iterate(1, (Integer i) -> i + 1).limit(max);
     }
 
     private String attachNumber(final String prefix, final int number) {
         return String.format("%s%06d", prefix, number);
+    }
+
+
+    private long average(final long[] values) {
+        long total = 0;
+        for(long value : values) {
+            total += value;
+        }
+        return total / values.length;
+    }
+
+    private static void reportDurations(final int scalingFactor, final long averageSourceMillis,
+                                        final long averageVsMillis, final long relativeOverheadPercent) {
+        LOGGER.info(() -> "Query runtime (scaling factor " + scalingFactor + "): "
+                + "average original " + averageSourceMillis + "ms, "
+                + "average via VS: " + averageVsMillis +"ms, "
+                + "overhead: " + relativeOverheadPercent + "%" );
     }
 }
