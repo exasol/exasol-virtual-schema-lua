@@ -114,13 +114,15 @@ abstract class AbstractLuaVirtualSchemaIT {
     }
 
     protected TimedResultSet executeTimedRlsQueryWithUser(final String query, final User user) throws SQLException {
-        final Connection uncachedConnection = EXASOL.createConnectionForUser(user.getName(), user.getPassword());
-        final Statement statement = uncachedConnection.createStatement();
-        statement.execute("ALTER SESSION SET QUERY_CACHE = 'OFF'");
-        final long before = System.nanoTime();
-        final ResultSet result = statement.executeQuery(query);
-        final long after = System.nanoTime();
-        return new TimedResultSet(result, Duration.ofNanos(after - before));
+        try(final Connection uncachedConnection = EXASOL.createConnectionForUser(user.getName(), user.getPassword());
+            final Statement statement = uncachedConnection.createStatement()
+        ) {
+            statement.execute("ALTER SESSION SET QUERY_CACHE = 'OFF'");
+            final long before = System.nanoTime();
+            final ResultSet result = statement.executeQuery(query);
+            final long after = System.nanoTime();
+            return new TimedResultSet(result, Duration.ofNanos(after - before));
+        }
     }
 
     protected User createUserWithVirtualSchemaAccess(final String name, final VirtualSchema virtualSchema) {

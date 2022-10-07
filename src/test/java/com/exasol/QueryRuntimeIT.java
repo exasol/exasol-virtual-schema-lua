@@ -66,7 +66,7 @@ class QueryRuntimeIT extends AbstractLuaVirtualSchemaIT {
                 averageAbsoluteOverhead, lessThanOrEqualTo(MAX_ALLOWED_OVERHEAD_MILLIS));
     }
 
-    // Do a dry-run first and ignore the results to make sure that indices are committed before measuring.
+    // Do a dry-run first to make sure that indices are committed before measuring.
     private void warmUpQueryAndIndexes(final User sourceUser, final String sourceSql,
                                        final Matcher<ResultSet> expectedResult) {
         assertQueryWithUser(sourceSql, sourceUser, expectedResult);

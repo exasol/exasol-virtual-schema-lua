@@ -1,4 +1,4 @@
-# Exasol Virtual Schema (Lua) 0.2.0, released 2022-09-29
+# Exasol Virtual Schema (Lua) 0.2.0, released 2022-10-06
 
 Code name: JSON predicate support
 
@@ -12,7 +12,8 @@ Additionally, we improved tests that ensure the package, module and rockspec all
 
 ## Bufixes
 
-* #8: Added missing test for Performance overhead
+* #8: Added missing test for performance overhead
+
 ## Dependency Updates
 
 ### Test Dependency Updates

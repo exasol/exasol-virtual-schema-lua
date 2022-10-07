@@ -24,8 +24,8 @@ function ProjectInspector:_init(path)
     local pom = assert(io.open(path, "r"), "Failed to open POM: " .. path)
     repeat
         local line = pom:read("*l")
-        self._artifact_version = string.match(line,"<version>%s*([0-9.]+)") or self._artifact_version
-        self._artifact_id = string.match(line,"<artifactId>%s*([-.%w]+)") or self._artifact_id
+        self._artifact_version = string.match(line, "<version>%s*([0-9.]+)") or self._artifact_version
+        self._artifact_id = string.match(line, "<artifactId>%s*([-.%w]+)") or self._artifact_id
     until (self._artifact_id and self._artifact_version) or (line == nil)
     pom:close()
     assert(self._artifact_id, "No artifact ID found in project's POM file")
@@ -35,7 +35,7 @@ end
 --- Get the base path of the project.
 -- @path base path of the project
 function ProjectInspector:get_project_base_path()
-    return debug.getinfo(1,"S").source:sub(2):gsub("[^/]*$", "") .. ".."
+    return debug.getinfo(1, "S").source:sub(2):gsub("[^/]*$", "") .. ".."
 end
 
 --- Get the default path to the POM file.
@@ -51,7 +51,7 @@ function ProjectInspector:get_artifact_version()
 end
 
 --- Get the artifact ID.
--- ID of the Maven artifact
+-- @return ID of the Maven artifact
 function ProjectInspector:get_artifact_id()
     return self._artifact_id
 end
@@ -59,7 +59,7 @@ end
 --- Check if a file exists in the given path relative to the project root
 -- @return `true` if the file exists
 function ProjectInspector:does_file_exist_in_path_relative_to_project_root(relative_path)
-    local file =io.open(self.get_project_base_path() .. "/" .. relative_path, "r")
+    local file = io.open(self.get_project_base_path() .. "/" .. relative_path, "r")
     if file == nil then
         return false
     else
