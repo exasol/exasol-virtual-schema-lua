@@ -76,7 +76,7 @@ Another important thing to do, you need to add the project's directories with lu
 We add two absolute paths, one to the `main` and another to the `test` folder: 
 
 ```bash
-export LUA_PATH='/home/<absolute>/<path>/row-level-security-lua/src/main/lua/?.lua;/home/<absolute>/<path>/row-level-security-lua/src/test/lua/?.lua;'"$LUA_PATH"
+export LUA_PATH='/home/<absolute>/<path>/exasol-virtual-schema-lua/src/main/lua/?.lua;/home/<absolute>/<path>/exasol-virtual-schema-security-lua/src/test/lua/?.lua;'"$LUA_PATH"
 ```
 
 After that you can try to run any test file:
@@ -103,7 +103,7 @@ You can use one of the default Lua interpreters suggested by Intellij or add you
 We recommend installing and using `lua5.1`.
 
 Now add the `LUA_PATH` environment variable here too. Go to `Run` &rarr; `Edit configurations` &rarr; `Templates` &rarr; `Lua Script`.
-We assume that you have already run the tests via a terminal and you added an environment variable there. Now check it via a terminal command:
+We assume that you have already run the tests via a terminal, and you added an environment variable there. Now check it via a terminal command:
 
 ```bash
 echo $LUA_PATH

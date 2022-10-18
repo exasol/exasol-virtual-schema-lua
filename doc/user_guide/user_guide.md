@@ -99,7 +99,7 @@ CREATE OR REPLACE LUA ADAPTER SCRIPT EVLS_SCHEMA.EVSL_ADAPTER AS
         end
     )
     
-    <copy the whole content of row-level-security-dist-<version>.lua here>
+    <copy the whole content of exasol-virtual-schema-dist-<version>.lua here>
 /
 ;
 ```

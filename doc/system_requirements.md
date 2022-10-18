@@ -220,19 +220,16 @@ Needs: dsn
 
 #### Performance
 
-##### Query Execution Time
-`qr~query-execution-time~2`
+##### Query Execution Time Local Connection
+`qr~query-execution-time-local-connection~2`
 
-The Performance degradation caused by an EVSL query compared to the same query without EVSL is below the greater of
+The Performance degradation caused by an EVSL query compared to the same query without EVSL
 
-* 100 ms
-* 10%
-
-on top of the original execution time.
-
-Comment:
-
-This is the complete runtime as the database client experiences it including the involved execution of the Lua code and ExaLoader work.
+* is below 50 ms
+* averaged over test 100 runs
+* without query cache
+* with indices ready
+* with a local connection (`SELECT` instead of `IMPORT`)
 
 Covers:
 

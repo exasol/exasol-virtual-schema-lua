@@ -5,7 +5,8 @@ local mockagne = require("mockagne")
 local adapter_capabilities = require("exasolvs.adapter_capabilities")
 local RlsAdapter = require("exasolvs.ExasolAdapter")
 require("exasolvs.ExasolAdapterProperties")
-local pom = require("spec.pom.reader")
+local PomReader = require("spec.PomReader")
+local pom = PomReader:new()
 
 describe("ExasolAdapter", function()
     local adapter
@@ -22,7 +23,7 @@ describe("ExasolAdapter", function()
     end)
 
     it("has the same version number as the project in the Maven POM file", function()
-        assert.are.equal(pom.get_version(), adapter:get_version())
+        assert.are.equal(pom:get_artifact_version(), adapter:get_version())
     end)
 
     it("reports the name of the adapter", function()

@@ -1,4 +1,4 @@
-' [qs -> qr~query-execution-time~2 >> itest]
+' [qs -> qr~query-execution-time-local-connection~2 >> itest]
 
 @startuml
 !include ../clean.skin
@@ -18,9 +18,7 @@ ref over entry: **[[seq_pushdown.png handle push-down request]]**
 
 note right
     **invariant:**
-    t<sub>1</sub> <= t<sub>0</sub> / 10
-    and
-    t<sub>1</sub> <= 100 ms
+    t<sub>1</sub> <= 50 ms
 end note 
 
 {end_adapter} entry -->> Engine : re-written query
