@@ -15,7 +15,10 @@ describe("ExasolAdapter", function()
 
     before_each(function()
         metadata_reader_mock = mockagne.getMock()
-        adapter = RlsAdapter:new(metadata_reader_mock)
+        local metadata_reader_factory_mock = {
+            create_local_reader = function() return metadata_reader_mock end
+        }
+        adapter = RlsAdapter:new(metadata_reader_factory_mock)
         properties_stub = {
             get_table_filter = function() return {} end,
             has_excluded_capabilities = function() return false end

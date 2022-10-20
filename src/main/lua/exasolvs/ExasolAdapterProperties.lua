@@ -30,19 +30,27 @@ end
 
 local SCHEMA_NAME_PROPERTY <const> = "SCHEMA_NAME"
 local TABLE_FILTER_PROPERTY <const> = "TABLE_FILTER"
+local CONNECTION_PROPERTY <const> = "CONNECTION"
+local EXA_CONNECTION_PROPERTY <const> = "EXA_CONNECTION"
 
 --- Validate the adapter properties.
 -- @raise validation error
 function ExasolAdapterProperties:validate()
     AdapterProperties.validate(self) -- super call
     if not self:has_value(SCHEMA_NAME_PROPERTY) then
-        ExaError:new("F-RLS-PROP-1", "Missing mandatory property '" .. SCHEMA_NAME_PROPERTY .. "' ")
+        ExaError:new("F-RLS-PROP-1", "Missing mandatory property '" .. SCHEMA_NAME_PROPERTY .. "'.")
                 :add_mitigations("Please define the name of the source schema."):raise(0)
     end
     if self:is_property_set(TABLE_FILTER_PROPERTY) and self:is_empty(TABLE_FILTER_PROPERTY) then
         ExaError:new("F-RLS-PROP-2", "Table filter property '" .. TABLE_FILTER_PROPERTY .. "' must not be empty.")
                 :add_mitigations("Please either remove the property or provide a comma separated list of tables"
                 .. " to be included in the Virtual Schema."):raise(0)
+    end
+    if self:has_value(CONNECTION_PROPERTY) and self:has_value(EXA_CONNECTION_PROPERTY) then
+        ExaError:new("F-RLS-PROP-3", "Properties '" .. CONNECTION_PROPERTY .. "' and '" .. EXA_CONNECTION_PROPERTY
+                .. "' cannot be used in combination.")
+                :add_mitigations("Use only the '" .. CONNECTION_PROPERTY .. ' property.')
+                :raise(0)
     end
 end
 
@@ -57,6 +65,17 @@ end
 function ExasolAdapterProperties:get_table_filter()
     local filtered_tables = self:get(TABLE_FILTER_PROPERTY)
     return text.split(filtered_tables)
+end
+
+-- The EXA_CONNECTION property is deprecated, but still supported for backward-compatibility
+function ExasolAdapterProperties:_get_exa_connection()
+    return self:get(EXA_CONNECTION_PROPERTY)
+end
+
+--- Get the name of the database object that defines the parameter of the connection to the remote data source.
+-- @return name of the connection object
+function ExasolAdapterProperties:get_connection()
+    return self:get(CONNECTION_PROPERTY) or self:_get_exa_connection()
 end
 
 function ExasolAdapterProperties:__tostring()

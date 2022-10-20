@@ -12,17 +12,17 @@ setmetatable(ExasolAdapter, {__index = AbstractVirtualSchemaAdapter})
 local VERSION <const> = "0.3.0"
 
 --- Create an `ExasolAdapter`.
--- @param metadata_reader metadata reader
+-- @param metadata_reader_factory factory for the metadata reader (e.g. local or remote)
 -- @return new instance
-function ExasolAdapter:new(metadata_reader)
+function ExasolAdapter:new(metadata_reader_factory)
     local instance = setmetatable({}, self)
-    instance:_init(metadata_reader)
+    instance:_init(metadata_reader_factory)
     return instance
 end
 
-function ExasolAdapter:_init(metadata_reader)
+function ExasolAdapter:_init(metadata_reader_factory)
     AbstractVirtualSchemaAdapter._init(self)
-    self._metadata_reader = metadata_reader
+    self._metadata_reader_factory = metadata_reader_factory
 end
 
 --- Get the version number of the Virtual Schema adapter.
@@ -51,7 +51,8 @@ end
 function ExasolAdapter:_handle_schema_scanning_request(_, properties)
     local schema_name = properties:get_schema_name()
     local table_filter = properties:get_table_filter()
-    return self._metadata_reader:read(schema_name, table_filter)
+    local metadata_reader = self._metadata_reader_factory:create_local_reader()
+    return metadata_reader:read(schema_name, table_filter)
 end
 
 --- Refresh the metadata of the Virtual Schema.

@@ -63,6 +63,17 @@ This feature mainly exists to be able to test the Exasol Virtual Schema engine i
 
 Needs: req
 
+### Remote Virtual Schema
+`feat~remote-virtual-schema~1`
+
+VS Owners can create a projection of a database schema from a remote Exasol database onto a Virtual Schema.
+
+Rationale:
+
+This is the actual Virtual Schema that makes remote Schemas available on the local Exasol database as if they were an integral part (albeit read-only).
+
+Needs: req
+
 ## Functional Requirements
 
 ### Creating a Local Virtual Schema
@@ -77,6 +88,34 @@ This allows testing the Virtual Schema engine without having to set up a remote 
 Covers:
 
 * [feat~local-virtual-schema~1](#local-virtual-schema)
+
+Needs: dsn
+
+### Creating a Remote Virtual Schema
+`req~createing-a-remote-virtual-schema~1`
+
+VS Owners can create a Virtual Schema that abstracts a database schema on a remote Exasol database.
+
+Rationale:
+
+This allows user on the local Exasol to read from a remote schema as if it were part of the local database.
+
+Covers:
+
+* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+
+### Defining the Remote Connection
+`req~defining-the-remote-connection~1`
+
+VS Owners can specify a [connection object](https://docs.exasol.com/db/latest/sql/create_connection.htm) in the Exasol database that defines the location of and credentials to the data source.  
+
+Rationale:
+
+Connections objects are a secure way to store confidential access credentials in Exasol. Unlike for example VS properties, the contents or those connection objects do not appear in any logs.
+
+Covers:
+
+* [feat~remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
@@ -96,6 +135,7 @@ It is obvious that the metadata needs to be read upon creation. This is necessar
 Covers:
 
 * [feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
@@ -107,6 +147,7 @@ VS Owners can drop a Virtual Schema.
 Covers:
 
 * [feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
@@ -122,6 +163,7 @@ This allows updating the structure of the underlying schema.
 Covers:
 
 * [feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
@@ -137,6 +179,7 @@ The Exasol database's query optimizer uses this information when deciding, which
 Covers:
 
 * [feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
@@ -153,7 +196,8 @@ VS Owners can do this in case the resulting query turns out to be more efficient
 
 Covers:
 
-[feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
@@ -168,7 +212,8 @@ This serves two purposes. It allows to reduce the number of tables scanned for m
 
 Covers:
 
-[feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
@@ -187,7 +232,8 @@ Note that the decision about what parts of the query are being pushed down to th
 
 Covers:
 
-[feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
@@ -202,7 +248,28 @@ This is useful if VS Owners want to change the underlying settings (e.g. the tab
 
 Covers:
 
-[feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+
+Needs: dsn
+
+### Backward-compatibility to the Java Variant
+`req~backward-compatibility-to-the-java-variant~1`
+
+The Lua-based Virtual Schema is backward-compatible to the Java variant.
+
+Comment:
+
+This mainly concerns the user interface, but also the feature set and behavior. Behavior will not be 100% identical, e.g. because the Lua variant is faster and because it does not use JDBC to connect to the remote Exasol database. But for the vast majority of all use cases users should not notice any functional differences.
+
+Rationale:
+
+We want users to switch to the Lua-variant, because it is faster and easier to install. The best way to foster this is to make the change as convenient as possible, so the Lua-Variant should serve as a drop-in-replacement.
+
+Covers:
+
+* [feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 

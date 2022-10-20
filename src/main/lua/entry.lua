@@ -4,7 +4,7 @@
 
 local ExasolAdapter = require("exasolvs.ExasolAdapter")
 local ExasolAdapterProperties = require("exasolvs.ExasolAdapterProperties")
-local MetadataReader = require("exasolvs.MetadataReader")
+local MetadataReaderFactory = require("exasolvs.MetadataReaderFactory")
 local RequestDispatcher = require("exasolvs.RequestDispatcher")
 
 --- Handle a Virtual Schema request.
@@ -12,8 +12,8 @@ local RequestDispatcher = require("exasolvs.RequestDispatcher")
 -- @return JSON-encoded adapter response
 function adapter_call(request_as_json)
     local exasol_context = _G.exa
-    local metadata_reader = MetadataReader:new(exasol_context)
-    local adapter = ExasolAdapter:new(metadata_reader)
+    local metadata_reader_factory = MetadataReaderFactory:new(exasol_context)
+    local adapter = ExasolAdapter:new(metadata_reader_factory)
     local dispatcher = RequestDispatcher:new(adapter, ExasolAdapterProperties)
     return dispatcher:adapter_call(request_as_json)
 end

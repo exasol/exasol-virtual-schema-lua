@@ -22,7 +22,7 @@ description = {
 }
 
 dependencies = {
-    "virtual-schema-common-lua = 2.3.0"
+    "virtual-schema-common-lua = 2.4.0"
 }
 
 build_dependencies = {
@@ -42,8 +42,8 @@ test = {
 
 local package_items = {
     "exasolvs.adapter_capabilities", "exasolvs.ExasolAdapterProperties", "exasolvs.ExasolAdapter",
-    "exasolvs.MetadataReader", "exasolvs.QueryRewriter", "remotelog", "ExaError",
-    "MessageExpander",
+    "exasolvs.MetadataReaderFactory", "exasolvs.AbstractMetadataReader", "exasolvs.LocalMetadataReader",
+    "exasolvs.QueryRewriter", "remotelog", "ExaError", "MessageExpander",
     -- from virtual-schema-common-lua"
     "exasolvs.AbstractVirtualSchemaAdapter", "exasolvs.AdapterProperties", "exasolvs.RequestDispatcher",
     "exasolvs.Query", "exasolvs.QueryRenderer",
