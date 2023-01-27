@@ -22,7 +22,8 @@ description = {
 }
 
 dependencies = {
-    "virtual-schema-common-lua = 2.4.0"
+    "virtual-schema-common-lua = 2.4.0",
+    "luasql-exasol = 0.2.0"
 }
 
 build_dependencies = {
@@ -43,6 +44,7 @@ test = {
 local package_items = {
     "exasolvs.adapter_capabilities", "exasolvs.ExasolAdapterProperties", "exasolvs.ExasolAdapter",
     "exasolvs.MetadataReaderFactory", "exasolvs.AbstractMetadataReader", "exasolvs.LocalMetadataReader",
+    "exasolvs.RemoteMetadataReader",
     "exasolvs.QueryRewriter", "remotelog", "ExaError", "MessageExpander",
     -- from virtual-schema-common-lua"
     "exasolvs.AbstractVirtualSchemaAdapter", "exasolvs.AdapterProperties", "exasolvs.RequestDispatcher",
@@ -50,7 +52,12 @@ local package_items = {
     "exasolvs.queryrenderer.AbstractQueryAppender", "exasolvs.queryrenderer.ExpressionAppender",
     "exasolvs.queryrenderer.ScalarFunctionAppender", "exasolvs.queryrenderer.AggregateFunctionAppender",
     "exasolvs.queryrenderer.SelectAppender",
-    "text"
+    "text",
+    -- driver dependencies
+    "luasql.exasol", "luasql.exasol.Connection", "luasql.exasol.ConnectionProperties", "luasql.exasol.Cursor",
+    "luasql.exasol.CursorData", "luasql.exasol.Environment", "luasql.exasol.ExasolWebsocket",
+    "luasql.exasol.WebsocketDatahandler", "luasql.exasol.base64", "luasql.exasol.constants", "luasql.exasol.luws",
+    "luasql.exasol.util"
 }
 
 local item_path_list = ""

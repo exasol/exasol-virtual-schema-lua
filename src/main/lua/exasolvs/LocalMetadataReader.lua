@@ -1,25 +1,22 @@
 local AbstractMetadataReader = require("exasolvs.AbstractMetadataReader")
 
---- This class reads schema, table and column metadata from the source.
+--- This class reads schema, table and column metadata from a schema in the local Exasol database.
 -- @classmod LocalMetadataReader
 local LocalMetadataReader = {}
 LocalMetadataReader.__index = LocalMetadataReader
 setmetatable(LocalMetadataReader, {__index = AbstractMetadataReader})
 
---- Create a new `MetadataReader`.
+--- Create a new `LocalMetadataReader`.
 -- @param exasol_context handle to local database functions and status
 -- @return metadata reader
 function LocalMetadataReader:new(exasol_context)
-    assert(exasol_context ~= nil,
-            "The metadata reader requires an Exasol context handle in order to read metadata from the database")
     local instance = setmetatable({}, self)
     instance:_init(exasol_context)
     return instance
 end
 
 function LocalMetadataReader:_init(exasol_context)
-    AbstractMetadataReader._init(self)
-    self._exasol_context = exasol_context
+    AbstractMetadataReader._init(self, exasol_context)
 end
 
 -- Override

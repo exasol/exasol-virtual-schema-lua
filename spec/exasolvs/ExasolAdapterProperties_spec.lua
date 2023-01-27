@@ -19,8 +19,8 @@ describe("adapter_properties", function()
                 },
                 {
                     properties = {SCHEMA_NAME = "THE_SCHEMA", EXA_CONNECTION = "THE_CONNECTION",
-                                  CONNECTION = "THE_CONNECTION"},
-                    expected = "Properties 'CONNECTION' and 'EXA_CONNECTION' cannot be used in combination."
+                                  CONNECTION_NAME = "THE_CONNECTION"},
+                    expected = "Properties 'CONNECTION_NAME' and 'EXA_CONNECTION' cannot be used in combination."
                 }
             }
             for _, test in ipairs(tests) do
@@ -68,14 +68,14 @@ describe("adapter_properties", function()
 
     it("gets the name of the connection object", function()
         assert.are.same("the_connection",
-                ExasolAdapterProperties:new({CONNECTION = "the_connection"}):get_connection())
+                ExasolAdapterProperties:new({CONNECTION_NAME = "the_connection"}):get_connection_name())
     end)
 
 
     it("alternatively gets the name of the connection object from the EXA_CONNECTION property (backward-compatibility)",
             function()
                 assert.are.same("the_exa_connection",
-                        ExasolAdapterProperties:new({EXA_CONNECTION = "the_exa_connection"}):get_connection())
+                        ExasolAdapterProperties:new({EXA_CONNECTION = "the_exa_connection"}):get_connection_name())
             end
     )
 

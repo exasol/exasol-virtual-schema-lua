@@ -1,5 +1,3 @@
-local LocalMetadataReader = require("exasolvs.LocalMetadataReader")
-
 --- This class implements a factory that constructs different metadata readers.
 -- @classmod MetadataReaderFactory
 local MetadataReaderFactory = {
@@ -27,7 +25,14 @@ end
 --- Create a metadata that reads the metadata from the local database.
 -- @return local metadata reader
 function MetadataReaderFactory:create_local_reader()
-    return LocalMetadataReader:new(self._exasol_context)
+    return require("exasolvs.LocalMetadataReader"):new(self._exasol_context)
+end
+
+--- Create a metadata that reads the metadata from the local database.
+-- @param connection_id name of the connection object that defines the connection to the remote data source
+-- @return local metadata reader
+function MetadataReaderFactory:create_remote_reader(connection_id)
+    return require("exasolvs.RemoteMetadataReader"):new(self._exasol_context, connection_id)
 end
 
 return MetadataReaderFactory

@@ -94,9 +94,26 @@ abstract class AbstractLuaVirtualSchemaIT {
         return createVirtualSchema(sourceSchema, Collections.emptyMap());
     }
 
+    protected VirtualSchema createRemoteVirtualSchema(final Schema sourceSchema, final String connectionName) {
+        return createVirtualSchema(sourceSchema, Map.of("CONNECTION_NAME", connectionName));
+    }
+
+
     protected AdapterScript createAdapterScript(final String prefix) throws IOException {
         final String content = EXASOL_LUA_MODULE_LOADER_WORKAROUND + Files.readString(VS_PACKAGE_PATH);
-        return scriptSchema.createAdapterScript(prefix + "_ADAPTER", AdapterScript.Language.LUA, content);
+        final AdapterScript adapterScript = scriptSchema.createAdapterScript(prefix + "_ADAPTER", AdapterScript.Language.LUA, content);
+        // FIXME: delete this block
+//        try {
+//            Statement statement = EXASOL.createConnection().createStatement();
+//            final ResultSet result = statement.executeQuery("SELECT SCRIPT_TEXT FROM EXA_ALL_SCRIPTS WHERE SCRIPT_NAME = " + adapterScript.getName());
+//            result.next();
+//            Files.writeString(Path.of("/tmp/script.txt"), result.getString(1));
+//        } catch (final Throwable e)
+//        {
+//            throw new RuntimeException(e);
+//        }
+        Files.writeString(Path.of("/tmp", adapterScript.getName() + ".lua"), adapterScript.getContent());
+        return adapterScript;
     }
 
     protected String getVirtualSchemaName(final String sourceSchemaName) {
@@ -114,8 +131,8 @@ abstract class AbstractLuaVirtualSchemaIT {
     }
 
     protected TimedResultSet executeTimedRlsQueryWithUser(final String query, final User user) throws SQLException {
-        try(final Connection uncachedConnection = EXASOL.createConnectionForUser(user.getName(), user.getPassword());
-            final Statement statement = uncachedConnection.createStatement()
+        try (final Connection uncachedConnection = EXASOL.createConnectionForUser(user.getName(), user.getPassword());
+             final Statement statement = uncachedConnection.createStatement()
         ) {
             statement.execute("ALTER SESSION SET QUERY_CACHE = 'OFF'");
             final long before = System.nanoTime();
@@ -155,8 +172,8 @@ abstract class AbstractLuaVirtualSchemaIT {
 
     protected void assertJoinQuery(final String sql, final User user,
                                    final ResultSetStructureMatcher.Builder resultMatcher, final String expectedPushDown) {
-        assertAll(()-> assertQueryWithUser(sql, user, resultMatcher.matches()),
-                ()->assertPushDownMatches(sql, user, expectedPushDown));
+        assertAll(() -> assertQueryWithUser(sql, user, resultMatcher.matches()),
+                () -> assertPushDownMatches(sql, user, expectedPushDown));
     }
 
     protected void assertPushDownMatches(final String sql, final User user, final String expectedPattern) {
@@ -164,7 +181,7 @@ abstract class AbstractLuaVirtualSchemaIT {
     }
 
     protected void assertPushDown(final String sql, final User user, final Matcher<String> matcher) {
-        try (final ResultSet result = executeQueryWithUser("EXPLAIN VIRTUAL " + sql, user)){
+        try (final ResultSet result = executeQueryWithUser("EXPLAIN VIRTUAL " + sql, user)) {
             result.next();
             final String pushDownSql = result.getString("PUSHDOWN_SQL");
             assertThat(pushDownSql, matcher);

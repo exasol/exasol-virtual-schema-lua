@@ -1,24 +1,31 @@
---- This class reads schema, table and column metadata from the source.
--- @classmod LocalMetadataReader
-
 local log = require("remotelog")
 local text = require("text")
 local ExaError = require("ExaError")
 
-local DEFAULT_SRID <const> = 0
-
+--- This class reads schema, table and column metadata from the source.
+-- @classmod LocalMetadataReader
 local AbstractMetadataReader = {}
 AbstractMetadataReader.__index = AbstractMetadataReader
 
---- Create a new `MetadataReader`.
+local DEFAULT_SRID <const> = 0
+
+--- Create a new `AbstractMetadataReader`.
+-- @param exasol_context handle to local database functions and status
 -- @return metadata reader
-function AbstractMetadataReader:new()
+function AbstractMetadataReader:new(exasol_context)
+    assert(exasol_context ~= nil,
+            "The metadata reader requires an Exasol context handle in order to read metadata from the database")
     local instance = setmetatable({}, self)
-    instance:_init()
+    instance:_init(exasol_context)
     return instance
 end
 
-function AbstractMetadataReader:_init()
+function AbstractMetadataReader:_init(exasol_context)
+    self._exasol_context = exasol_context
+end
+
+function AbstractMetadataReader:_get_exasol_context()
+    return self._exasol_context
 end
 
 --- Get the metadata reader type

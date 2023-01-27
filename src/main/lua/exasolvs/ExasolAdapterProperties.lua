@@ -30,7 +30,7 @@ end
 
 local SCHEMA_NAME_PROPERTY <const> = "SCHEMA_NAME"
 local TABLE_FILTER_PROPERTY <const> = "TABLE_FILTER"
-local CONNECTION_PROPERTY <const> = "CONNECTION"
+local CONNECTION_NAME_PROPERTY <const> = "CONNECTION_NAME"
 local EXA_CONNECTION_PROPERTY <const> = "EXA_CONNECTION"
 
 --- Validate the adapter properties.
@@ -46,10 +46,10 @@ function ExasolAdapterProperties:validate()
                 :add_mitigations("Please either remove the property or provide a comma separated list of tables"
                 .. " to be included in the Virtual Schema."):raise(0)
     end
-    if self:has_value(CONNECTION_PROPERTY) and self:has_value(EXA_CONNECTION_PROPERTY) then
-        ExaError:new("F-RLS-PROP-3", "Properties '" .. CONNECTION_PROPERTY .. "' and '" .. EXA_CONNECTION_PROPERTY
+    if self:has_value(CONNECTION_NAME_PROPERTY) and self:has_value(EXA_CONNECTION_PROPERTY) then
+        ExaError:new("F-RLS-PROP-3", "Properties '" .. CONNECTION_NAME_PROPERTY .. "' and '" .. EXA_CONNECTION_PROPERTY
                 .. "' cannot be used in combination.")
-                :add_mitigations("Use only the '" .. CONNECTION_PROPERTY .. ' property.')
+                :add_mitigations("Use only the '" .. CONNECTION_NAME_PROPERTY .. ' property.')
                 :raise(0)
     end
 end
@@ -74,8 +74,8 @@ end
 
 --- Get the name of the database object that defines the parameter of the connection to the remote data source.
 -- @return name of the connection object
-function ExasolAdapterProperties:get_connection()
-    return self:get(CONNECTION_PROPERTY) or self:_get_exa_connection()
+function ExasolAdapterProperties:get_connection_name()
+    return self:get(CONNECTION_NAME_PROPERTY) or self:_get_exa_connection()
 end
 
 function ExasolAdapterProperties:__tostring()

@@ -49,10 +49,18 @@ function ExasolAdapter:create_virtual_schema(request, properties)
 end
 
 function ExasolAdapter:_handle_schema_scanning_request(_, properties)
-    local schema_name = properties:get_schema_name()
+    local schema_id = properties:get_schema_name()
     local table_filter = properties:get_table_filter()
-    local metadata_reader = self._metadata_reader_factory:create_local_reader()
-    return metadata_reader:read(schema_name, table_filter)
+    local connection_id = properties:get_connection_name()
+    if connection_id == nil then
+        log.debug("Creating a metadata reader  that reads directly from the local database")
+        local metadata_reader = self._metadata_reader_factory:create_local_reader()
+        return metadata_reader:read(schema_id, table_filter)
+    else
+        log.debug("Creating a remote metadata reader for connection '%s'", connection_id)
+        local metadata_reader = self._metadata_reader_factory:create_remote_reader(connection_id)
+        return metadata_reader:read(schema_id, table_filter)
+    end
 end
 
 --- Refresh the metadata of the Virtual Schema.

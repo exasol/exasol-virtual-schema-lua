@@ -12,7 +12,13 @@ describe("MetadataReaderFactory", function()
         local exasol_context_mock = {}
         local factory = MetadataReaderFactory:new(exasol_context_mock)
         local reader = factory:create_local_reader()
-        assert.are.same(MetadataReaderFactory.LOCAL, reader.get_type())
+        assert.are_same(MetadataReaderFactory.LOCAL, reader.get_type())
     end)
 
+    it("creates a remote metadata reader", function()
+        local exasol_context_mock = {}
+        local factory = MetadataReaderFactory:new(exasol_context_mock)
+        local reader = factory:create_remote_reader("the_connection")
+        assert.are_same("the_connection", reader._connection_id)
+    end)
 end)
