@@ -1,10 +1,10 @@
-# Exasol Virtual Schema (Lua) 0.2.0, released 2022-10-06
+# Exasol Virtual Schema (Lua) 0.3.0, released 2023-02-??
 
-Code name: JSON predicate support
+Code name: `IS [NOT] JSON` predicate support
 
 ## Summary
 
-For the reviewer Next CR #18 Will solve IS [NOT] JSON. That is also why the code name and the version number were chosen this way.
+We added support for the `IS [NOT] JSON` predicate.
 
 We also added a test that evaluates the performance overhead of running queries directly against Exasol and via the Virtual Schema. 
 
@@ -13,6 +13,7 @@ Additionally, we improved tests that ensure the package, module and rockspec all
 ## Bufixes
 
 * #8: Added missing test for performance overhead
+* #18: Added `IS [NOT] JSON` predicate
 
 ## Dependency Updates
 

@@ -22,7 +22,7 @@ description = {
 }
 
 dependencies = {
-    "virtual-schema-common-lua = 2.3.0"
+    "virtual-schema-common-lua = 2.4.0"
 }
 
 build_dependencies = {

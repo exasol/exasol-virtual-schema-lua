@@ -1,6 +1,7 @@
 package com.exasol;
 
 import com.exasol.dbbuilder.dialects.Schema;
+import com.exasol.dbbuilder.dialects.Table;
 import com.exasol.dbbuilder.dialects.User;
 import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import static com.exasol.matcher.ResultSetStructureMatcher.table;
 import static com.exasol.matcher.TypeMatchMode.NO_JAVA_TYPE_CHECK;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.equalTo;
 
 @Testcontainers
 class PredicateIT extends  AbstractLuaVirtualSchemaIT {
@@ -144,5 +146,20 @@ class PredicateIT extends  AbstractLuaVirtualSchemaIT {
                 + ".T WHERE NOT C1 = 2 ";
         assertPushDown(sql, user, containsString("WHERE (NOT (\"T\".\"C1\" = 2))"));
         assertQueryWithUser(sql, user, table().row(1).row(3).matches(NO_JAVA_TYPE_CHECK));
+    }
+
+
+    @Test
+    void testIsJson() {
+        final Schema sourceSchema = createSchema("IS_JSON_SCHEMA");
+        final Table sourceTable = sourceSchema.createTable("T", "C1", "VARCHAR(40)") //
+                .insert("this is no JSON") //
+                .insert("{\"foo\" : \"bar\"}") ;
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("IS_JSON_USER", virtualSchema);
+        final String sql = "SELECT C1 IS JSON FROM " + getVirtualSchemaName(sourceSchema) + ".T";
+        assertPushDown(sql, user, equalTo("SELECT \"T\".\"C1\" IS JSON VALUE WITHOUT UNIQUE KEYS FROM "
+                + sourceTable.getFullyQualifiedName()));
+        assertQueryWithUser(sql, user, table().row(false).row(true).matches());
     }
 }
