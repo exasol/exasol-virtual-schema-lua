@@ -1,10 +1,10 @@
 # Exasol Virtual Schema (Lua) 0.3.0, released 2023-02-??
 
-Code name: `IS [NOT] JSON` predicate support
+Code name: `IS [NOT] JSON` and `LISTAGG` support
 
 ## Summary
 
-We added support for the `IS [NOT] JSON` predicate.
+We added support for the `IS [NOT] JSON` predicate and the `LISTAGG` aggregate function.
 
 We also added a test that evaluates the performance overhead of running queries directly against Exasol and via the Virtual Schema. 
 
@@ -14,6 +14,7 @@ Additionally, we improved tests that ensure the package, module and rockspec all
 
 * #8: Added missing test for performance overhead
 * #18: Added `IS [NOT] JSON` predicate
+* #24: Added `LISTAGG` aggregate function
 
 ## Dependency Updates
 

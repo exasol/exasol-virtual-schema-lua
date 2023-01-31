@@ -1,14 +1,20 @@
 package com.exasol;
 
 import com.exasol.dbbuilder.dialects.Schema;
+import com.exasol.dbbuilder.dialects.Table;
 import com.exasol.dbbuilder.dialects.User;
 import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
+import org.hamcrest.Matcher;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-import static org.hamcrest.Matchers.containsString;
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.exasol.matcher.ResultSetStructureMatcher.table;
+import static org.hamcrest.Matchers.*;
 
 // Note that the Exasol core only pushes a subset of all supported aggregate functions. The reason is that the query
 // graph is evaluated and broken down first. Only the necessary resulting queries are pushed.
@@ -84,5 +90,52 @@ class AggregateFunctionsIT extends AbstractLuaVirtualSchemaIT {
         final User user = createUserWithVirtualSchemaAccess("ST_UNION_USER", virtualSchema);
         assertPushDown("SELECT ST_UNION(C1) FROM " + getVirtualSchemaName(sourceSchema) + ".T", user,
                 containsString("ST_UNION(\"T\".\"C1\")"));
+    }
+
+    @Test
+    void testListagg() {
+        final Schema sourceSchema = createSchema("LISTAGG_SCHEMA");
+        final Table sourceTable = sourceSchema.createTable("PEOPLE", "FIRSTNAME", "VARCHAR(50)", "LASTNAME",
+                        "VARCHAR(50)") //
+                .insert("Trisha", "McMillan") //
+                .insert("Arthur", "Dent") //
+                .insert("Zaphod", "Beeblebrox");
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("LISTAGG_USER", virtualSchema);
+        final String sql = "SELECT LISTAGG(FIRSTNAME) FROM " + getVirtualSchemaName(sourceSchema) + ".PEOPLE";
+        assertPushDown(sql, user, equalTo("SELECT LISTAGG(\"PEOPLE\".\"FIRSTNAME\" ON OVERFLOW ERROR) FROM "
+                + sourceTable.getFullyQualifiedName()));
+        assertQueryWithUser(sql, user, table().row(matchesConcatenationInAnyOrder("Trisha", "Arthur", "Zaphod"))
+                .matches());
+    }
+
+    private static Matcher<? super String> matchesConcatenationInAnyOrder(final String ... elements) {
+        final List<Matcher<? super String>> subMatchers = new ArrayList<>(elements.length + 1);
+        int totalLength = 0;
+        for (final String element : elements) {
+            subMatchers.add(containsString(element));
+            totalLength += element.length();
+        }
+        subMatchers.add(hasLength(totalLength));
+        return allOf(subMatchers);
+    }
+
+
+    @Test
+    void testListaggWithOrder() {
+        final Schema sourceSchema = createSchema("LISTAGG_WITH_ORDER_SCHEMA");
+        final Table sourceTable = sourceSchema.createTable("PEOPLE", "FIRSTNAME", "VARCHAR(50)", "LASTNAME",
+                        "VARCHAR(50)") //
+                .insert("Trisha", "McMillan") //
+                .insert("Arthur", "Dent") //
+                .insert("Zaphod", "Beeblebrox");
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("LISTAGG_WITH_ORDER_USER", virtualSchema);
+        final String sql = "SELECT LISTAGG(FIRSTNAME, ', ' ON OVERFLOW TRUNCATE ', .etc' WITH COUNT) WITHIN GROUP"
+                + " (ORDER BY LASTNAME) FROM " + getVirtualSchemaName(sourceSchema) + ".PEOPLE";
+        assertPushDown(sql, user,equalTo("SELECT LISTAGG(\"PEOPLE\".\"FIRSTNAME\", ', ' ON OVERFLOW TRUNCATE ', .etc'"
+                + " WITH COUNT) WITHIN GROUP (ORDER BY \"PEOPLE\".\"LASTNAME\" ASC NULLS LAST) FROM "
+                + sourceTable.getFullyQualifiedName()));
+        assertQueryWithUser(sql, user, table().row("Zaphod, Arthur, Trisha").matches());
     }
 }
