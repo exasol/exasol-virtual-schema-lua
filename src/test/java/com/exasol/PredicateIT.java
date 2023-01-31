@@ -148,18 +148,35 @@ class PredicateIT extends  AbstractLuaVirtualSchemaIT {
         assertQueryWithUser(sql, user, table().row(1).row(3).matches(NO_JAVA_TYPE_CHECK));
     }
 
-
     @Test
     void testIsJson() {
         final Schema sourceSchema = createSchema("IS_JSON_SCHEMA");
         final Table sourceTable = sourceSchema.createTable("T", "C1", "VARCHAR(40)") //
                 .insert("this is no JSON") //
-                .insert("{\"foo\" : \"bar\"}") ;
+                .insert("{\"foo\" : \"bar\"}");
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess("IS_JSON_USER", virtualSchema);
         final String sql = "SELECT C1 IS JSON FROM " + getVirtualSchemaName(sourceSchema) + ".T";
         assertPushDown(sql, user, equalTo("SELECT \"T\".\"C1\" IS JSON VALUE WITHOUT UNIQUE KEYS FROM "
                 + sourceTable.getFullyQualifiedName()));
         assertQueryWithUser(sql, user, table().row(false).row(true).matches());
+    }
+
+    @Test
+    void testIsNotJson() {
+        final Schema sourceSchema = createSchema("IS_JSON_SCHEMA");
+        final Table sourceTable = sourceSchema.createTable("T", "C1", "VARCHAR(80)") //
+                .insert("this is no JSON") //
+                .insert("{\"scalar\" : \"no array\"}")
+                .insert("[\"Zaphod\", \"Trillian\", \"Arthur\"]")
+                .insert("[{\"non-unique\" : 1, \"non-unique\" : 2}]")
+                .insert("[{\"a\" : 1, \"b\" : 2}]");
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("IS_JSON_USER", virtualSchema);
+        final String sql = "SELECT C1 IS NOT JSON ARRAY WITH UNIQUE KEYS FROM "
+                + getVirtualSchemaName(sourceSchema) + ".T";
+        assertPushDown(sql, user, equalTo("SELECT \"T\".\"C1\" IS NOT JSON ARRAY WITH UNIQUE KEYS FROM "
+                + sourceTable.getFullyQualifiedName()));
+        assertQueryWithUser(sql, user, table().row(true).row(true).row(false).row(true).row(false).matches());
     }
 }
