@@ -71,7 +71,7 @@
 [24]: https://sonatype.github.io/ossindex-maven/maven-plugin/
 [25]: http://www.apache.org/licenses/LICENSE-2.0.txt
 [26]: https://maven.apache.org/surefire/maven-surefire-plugin/
-[27]: https://www.mojohaus.org/versions-maven-plugin/
+[27]: https://www.mojohaus.org/versions/versions-maven-plugin/
 [28]: https://maven.apache.org/surefire/maven-failsafe-plugin/
 [29]: https://www.jacoco.org/jacoco/trunk/doc/maven.html
 [30]: https://www.eclipse.org/legal/epl-2.0/

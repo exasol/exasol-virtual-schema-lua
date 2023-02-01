@@ -164,7 +164,7 @@ class PredicateIT extends  AbstractLuaVirtualSchemaIT {
 
     @Test
     void testIsNotJson() {
-        final Schema sourceSchema = createSchema("IS_JSON_SCHEMA");
+        final Schema sourceSchema = createSchema("IS_NOT_JSON_SCHEMA");
         final Table sourceTable = sourceSchema.createTable("T", "C1", "VARCHAR(80)") //
                 .insert("this is no JSON") //
                 .insert("{\"scalar\" : \"no array\"}")
@@ -172,7 +172,7 @@ class PredicateIT extends  AbstractLuaVirtualSchemaIT {
                 .insert("[{\"non-unique\" : 1, \"non-unique\" : 2}]")
                 .insert("[{\"a\" : 1, \"b\" : 2}]");
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
-        final User user = createUserWithVirtualSchemaAccess("IS_JSON_USER", virtualSchema);
+        final User user = createUserWithVirtualSchemaAccess("IS_NOT_JSON_USER", virtualSchema);
         final String sql = "SELECT C1 IS NOT JSON ARRAY WITH UNIQUE KEYS FROM "
                 + getVirtualSchemaName(sourceSchema) + ".T";
         assertPushDown(sql, user, equalTo("SELECT \"T\".\"C1\" IS NOT JSON ARRAY WITH UNIQUE KEYS FROM "
