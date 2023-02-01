@@ -1,4 +1,4 @@
-# Exasol Virtual Schema (Lua) 0.3.0, released 2023-02-??
+# Exasol Virtual Schema (Lua) 0.3.0, released 2023-02-01
 
 Code name: `IS [NOT] JSON` and `LISTAGG` support
 
