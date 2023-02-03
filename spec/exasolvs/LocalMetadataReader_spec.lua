@@ -7,6 +7,7 @@ local CATALOG_QUERY <const> = '/*snapshot execution*/ SELECT "TABLE_NAME" FROM "
         .. '"TABLE_SCHEMA" = :s'
 local DESCRIBE_TABLE_QUERY <const> = '/*snapshot execution*/ SELECT "COLUMN_NAME", "COLUMN_TYPE"'
         .. ' FROM "SYS"."EXA_ALL_COLUMNS" WHERE "COLUMN_SCHEMA" = :s AND "COLUMN_TABLE" = :t'
+        .. ' ORDER BY "COLUMN_ORDINAL_POSITION"'
 
 describe("Metadata reader", function()
     local exa_mock

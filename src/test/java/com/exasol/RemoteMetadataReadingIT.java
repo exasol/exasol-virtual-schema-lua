@@ -6,7 +6,6 @@ import com.exasol.dbbuilder.dialects.User;
 import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
 import com.exasol.matcher.ResultSetStructureMatcher.Builder;
 import org.hamcrest.Matcher;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -17,11 +16,11 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;
 
-@Ignore // Depends on openssl Lua library
 @Testcontainers
 class RemoteMetadataReadingIT extends AbstractLuaVirtualSchemaIT {
     public static final String BOOLEAN = "BOOLEAN";
     public static final String DOUBLE = "DOUBLE";
+    public static final String EXASOL8_TIMESTAMP = "TIMESTAMP(3)";
 
     @Test
     void testDetermineColumnTypes() {
@@ -65,8 +64,8 @@ class RemoteMetadataReadingIT extends AbstractLuaVirtualSchemaIT {
                 "I2", "INTERVAL YEAR(7) TO MONTH", //
                 "I3", "INTERVAL DAY(2) TO SECOND(3)", //
                 "I4", "INTERVAL DAY(4) TO SECOND(2)", //
-                "T1", "TIMESTAMP", //
-                "T2", "TIMESTAMP WITH LOCAL TIME ZONE", //
+                "T1", EXASOL8_TIMESTAMP, //
+                "T2", EXASOL8_TIMESTAMP + " WITH LOCAL TIME ZONE", //
                 "VA", "VARCHAR(123) ASCII", //
                 "VU", "VARCHAR(12) UTF8"));
     }

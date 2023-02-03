@@ -134,6 +134,7 @@ function AbstractMetadataReader:_translate_columns_metadata(schema_id, table_id)
         for i = 1, #result do
             local column = result[i]
             local column_id = column.COLUMN_NAME
+            log.debug("Mapping column: " .. column_id)
             if (column_id == "EXA_ROW_TENANT") then
                 tenant_protected = true
             elseif (column_id == "EXA_ROW_ROLES") then
@@ -155,7 +156,7 @@ end
 --- Execute a query that produces the column metadata of a table in a schema.
 -- @param _ schema name
 -- @param _ table name
--- @return result set consisting of columns with name an type
+-- @return result set consisting of columns with name and type
 function AbstractMetadataReader:_execute_column_metadata_query(_, _)
     error("Called abstract function '_execute_colum_metadata_query'.")
 end

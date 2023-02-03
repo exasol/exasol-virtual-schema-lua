@@ -1,6 +1,7 @@
 local AbstractMetadataReader = require("exasolvs.AbstractMetadataReader")
 local ExaError = require("ExaError")
 local driver = require("luasql.exasol")
+local log = require("remotelog")
 
 --- This class reads schema, table and column metadata from a schema on a remote Exasol database.
 -- @classmod RemoteMetadataReader
@@ -48,9 +49,10 @@ end
 
 local function fetch_all_rows(cursor)
     local rows = {}
-    local row = {}
-    while cursor:fetch(row, "a") do
+    local row = cursor:fetch({}, "a")
+    while row do
         table.insert(rows, row)
+        row = cursor:fetch({}, "a")
     end
     return rows
 end
@@ -59,7 +61,8 @@ end
 function RemoteMetadataReader:_execute_column_metadata_query(schema_id, table_id)
     -- TODO: assert schema and table only contain valid characters.
     local sql = [[/*snapshot execution*/ SELECT "COLUMN_NAME", "COLUMN_TYPE" FROM "SYS"."EXA_ALL_COLUMNS"]]
-            .. [[ WHERE "COLUMN_SCHEMA" = ']] .. schema_id .. [[' AND "COLUMN_TABLE" = ']] .. table_id .. [[']]
+            .. [[ WHERE "COLUMN_SCHEMA" = ']] .. schema_id .. [[' AND "COLUMN_TABLE" = ']] .. table_id
+            .. [[' ORDER BY "COLUMN_ORDINAL_POSITION"]]
     local cursor, err = self:_get_connection():execute(sql)
     if err then
         ExaError:new("E-EVSL-RMR-2", "Unable to read column metadata from the remote data source: '{{cause}}'",
@@ -68,7 +71,8 @@ function RemoteMetadataReader:_execute_column_metadata_query(schema_id, table_id
     else
         local rows = fetch_all_rows(cursor)
         cursor:close()
-        return rows
+        log.debug("Found " .. #rows .. " columns in table '" .. table_id .. "'")
+        return true, rows
     end
 end
 
@@ -82,7 +86,10 @@ function RemoteMetadataReader:_execute_table_metadata_query(schema_id)
                 {cause = {value = err, description = "The error that prevented reading the table metadata"}})
                 :raise(0)
     else
-        return fetch_all_rows(cursor)
+        local rows = fetch_all_rows(cursor)
+        cursor:close()
+        log.debug("Found " .. #rows .. " tables in schema '" .. schema_id .."'")
+        return true, rows
     end
 end
 

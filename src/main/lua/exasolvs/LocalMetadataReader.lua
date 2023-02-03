@@ -22,7 +22,7 @@ end
 -- Override
 function LocalMetadataReader:_execute_column_metadata_query(schema_id, table_id)
     local sql = '/*snapshot execution*/ SELECT "COLUMN_NAME", "COLUMN_TYPE" FROM "SYS"."EXA_ALL_COLUMNS"'
-            .. ' WHERE "COLUMN_SCHEMA" = :s AND "COLUMN_TABLE" = :t'
+            .. ' WHERE "COLUMN_SCHEMA" = :s AND "COLUMN_TABLE" = :t ORDER BY "COLUMN_ORDINAL_POSITION"'
     return self._exasol_context.pquery_no_preprocessing(sql, {s = schema_id, t = table_id})
 end
 
