@@ -46,8 +46,7 @@ class RemoteMetadataReadingIT extends AbstractLuaVirtualSchemaIT {
                 .column("VU", "VARCHAR(12) UTF8") //
                 .build();
         final String connectionName = "CONNECTION_TO_LOCALHOST";
-        factory.createConnectionDefinition(connectionName, "exa:localhost:" + EXASOL.getFirstMappedPort(), "sys",
-                "exasol");
+        factory.createConnectionDefinition(connectionName, "localhost", "sys", "exasol");
         final VirtualSchema virtualSchema = createRemoteVirtualSchema(sourceSchema, connectionName);
         final User user = createUserWithVirtualSchemaAccess("USER_REMOTE_COLUMN_TYPE", virtualSchema);
         assertVirtualTableStructure(table, user, expectRows("BO", BOOLEAN, //

@@ -1,5 +1,6 @@
 local AbstractMetadataReader = require("exasolvs.AbstractMetadataReader")
 local ExaError = require("ExaError")
+local ConnectionReader = require("exasolvs.ConnectionReader")
 local driver = require("luasql.exasol")
 local log = require("remotelog")
 
@@ -26,16 +27,17 @@ function RemoteMetadataReader:_init(exasol_context, connection_id)
     self._connection_id = connection_id
 end
 
-function RemoteMetadataReader:_read_connection_details_from_context()
-    -- TODO: implement connection reader
-    return "localhost", "8563", "sys", "exasol"
+function RemoteMetadataReader:_read_connection_definition_from_context()
+    local connection_reader = ConnectionReader:new(self._exasol_context)
+    return connection_reader:read(self._connection_id)
 end
 
 function RemoteMetadataReader:_get_connection()
     if not self._connection then
-        local host, port, username, password = self:_read_connection_details_from_context()
+        local connection_definition = self:_read_connection_definition_from_context()
         self._environment = driver.exasol()
-        local connection, err = self._environment:connect(host .. ":" .. port, username, password)
+        local connection, err = self._environment:connect(connection_definition.host .. ":"
+                .. connection_definition.port, connection_definition.user, connection_definition.password)
         if err then
             ExaError:new("E-EVSL-RMR-1", "Unable to connect to remote data source: '{{cause}}'",
                     {cause = {value = err, description = "The error that caused the connection issue"}})

@@ -134,7 +134,6 @@ function AbstractMetadataReader:_translate_columns_metadata(schema_id, table_id)
         for i = 1, #result do
             local column = result[i]
             local column_id = column.COLUMN_NAME
-            log.debug("Mapping column: " .. column_id)
             if (column_id == "EXA_ROW_TENANT") then
                 tenant_protected = true
             elseif (column_id == "EXA_ROW_ROLES") then
