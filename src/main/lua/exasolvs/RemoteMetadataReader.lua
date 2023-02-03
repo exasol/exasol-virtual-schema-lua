@@ -49,12 +49,8 @@ end
 local function fetch_all_rows(cursor)
     local rows = {}
     local row = {}
-    while true  do
-        if cursor.fetch(row, "a") then
-            table.insert(rows, row)
-        else
-            break
-        end
+    while cursor:fetch(row, "a") do
+        table.insert(rows, row)
     end
     return rows
 end
@@ -64,13 +60,15 @@ function RemoteMetadataReader:_execute_column_metadata_query(schema_id, table_id
     -- TODO: assert schema and table only contain valid characters.
     local sql = [[/*snapshot execution*/ SELECT "COLUMN_NAME", "COLUMN_TYPE" FROM "SYS"."EXA_ALL_COLUMNS"]]
             .. [[ WHERE "COLUMN_SCHEMA" = ']] .. schema_id .. [[' AND "COLUMN_TABLE" = ']] .. table_id .. [[']]
-    local cursor, err = self:_get_connection().execute(sql)
+    local cursor, err = self:_get_connection():execute(sql)
     if err then
         ExaError:new("E-EVSL-RMR-2", "Unable to read column metadata from the remote data source: '{{cause}}'",
                 {cause = {value = err, description = "The error that prevented reading the column metadata"}})
                 :raise(0)
     else
-        return fetch_all_rows(cursor)
+        local rows = fetch_all_rows(cursor)
+        cursor:close()
+        return rows
     end
 end
 
@@ -78,7 +76,7 @@ end
 function RemoteMetadataReader:_execute_table_metadata_query(schema_id)
     local sql = [[/*snapshot execution*/ SELECT "TABLE_NAME" FROM "SYS"."EXA_ALL_TABLES" WHERE "TABLE_SCHEMA" = ']]
             .. schema_id .. [[']]
-    local cursor, err = self:_get_connection().execute(sql)
+    local cursor, err = self:_get_connection():execute(sql)
     if err then
         ExaError:new("E-EVSL-RMR-3", "Unable to read table metadata from the remote data source: '{{cause}}'",
                 {cause = {value = err, description = "The error that prevented reading the table metadata"}})

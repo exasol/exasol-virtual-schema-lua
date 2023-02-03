@@ -9,11 +9,11 @@ local QueryRewriter = {}
 
 local function validate(query)
     if not query then
-        ExaError.error("E-RLSL-QRW-1", "Unable to rewrite query because it was <nil>.")
+        ExaError.error("E-EVSL-QRW-1", "Unable to rewrite query because it was <nil>.")
     end
     local push_down_type = query.type
     if(push_down_type ~= "select") then
-        ExaError.error("E-RLSL-QRW-2", "Unable to rewrite push-down query of type {{query_type}}"
+        ExaError.error("E-EVSL-QRW-2", "Unable to rewrite push-down query of type {{query_type}}"
             .. ". Only 'select' is supported.", {query_type =  push_down_type})
     end
 end

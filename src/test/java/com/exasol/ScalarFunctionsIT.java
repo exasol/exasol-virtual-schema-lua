@@ -50,4 +50,5 @@ class ScalarFunctionsIT extends AbstractLuaVirtualSchemaIT {
         assertQueryWithUser("SELECT -C1 FROM " + getVirtualSchemaName(sourceSchema) + ".T", user,
                 table().row(-16).matches(NO_JAVA_TYPE_CHECK));
     }
+
 }

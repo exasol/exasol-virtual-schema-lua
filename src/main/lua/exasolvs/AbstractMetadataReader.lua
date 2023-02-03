@@ -108,10 +108,10 @@ function AbstractMetadataReader:_translate_column_metadata(table_id, column)
         return self:_translate_char_type(column_id, column_type)
     elseif text.starts_with(column_type, "HASHTYPE") then
         return self:_translate_hash_type(column_id, column_type)
-    elseif column_type == "TIMESTAMP" then
-        return self:_translate_timestamp_type(column_id, false)
-    elseif column_type == "TIMESTAMP WITH LOCAL TIME ZONE" then
+    elseif string.find(column_type, "WITH LOCAL TIME ZONE", 1, true) then
         return self:_translate_timestamp_type(column_id, true)
+    elseif text.starts_with(column_type, "TIMESTAMP") then
+        return self:_translate_timestamp_type(column_id, false)
     elseif text.starts_with(column_type, "GEOMETRY") then
         return self:_translate_geometry_type(column_id, column_type)
     elseif text.starts_with(column_type, "INTERVAL YEAR") then
@@ -119,7 +119,7 @@ function AbstractMetadataReader:_translate_column_metadata(table_id, column)
     elseif text.starts_with(column_type, "INTERVAL DAY") then
         return self:_translate_interval_day_to_second(column_id, column_type)
     else
-        ExaError:new("E-RLSL-MDR-4", "Column {{table}}.{{column}} has unsupported type {{type}}.",
+        ExaError:new("E-EVSL-MDR-4", "Column {{table}}.{{column}} has unsupported type {{type}}.",
                 {table = table_id, column = column_id, type = column_type})
                 :add_ticket_mitigation()
                 :raise()
@@ -146,7 +146,7 @@ function AbstractMetadataReader:_translate_columns_metadata(schema_id, table_id)
         end
         return translated_columns, tenant_protected, role_protected, group_protected
     else
-        ExaError.error("E-RLSL-MDR-3",
+        ExaError.error("E-EVSL-MDR-3",
                 "Unable to read column metadata from source table {{schema}}.{{table}}. Caused by: {{cause}}",
                 {schema = schema_id, table = table_id, cause = result.error_message})
     end
@@ -205,7 +205,7 @@ function AbstractMetadataReader:_translate_table_metadata(schema_id, include_tab
     if ok then
         return self:_translate_table_scan_results(schema_id, result, include_tables)
     else
-        ExaError.error("E-RLSL-MDR-2",
+        ExaError.error("E-EVSL-MDR-2",
                 "Unable to read table metadata from source schema {{schema}}. Caused by: {{cause}}",
                 {schema = schema_id, cause = result.error_message})
     end

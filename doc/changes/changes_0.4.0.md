@@ -1,19 +1,14 @@
-# Exasol Virtual Schema (Lua) 0.3.0, released 2023-02-01
+# Exasol Virtual Schema (Lua) 0.4.0, released 2023-02-??
 
-Code name: `IS [NOT] JSON` and `LISTAGG` support
+Code name: Remote EVSL (without TLS)
 
 ## Summary
 
-We added support for the `IS [NOT] JSON` predicate and the `LISTAGG` aggregate function.
+In this release we added support for connecting to a remote Exasol database. Note that TLS is not yet supported, because at the time of this release the required Lua libraries were not yet available in production release of the Exasol database.
 
 ## Features
 
-* #18: Added `IS [NOT] JSON` predicate
-* #24: Added `LISTAGG` aggregate function
-
-## Bugfixes
-
-* #8: Added missing test for performance overhead
+* #20: Added remote metadata reading
 
 ## Dependency Updates
 
@@ -29,6 +24,7 @@ We added support for the `IS [NOT] JSON` predicate and the `LISTAGG` aggregate f
 
 ### Plugin Dependency Updates
 
+* Updated `com.exasol:error-code-crawler-maven-plugin:1.2.0` to `1.2.2`
 * Updated `com.exasol:project-keeper-maven-plugin:2.8.0` to `2.9.3`
 * Updated `io.github.zlika:reproducible-build-maven-plugin:0.15` to `0.16`
 * Updated `org.apache.maven.plugins:maven-failsafe-plugin:3.0.0-M5` to `3.0.0-M8`

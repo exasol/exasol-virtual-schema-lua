@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 
-local tag = "0.3.0"
+local tag = "0.4.0"
 local project = "exasol-virtual-schema-lua"
 local src = "src/main/lua"
 
@@ -55,7 +55,7 @@ local package_items = {
     "text",
     -- driver dependencies
     "luasql.exasol", "luasql.exasol.Connection", "luasql.exasol.ConnectionProperties", "luasql.exasol.Cursor",
-    "luasql.exasol.CursorData", "luasql.exasol.Environment", "luasql.exasol.ExasolWebsocket",
+    "luasql.exasol.CursorData", "luasql.exasol.Environment", "luasql.exasol.ExasolWebsocket", "luasql.exasol.Websocket",
     "luasql.exasol.WebsocketDatahandler", "luasql.exasol.base64", "luasql.exasol.constants", "luasql.exasol.luws",
     "luasql.exasol.util"
 }
