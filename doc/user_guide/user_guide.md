@@ -87,7 +87,7 @@ CREATE SCHEMA EVSL_SCHEMA;
 Now you need to install the adapter script (i.e. the plug-in that drives the Virtual Schema):
 
 ```sql
-CREATE OR REPLACE LUA ADAPTER SCRIPT EVLS_SCHEMA.EVSL_ADAPTER AS
+CREATE OR REPLACE LUA ADAPTER SCRIPT EVSL_SCHEMA.EVSL_ADAPTER AS
     table.insert(package.searchers,
         function (module_name)
             local loader = package.preload[module_name]
