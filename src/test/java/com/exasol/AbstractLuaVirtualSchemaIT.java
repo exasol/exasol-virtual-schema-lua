@@ -4,6 +4,7 @@ import static com.exasol.ExasolVirtualSchemaTestConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +13,7 @@ import java.sql.*;
 import java.time.Duration;
 import java.util.*;
 
+import com.exasol.containers.ExasolDockerImageReference;
 import com.exasol.matcher.ResultSetStructureMatcher;
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.BeforeAll;
@@ -189,4 +191,13 @@ abstract class AbstractLuaVirtualSchemaIT {
             throw new AssertionError("Unable to run push-down assertion query:" + exception.getMessage());
         }
     }
-}
+
+    protected void assumeExasol8OrHigher() {
+        final ExasolDockerImageReference imageReference = EXASOL.getDockerImageReference();
+        assumeTrue(imageReference.hasMajor() && (imageReference.getMajor() >= 8));
+    }
+
+    protected void assumeExasol7OrLower() {
+        final ExasolDockerImageReference imageReference = EXASOL.getDockerImageReference();
+        assumeTrue(imageReference.hasMajor() && (imageReference.getMajor() <=7));}
+    }

@@ -16,14 +16,15 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;
 
+// [[itest -> dsn~defining-the-remote-connection~0]]
 @Testcontainers
 class RemoteMetadataReadingIT extends AbstractLuaVirtualSchemaIT {
     public static final String BOOLEAN = "BOOLEAN";
     public static final String DOUBLE = "DOUBLE";
-    public static final String EXASOL8_TIMESTAMP = "TIMESTAMP(3)";
 
     @Test
     void testDetermineColumnTypes() {
+        assumeExasol8OrHigher();
         final Schema sourceSchema = createSchema("SCHEMA_REMOTE_COLUMN_TYPES");
         final Table table = sourceSchema.createTableBuilder("T") //
                 .column("BO", BOOLEAN) //
@@ -49,7 +50,8 @@ class RemoteMetadataReadingIT extends AbstractLuaVirtualSchemaIT {
         factory.createConnectionDefinition(connectionName, "localhost", "sys", "exasol");
         final VirtualSchema virtualSchema = createRemoteVirtualSchema(sourceSchema, connectionName);
         final User user = createUserWithVirtualSchemaAccess("USER_REMOTE_COLUMN_TYPE", virtualSchema);
-        assertVirtualTableStructure(table, user, expectRows("BO", BOOLEAN, //
+        assertVirtualTableStructure(table, user, expectRows( //
+                "BO", BOOLEAN, //
                 "CA", "CHAR(34) ASCII", //
                 "CU", "CHAR(345) UTF8", //
                 "DA", "DATE", //
@@ -63,8 +65,8 @@ class RemoteMetadataReadingIT extends AbstractLuaVirtualSchemaIT {
                 "I2", "INTERVAL YEAR(7) TO MONTH", //
                 "I3", "INTERVAL DAY(2) TO SECOND(3)", //
                 "I4", "INTERVAL DAY(4) TO SECOND(2)", //
-                "T1", EXASOL8_TIMESTAMP, //
-                "T2", EXASOL8_TIMESTAMP + " WITH LOCAL TIME ZONE", //
+                "T1", "TIMESTAMP(3)", //
+                "T2", "TIMESTAMP(3) WITH LOCAL TIME ZONE", //
                 "VA", "VARCHAR(123) ASCII", //
                 "VU", "VARCHAR(12) UTF8"));
     }

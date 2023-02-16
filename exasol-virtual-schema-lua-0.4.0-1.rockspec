@@ -42,6 +42,7 @@ test = {
 }
 
 local package_items = {
+    "exasol.validator",
     "exasolvs.adapter_capabilities", "exasolvs.ExasolAdapterProperties", "exasolvs.ExasolAdapter",
     "exasolvs.MetadataReaderFactory", "exasolvs.AbstractMetadataReader", "exasolvs.LocalMetadataReader",
     "exasolvs.RemoteMetadataReader", "exasolvs.ConnectionReader",
