@@ -14,7 +14,7 @@ participant ExasolDriverLua
 
 activate RemotedMetadataReader
 
-RemotedMetadataReader -> RemotedMetadataReader : create lookup for wanted tables (include list for tables)
+RemotedMetadataReader -> RemotedMetadataReader : create lookup for wanted tables\n(include list for tables)
 activate RemotedMetadataReader
 deactivate RemotedMetadataReader
 

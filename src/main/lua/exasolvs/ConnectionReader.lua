@@ -2,13 +2,13 @@ local validator = require("exasol.validator")
 local log = require("remotelog")
 
 --- This class reads details of a named connection database object from Exasol's Lua script context.
--- @classmod ConnectionDefinitionReader
+-- @classmod ConnectionReader
 local ConnectionReader = {};
 ConnectionReader.__index = ConnectionReader;
 
 local EXASOL_DEFAULT_PORT <const> = 8563
 
---- Create a new `ConnectionDefinitionReader`.
+--- Create a new `ConnectionReader`.
 -- @param exasol_context handle to local database functions and status
 -- @return connection definition reader
 function ConnectionReader:new(exasol_context)

@@ -53,7 +53,7 @@ function ExasolAdapter:_handle_schema_scanning_request(_, properties)
     local table_filter = properties:get_table_filter()
     local connection_id = properties:get_connection_name()
     if connection_id == nil then
-        log.debug("Creating a metadata reader  that reads directly from the local database")
+        log.debug("Creating a metadata reader that reads directly from the local database")
         local metadata_reader = self._metadata_reader_factory:create_local_reader()
         return metadata_reader:read(schema_id, table_filter)
     else

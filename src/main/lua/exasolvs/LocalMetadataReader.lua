@@ -19,6 +19,12 @@ function LocalMetadataReader:_init(exasol_context)
     AbstractMetadataReader._init(self, exasol_context)
 end
 
+--- Get the metadata reader type
+-- @return always 'LOCAL'
+function AbstractMetadataReader:_get_type()
+    return "LOCAL"
+end
+
 -- Override
 function LocalMetadataReader:_execute_column_metadata_query(schema_id, table_id)
     local sql = '/*snapshot execution*/ SELECT "COLUMN_NAME", "COLUMN_TYPE" FROM "SYS"."EXA_ALL_COLUMNS"'

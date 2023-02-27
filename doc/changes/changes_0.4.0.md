@@ -4,7 +4,7 @@ Code name: Remote EVSL (without TLS)
 
 ## Summary
 
-In this release we added support for connecting to a remote Exasol database. Note that TLS is not yet supported, because at the time of this release the required Lua libraries were not yet available in production release of the Exasol database.
+In this release we added support for connecting to a remote Exasol database. Note that you cannot use remote Exasol VS yet, since the libraries required are not yet available in production release of the Exasol database. That means while the feature is generally available, it only works with very recent development builds of Exasol. We will update the EVSL release once an Exasol version with the required libraries becomes available.
 
 ## Features
 

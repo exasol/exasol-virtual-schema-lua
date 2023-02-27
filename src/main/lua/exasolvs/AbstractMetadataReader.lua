@@ -29,9 +29,10 @@ function AbstractMetadataReader:_get_exasol_context()
 end
 
 --- Get the metadata reader type
+-- Override this function in the derived class.
 -- @return always 'LOCAL'
-function AbstractMetadataReader:get_type()
-    return "LOCAL"
+function AbstractMetadataReader:_get_type()
+    error("Called abstract function '_get_type'.")
 end
 
 function AbstractMetadataReader:_translate_parameterless_type(column_id, column_type)

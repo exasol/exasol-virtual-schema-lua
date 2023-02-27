@@ -27,6 +27,13 @@ describe("ConnectionReader", function()
                 connection_definition)
     end)
 
+    it("reads a connection definition with IP address, port, user and password", function()
+        mock_get_connection("the_connection", "192.168.7.1:1234", "joe", "test_password")
+        local connection_definition = reader:read("the_connection")
+        assert.are_same({host = "192.168.7.1", port = 1234, user = "joe", password = "test_password"},
+                connection_definition)
+    end)
+
     it("reads a connection definition with missing port (falls back to default port)", function()
         mock_get_connection("the_connection", "example.org", "joe", "test_password")
         local connection_definition = reader:read("the_connection")
@@ -35,7 +42,7 @@ describe("ConnectionReader", function()
     end)
 
     it("raises an error if the port is not numeric", function()
-        mock_get_connection("non_numeric_port_connection", "example.org:non-numeric", nil)
+        mock_get_connection("non_numeric_port_connection", "example.org:non-numeric", nil, nil)
         assert.error_matches(function() reader:read("non_numeric_port_connection") end,
                 ".*Illegal source database port %(no a number%): 'non%-numeric'.*")
     end)

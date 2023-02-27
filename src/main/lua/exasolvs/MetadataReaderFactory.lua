@@ -22,13 +22,13 @@ function MetadataReaderFactory:_init(exasol_context)
     self._exasol_context = exasol_context
 end
 
---- Create a metadata that reads the metadata from the local database.
+--- Create a metadata reader that reads the metadata from the local database.
 -- @return local metadata reader
 function MetadataReaderFactory:create_local_reader()
     return require("exasolvs.LocalMetadataReader"):new(self._exasol_context)
 end
 
---- Create a metadata that reads the metadata from the local database.
+--- Create a metadata reader that reads the metadata from a remote database.
 -- @param connection_id name of the connection object that defines the connection to the remote data source
 -- @return local metadata reader
 function MetadataReaderFactory:create_remote_reader(connection_id)

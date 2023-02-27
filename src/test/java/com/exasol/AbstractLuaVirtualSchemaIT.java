@@ -103,19 +103,7 @@ abstract class AbstractLuaVirtualSchemaIT {
 
     protected AdapterScript createAdapterScript(final String prefix) throws IOException {
         final String content = EXASOL_LUA_MODULE_LOADER_WORKAROUND + Files.readString(VS_PACKAGE_PATH);
-        final AdapterScript adapterScript = scriptSchema.createAdapterScript(prefix + "_ADAPTER", AdapterScript.Language.LUA, content);
-        // FIXME: delete this block
-//        try {
-//            Statement statement = EXASOL.createConnection().createStatement();
-//            final ResultSet result = statement.executeQuery("SELECT SCRIPT_TEXT FROM EXA_ALL_SCRIPTS WHERE SCRIPT_NAME = " + adapterScript.getName());
-//            result.next();
-//            Files.writeString(Path.of("/tmp/script.txt"), result.getString(1));
-//        } catch (final Throwable e)
-//        {
-//            throw new RuntimeException(e);
-//        }
-        Files.writeString(Path.of("/tmp", adapterScript.getName() + ".lua"), adapterScript.getContent());
-        return adapterScript;
+        return scriptSchema.createAdapterScript(prefix + "_ADAPTER", AdapterScript.Language.LUA, content);
     }
 
     protected String getVirtualSchemaName(final String sourceSchemaName) {

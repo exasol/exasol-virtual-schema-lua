@@ -27,22 +27,22 @@ local function validate_identifier_length(id, id_type)
     end
 end
 
--- Currently we only support the characters up to 0x7F (ASCII) in all classes.
+-- Currently we only support the characters between 0x41 (= A) up to 0x5A (= Z) (ASCII) in all classes.
 local function is_unicode_uppercase_letter(char)
     return char >= 0x41 and char <= 0x5A;
 end
 
--- Currently we only support the characters up to 0x7F (ASCII) in all classes.
+-- Currently we only support the characters between 0x61 (= a) up to 0x7A (= z) (ASCII) in all classes.
 local function is_unicode_lowercase_letter(char)
     return char >= 0x61 and char <= 0x7A
 end
 
--- Currently we only support the characters up to 0x7F (ASCII) in all classes.
+-- Currently we only support the digits between 0x30 (= 0) up to 0x39 (= 9) (ASCII) in all classes.
 local function is_unicode_decimal_number(char)
     return char >= 0x30 and char <= 0x39
 end
 
--- Currently we only support the characters up to 0x7F (ASCII) in all classes.
+-- Currently we only support the punctuation character 0x5f (= _) (ASCII) in all classes.
 local function is_unicode_connector_punctuation(char)
     return char == 0x5f -- underscore
 end
@@ -88,7 +88,7 @@ local function validate_identifier_characters(id, id_type)
             ExaError:new("E-EVSL-VAL-3", "Invalid character in {{id_type|u}} name at position {{position}}: {{id}}",
                     {
                         id_type = {value = id_type, description = "type of database object which should be identified"},
-                        position = {value = position, description = "first illegal character in identifier"},
+                        position = {value = position, description = "position of the first illegal character in identifier"},
                         id = {value = id, description = "value of the object identifier"}
                     })
                     :add_mitigations("Please note that " .. id_type .." names are SQL identifiers. Refer to "

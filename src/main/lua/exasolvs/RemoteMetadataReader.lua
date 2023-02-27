@@ -27,6 +27,12 @@ function RemoteMetadataReader:_init(exasol_context, connection_id)
     self._connection_id = connection_id
 end
 
+--- Get the metadata reader type
+-- @return always 'REMOTE'
+function AbstractMetadataReader:_get_type()
+    return "REMOTE"
+end
+
 function RemoteMetadataReader:_read_connection_definition_from_context()
     local connection_reader = ConnectionReader:new(self._exasol_context)
     return connection_reader:read(self._connection_id)
@@ -67,9 +73,9 @@ function RemoteMetadataReader:_execute_column_metadata_query(schema_id, table_id
             .. [[' ORDER BY "COLUMN_ORDINAL_POSITION"]]
     local cursor, err = self:_get_connection():execute(sql)
     if err then
-        ExaError:new("E-EVSL-RMR-2", "Unable to read column metadata from the remote data source: '{{cause}}'",
-                {cause = {value = err, description = "The error that prevented reading the column metadata"}})
-                :raise(0)
+        return false, tostring(ExaError
+                :new("E-EVSL-RMR-2", "Unable to read column metadata from the remote data source: '{{cause}}'",
+                        {cause = {value = err, description = "The error that prevented reading the column metadata"}}))
     else
         local rows = fetch_all_rows(cursor)
         cursor:close()
@@ -84,9 +90,9 @@ function RemoteMetadataReader:_execute_table_metadata_query(schema_id)
             .. schema_id .. [[']]
     local cursor, err = self:_get_connection():execute(sql)
     if err then
-        ExaError:new("E-EVSL-RMR-3", "Unable to read table metadata from the remote data source: '{{cause}}'",
-                {cause = {value = err, description = "The error that prevented reading the table metadata"}})
-                :raise(0)
+        return false, tostring(ExaError
+                :new("E-EVSL-RMR-3", "Unable to read table metadata from the remote data source: '{{cause}}'",
+                    {cause = {value = err, description = "The error that prevented reading the table metadata"}}))
     else
         local rows = fetch_all_rows(cursor)
         cursor:close()

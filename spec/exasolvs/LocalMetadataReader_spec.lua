@@ -54,7 +54,7 @@ describe("Metadata reader", function()
     end
 
     it("reports its own type as 'LOCAL'", function()
-        assert.are.same("LOCAL", reader:get_type())
+        assert.are.same("LOCAL", reader:_get_type())
     end)
 
     it("hides control columns", function()
