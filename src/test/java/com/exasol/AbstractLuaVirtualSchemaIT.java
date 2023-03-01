@@ -4,6 +4,7 @@ import static com.exasol.ExasolVirtualSchemaTestConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assumptions.assumeTrue;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -12,6 +13,7 @@ import java.sql.*;
 import java.time.Duration;
 import java.util.*;
 
+import com.exasol.containers.ExasolDockerImageReference;
 import com.exasol.matcher.ResultSetStructureMatcher;
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.BeforeAll;
@@ -94,6 +96,11 @@ abstract class AbstractLuaVirtualSchemaIT {
         return createVirtualSchema(sourceSchema, Collections.emptyMap());
     }
 
+    protected VirtualSchema createRemoteVirtualSchema(final Schema sourceSchema, final String connectionName) {
+        return createVirtualSchema(sourceSchema, Map.of("CONNECTION_NAME", connectionName));
+    }
+
+
     protected AdapterScript createAdapterScript(final String prefix) throws IOException {
         final String content = EXASOL_LUA_MODULE_LOADER_WORKAROUND + Files.readString(VS_PACKAGE_PATH);
         return scriptSchema.createAdapterScript(prefix + "_ADAPTER", AdapterScript.Language.LUA, content);
@@ -114,8 +121,8 @@ abstract class AbstractLuaVirtualSchemaIT {
     }
 
     protected TimedResultSet executeTimedRlsQueryWithUser(final String query, final User user) throws SQLException {
-        try(final Connection uncachedConnection = EXASOL.createConnectionForUser(user.getName(), user.getPassword());
-            final Statement statement = uncachedConnection.createStatement()
+        try (final Connection uncachedConnection = EXASOL.createConnectionForUser(user.getName(), user.getPassword());
+             final Statement statement = uncachedConnection.createStatement()
         ) {
             statement.execute("ALTER SESSION SET QUERY_CACHE = 'OFF'");
             final long before = System.nanoTime();
@@ -155,8 +162,8 @@ abstract class AbstractLuaVirtualSchemaIT {
 
     protected void assertJoinQuery(final String sql, final User user,
                                    final ResultSetStructureMatcher.Builder resultMatcher, final String expectedPushDown) {
-        assertAll(()-> assertQueryWithUser(sql, user, resultMatcher.matches()),
-                ()->assertPushDownMatches(sql, user, expectedPushDown));
+        assertAll(() -> assertQueryWithUser(sql, user, resultMatcher.matches()),
+                () -> assertPushDownMatches(sql, user, expectedPushDown));
     }
 
     protected void assertPushDownMatches(final String sql, final User user, final String expectedPattern) {
@@ -164,7 +171,7 @@ abstract class AbstractLuaVirtualSchemaIT {
     }
 
     protected void assertPushDown(final String sql, final User user, final Matcher<String> matcher) {
-        try (final ResultSet result = executeQueryWithUser("EXPLAIN VIRTUAL " + sql, user)){
+        try (final ResultSet result = executeQueryWithUser("EXPLAIN VIRTUAL " + sql, user)) {
             result.next();
             final String pushDownSql = result.getString("PUSHDOWN_SQL");
             assertThat(pushDownSql, matcher);
@@ -172,4 +179,13 @@ abstract class AbstractLuaVirtualSchemaIT {
             throw new AssertionError("Unable to run push-down assertion query:" + exception.getMessage());
         }
     }
-}
+
+    protected void assumeExasol8OrHigher() {
+        final ExasolDockerImageReference imageReference = EXASOL.getDockerImageReference();
+        assumeTrue(imageReference.hasMajor() && (imageReference.getMajor() >= 8));
+    }
+
+    protected void assumeExasol7OrLower() {
+        final ExasolDockerImageReference imageReference = EXASOL.getDockerImageReference();
+        assumeTrue(imageReference.hasMajor() && (imageReference.getMajor() <=7));}
+    }

@@ -1,0 +1,37 @@
+@startuml
+!include ../clean.skin
+
+' [dsn -> req~backward-compatibility-to-the-java-variant~1]
+
+title "Exasol Virtual Schema User Interface"
+
+interface VirtualSchemaProperties <<interface>> {
+    + name : String
+    + value : String
+}
+
+note bottom of VirtualSchemaProperties
+    Supporter Properties:
+    * CONNECTION (remote VS only)
+    * IMPORT_FROM_EXA (remote VS only)
+    * SCHEMA_NAME
+    * TABLE_FILTER
+end note
+
+interface VirtualSchemaAdapter <<interface>> {
+    + createVirtualSchema (request: JsonString) : JsonString
+    + dropVirtualSchema (request: JsonString) : JsonString
+    + refresh (request: JsonString) : JsonString
+    + getCapabilities (request: JsonString) : JsonString
+    + setProperties (request: JsonString) : JsonString
+    + pushdown (request: JsonString) : JsonString
+}
+
+note bottom of VirtualSchemaProperties
+    Compatibility with Exasol JavaVS must
+    be ensured by porting the integration tests
+    to this project.
+    [[https://github.com/exasol/exasol-virtual-schema-lua/issues/29 exasol-virtual-schema-lua #29]]
+end note
+
+@enduml

@@ -1,0 +1,56 @@
+' [dsn -> req~reading-source-metadata~1] forwarding already done in local metadata reading UML
+' [dsn -> req~filtering-tables~1] forwarding already done in local metadata reading UML
+' [dsn -> req~defining-the-remote-connection~1 >> impl, utest, itest]
+
+@startuml
+!include ../clean.skin
+
+title: Read Remote Schema Metadata
+
+participant RemotedMetadataReader
+participant ConnectionReader
+participant LuaScriptingApi
+participant ExasolDriverLua
+
+activate RemotedMetadataReader
+
+RemotedMetadataReader -> RemotedMetadataReader : create lookup for wanted tables\n(include list for tables)
+activate RemotedMetadataReader
+deactivate RemotedMetadataReader
+
+RemotedMetadataReader -> ConnectionReader : read connection details (connection name)
+activate ConnectionReader
+ConnectionReader -> LuaScriptingApi : get connection object (connection name)
+activate LuaScriptingApi
+LuaScriptingApi -->> ConnectionReader : source database address, user, password
+deactivate LuaScriptingApi
+ConnectionReader -> ConnectionReader : decode and validate connection details
+activate ConnectionReader
+deactivate ConnectionReader
+ConnectionReader -->> RemotedMetadataReader : host, port, user, password
+deactivate ConnectionReader
+
+
+RemotedMetadataReader -> ExasolDriverLua : read schema details (schema)
+activate ExasolDriverLua
+ExasolDriverLua -->> RemotedMetadataReader : list of tables
+deactivate ExasolDriverLua
+
+loop for each table
+    alt table wanted
+        RemotedMetadataReader -> RemotedMetadataReader : translate table metadata (table)
+        activate RemotedMetadataReader
+        deactivate RemotedMetadataReader
+        RemotedMetadataReader -> ExasolDriverLua : read table details (schema, table)
+        activate ExasolDriverLua
+        ExasolDriverLua -->> RemotedMetadataReader : list of columns
+        deactivate ExasolDriverLua
+        loop for each column in table
+            RemotedMetadataReader -> RemotedMetadataReader : translate column metadata (column)
+            activate RemotedMetadataReader
+            deactivate RemotedMetadataReader
+        end
+    end
+end
+deactivate RemotedMetadataReader
+@enduml

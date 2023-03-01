@@ -14,7 +14,11 @@ RequestDispatcher -> ExasolAdapter : create virtual schema (request)
 activate ExasolAdapter
 ExasolAdapter -> MetadataReader : read (schema, table[])
 activate MetadataReader
-ref over MetadataReader : **[[seq_read_table_metadata.svg read table metadata]]**
+ref over MetadataReader
+    [[seq_read_local_schema_metadata.svg read local schema metadata]]
+    or
+    [[seq_read_remote_schema_metadata.svg read remote schema metadata]]
+end
 MetadataReader -->> ExasolAdapter : schema metadata
 deactivate MetadataReader
 ExasolAdapter -->> RequestDispatcher : schema metadata, adapter notes

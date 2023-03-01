@@ -6,15 +6,14 @@ Code name: `IS [NOT] JSON` and `LISTAGG` support
 
 We added support for the `IS [NOT] JSON` predicate and the `LISTAGG` aggregate function.
 
-We also added a test that evaluates the performance overhead of running queries directly against Exasol and via the Virtual Schema. 
+## Features
 
-Additionally, we improved tests that ensure the package, module and rockspec all have the correct version numbers.
-
-## Bufixes
-
-* #8: Added missing test for performance overhead
 * #18: Added `IS [NOT] JSON` predicate
 * #24: Added `LISTAGG` aggregate function
+
+## Bugfixes
+
+* #8: Added missing test for performance overhead
 
 ## Dependency Updates
 

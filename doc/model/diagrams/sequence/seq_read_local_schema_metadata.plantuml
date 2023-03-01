@@ -1,0 +1,39 @@
+' [dsn -> req~reading-source-metadata~1 >> impl, utest, itest]
+' [dsn -> req~filtering-tables~1 >> impl, utest, itest]
+
+@startuml
+!include ../clean.skin
+
+title: Read Local Schema Metadata
+
+participant LocalMetadataReader
+participant LuaScriptingApi
+
+activate LocalMetadataReader
+
+LocalMetadataReader -> LocalMetadataReader : create lookup for wanted tables (include list for tables)
+activate LocalMetadataReader
+deactivate LocalMetadataReader
+
+LocalMetadataReader -> LuaScriptingApi : read schema details (schema)
+activate LuaScriptingApi
+LuaScriptingApi -->> LocalMetadataReader : list of tables
+deactivate LuaScriptingApi
+loop for each table
+    alt table wanted
+        LocalMetadataReader -> LocalMetadataReader : translate table metadata (table)
+        activate LocalMetadataReader
+        deactivate LocalMetadataReader
+        LocalMetadataReader -> LuaScriptingApi : read table details (schema, table)
+        activate LuaScriptingApi
+        LuaScriptingApi -->> LocalMetadataReader : list of columns
+        deactivate LuaScriptingApi
+        loop for each column in table
+            LocalMetadataReader -> LocalMetadataReader : translate column metadata (column)
+            activate LocalMetadataReader
+            deactivate LocalMetadataReader
+        end
+    end
+end
+deactivate LocalMetadataReader
+@enduml

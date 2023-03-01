@@ -1,4 +1,5 @@
 @startuml
+!pragma layout smetana
 !include ../clean.skin
 
 title: Exasol Virtual Schema Components
@@ -8,31 +9,33 @@ component exasol-virtual-schema-lua {
 
     package exasolvs {
         component ExasolAdapter
-        component MetadataReader
+        component MetadataReaderFactory
         component QueryRewriter
-
-        ExasolAdapter -l-> MetadataReader
-        ExasolAdapter -d-> QueryRewriter
+        component AbstractMetadataReader
+        component LocalMetadataReader
+        component RemoteMetadataReader
+        interface MetadataReader
 
         component RequestDispatcher
         component QueryRenderer
         interface "Adapter" <<interface>>
-        note as interface_note
-            Lua interface
-            implicitly defined
-        end note
-        
-        Adapter .d. interface_note
-        
-        QueryRewriter -d-> QueryRenderer
+
+        ExasolAdapter .d.> MetadataReader : use
         RequestDispatcher .l.> Adapter : use
+        ExasolAdapter -l-> QueryRewriter
+        QueryRewriter -d-> QueryRenderer
+        ExasolAdapter -r- Adapter
+        AbstractMetadataReader -u- MetadataReader
+        RemoteMetadataReader -u-|> AbstractMetadataReader
+        LocalMetadataReader -u-|> AbstractMetadataReader
+        MetadataReaderFactory --> LocalMetadataReader : create
+        MetadataReaderFactory --> RemoteMetadataReader : create
     }
     
     entry -d-> RequestDispatcher : create
     entry -d-> ExasolAdapter : create
-    entry -d-> MetadataReader : create
-    
-    ExasolAdapter -r- Adapter
+    entry -d-> MetadataReaderFactory : create
+
 }
 
 url of entry is [[../sequence/seq_entry.svg]]

@@ -1,12 +1,13 @@
 package.path = "src/main/lua/?.lua;" .. package.path
 require("busted.runner")()
 local mockagne = require("mockagne")
-local MetadataReader = require("exasolvs.MetadataReader")
+local LocalMetadataReader = require("exasolvs.LocalMetadataReader")
 
 local CATALOG_QUERY <const> = '/*snapshot execution*/ SELECT "TABLE_NAME" FROM "SYS"."EXA_ALL_TABLES" WHERE '
         .. '"TABLE_SCHEMA" = :s'
 local DESCRIBE_TABLE_QUERY <const> = '/*snapshot execution*/ SELECT "COLUMN_NAME", "COLUMN_TYPE"'
         .. ' FROM "SYS"."EXA_ALL_COLUMNS" WHERE "COLUMN_SCHEMA" = :s AND "COLUMN_TABLE" = :t'
+        .. ' ORDER BY "COLUMN_ORDINAL_POSITION"'
 
 describe("Metadata reader", function()
     local exa_mock
@@ -14,7 +15,7 @@ describe("Metadata reader", function()
 
     before_each(function()
         exa_mock = mockagne.getMock()
-        reader = MetadataReader:new(exa_mock)
+        reader = LocalMetadataReader:new(exa_mock)
     end)
 
     local function mock_describe_table(schema_id, table_id, columns)
@@ -51,6 +52,10 @@ describe("Metadata reader", function()
         end
         mock_read_table_catalog(schema_id, tables)
     end
+
+    it("reports its own type as 'LOCAL'", function()
+        assert.are.same("LOCAL", reader:_get_type())
+    end)
 
     it("hides control columns", function()
         mock_tables("S",

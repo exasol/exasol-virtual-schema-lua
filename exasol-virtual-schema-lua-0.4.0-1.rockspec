@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 
-local tag = "0.3.0"
+local tag = "0.4.0"
 local project = "exasol-virtual-schema-lua"
 local src = "src/main/lua"
 
@@ -22,7 +22,8 @@ description = {
 }
 
 dependencies = {
-    "virtual-schema-common-lua = 2.4.0"
+    "virtual-schema-common-lua = 2.4.0",
+    "luasql-exasol = 0.2.0"
 }
 
 build_dependencies = {
@@ -41,16 +42,23 @@ test = {
 }
 
 local package_items = {
+    "exasol.validator",
     "exasolvs.adapter_capabilities", "exasolvs.ExasolAdapterProperties", "exasolvs.ExasolAdapter",
-    "exasolvs.MetadataReader", "exasolvs.QueryRewriter", "remotelog", "ExaError",
-    "MessageExpander",
+    "exasolvs.MetadataReaderFactory", "exasolvs.AbstractMetadataReader", "exasolvs.LocalMetadataReader",
+    "exasolvs.RemoteMetadataReader", "exasolvs.ConnectionReader",
+    "exasolvs.QueryRewriter", "remotelog", "ExaError", "MessageExpander",
     -- from virtual-schema-common-lua"
-    "exasolvs.AbstractVirtualSchemaAdapter", "exasolvs.AdapterProperties", "exasolvs.RequestDispatcher",
-    "exasolvs.Query", "exasolvs.QueryRenderer",
+    "exasolvs.AbstractVirtualSchemaAdapter", "exasolvs.AdapterProperties",
+    "exasolvs.RequestDispatcher", "exasolvs.Query", "exasolvs.QueryRenderer",
     "exasolvs.queryrenderer.AbstractQueryAppender", "exasolvs.queryrenderer.ExpressionAppender",
     "exasolvs.queryrenderer.ScalarFunctionAppender", "exasolvs.queryrenderer.AggregateFunctionAppender",
     "exasolvs.queryrenderer.SelectAppender",
-    "text"
+    "text",
+    -- driver dependencies
+    "luasql.exasol", "luasql.exasol.Connection", "luasql.exasol.ConnectionProperties", "luasql.exasol.Cursor",
+    "luasql.exasol.CursorData", "luasql.exasol.Environment", "luasql.exasol.ExasolWebsocket", "luasql.exasol.Websocket",
+    "luasql.exasol.WebsocketDatahandler", "luasql.exasol.base64", "luasql.exasol.constants", "luasql.exasol.luws",
+    "luasql.exasol.util"
 }
 
 local item_path_list = ""
