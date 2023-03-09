@@ -32,10 +32,11 @@ class ImportIT extends AbstractLuaVirtualSchemaIT {
 
     private static String getAddressWithDynamicTlsFingerprint() {
         final Optional<String> fingerprint = EXASOL.getTlsCertificateFingerprint();
-        if(fingerprint.isPresent())
-        return "localhost/" + fingerprint.get();
-        else
+        if(fingerprint.isPresent()) {
+            return "localhost/" + fingerprint.get();
+        } else {
             throw new AssertionError("TLS Fingerprint is missing when trying to construct connection object for test.");
+        }
     }
 
     // This test case describes a situation where a push-down query request with an empty select list is received. This
