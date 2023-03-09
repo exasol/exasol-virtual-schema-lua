@@ -90,7 +90,7 @@ Covers:
 Needs: dsn
 
 ### Creating a Remote Virtual Schema
-`req~createing-a-remote-virtual-schema~1`
+`req~creating-a-remote-virtual-schema~1`
 
 VS Owners can create a Virtual Schema that abstracts a database schema on a remote Exasol database.
 
@@ -101,6 +101,8 @@ This allows user on the local Exasol to read from a remote schema as if it were 
 Covers:
 
 * [feat~remote-virtual-schema~1](#remote-virtual-schema)
+
+Needs: dsn
 
 ### Defining the Remote Connection
 `req~defining-the-remote-connection~1`
@@ -215,22 +217,34 @@ Covers:
 
 Needs: dsn
 
-### Querying the Data Source (Push-down)
-`req~push-down~1`
+### Querying the Local Data Source (Push-down)
+`req~local-push-down~1`
 
-EVSL can query the data source.
-
-Rationale:
-
-Depending on the filter, grouping and aggregation capabilities the data source offers, a query to a Virtual Schema can in parts or as a whole be pushed down to the data source. This reduces the amount of data transferred between Exasol and the data source compared to a full data copy.
+EVSL can query the local Exasol database (i.e. the same the Virtual Schema runs on).
 
 Comment:
 
+Depending on the filter, grouping and aggregation capabilities the data source offers, a query to a Virtual Schema can in parts or as a whole be pushed down to the data source. This reduces the amount of data transferred between Exasol and the data source compared to a full data copy.
 Note that the decision about what parts of the query are being pushed down to the data source are made in the Exasol core database. The adapter (the project this document talks about) only translates the pushed-down part into a language the source understands.
 
 Covers:
 
 * [feat~local-virtual-schema~1](#local-virtual-schema)
+
+Needs: dsn
+
+### Querying the Remote Data Source (Push-down)
+`req~remote-push-down~1`
+
+EVSL can query the remote Exasol database.
+
+Comment:
+
+Depending on the filter, grouping and aggregation capabilities the data source offers, a query to a Virtual Schema can in parts or as a whole be pushed down to the data source. This reduces the amount of data transferred between Exasol and the data source compared to a full data copy.
+Note that the decision about what parts of the query are being pushed down to the data source are made in the Exasol core database. The adapter (the project this document talks about) only translates the pushed-down part into a language the source understands.
+
+Covers:
+
 * [feat~remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn

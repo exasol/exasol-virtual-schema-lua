@@ -112,7 +112,7 @@ end
 function validator.validate_port(port_string)
     local port = tonumber(port_string)
     if port == nil then
-        ExaError:new("E-EVSL-VAL-1", "Illegal source database port (no a number): {{port}}",
+        ExaError:new("E-EVSL-VAL-1", "Illegal source database port (not a number): {{port}}",
                 {port = {value = port_string, "number of the port the source database listens on"}})
                 :add_mitigations("Please enter a number between 1 and 65535")
                 :raise()

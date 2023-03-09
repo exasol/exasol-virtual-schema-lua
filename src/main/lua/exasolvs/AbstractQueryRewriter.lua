@@ -1,13 +1,30 @@
 --- This class rewrites the query.
--- @classmod QueryRewriter
+-- @classmod AbstractQueryRewriter
+local AbstractQueryRewriter = {_NAME = "AbstractQueryRewriter"}
+AbstractQueryRewriter.__index = AbstractQueryRewriter
 
-local QueryRenderer = require("exasolvs.QueryRenderer")
 local log = require("remotelog")
 local ExaError = require("ExaError")
 
-local QueryRewriter = {}
+--- Create a new instance of a <code>QueryRewriter</code>.
+-- @return new instance
+function AbstractQueryRewriter:new()
+    local instance = setmetatable({}, self)
+    instance:_init()
+    return instance
+end
 
-local function validate(query)
+function AbstractQueryRewriter:_init()
+    -- intentionally empty
+end
+
+--- Get a the class of the object.
+-- @return class
+function AbstractQueryRewriter:class()
+    return AbstractQueryRewriter
+end
+
+function AbstractQueryRewriter:_validate(query)
     if not query then
         ExaError.error("E-EVSL-QRW-1", "Unable to rewrite query because it was <nil>.")
     end
@@ -29,18 +46,6 @@ end
 local function replace_empty_select_list_with_constant_expression(query)
     log.debug('Empty select list pushed down. Replacing with constant expression to get correct number of rows.')
     query.selectList = {{type = "literal_bool", value = "true"}}
-end
-
-local function expand_select_list(query)
-    if is_select_star(query.selectList) then
-        log.debug('Missing select list interpreted as: SELECT *')
-    elseif is_empty_select_list(query.selectList) then
-        replace_empty_select_list_with_constant_expression(query)
-    end
-end
-
-local function rewrite(query)
-    expand_select_list(query)
 end
 
 local function extend_query_element_with_source_schema(element, source_schema_id)
@@ -67,8 +72,23 @@ end
 -- containing schema. So this method adds the missing information by adding the source schema of the Virtual Schema
 -- into the table elements.
 -- @return query with table elements that contain the source schema
-local function extend_query_with_source_schema(query, source_schema_id)
+function AbstractQueryRewriter:_extend_query_with_source_schema(query, source_schema_id)
     return extend_query_element_with_source_schema(query, source_schema_id)
+end
+
+--- Make sure the select list is never empty.
+-- <ul>
+-- <li>Expand the asterisk wildcard in the select list to a list of columns</li>
+-- <li>Expand an empty select list to a constant expression</li>
+-- </ul>
+-- @param query query as provided by the VS interface
+-- @return query with non-empty select list
+function AbstractQueryRewriter:_expand_select_list(query)
+    if is_select_star(query.selectList) then
+        log.debug('Missing select list interpreted as: SELECT *')
+    elseif is_empty_select_list(query.selectList) then
+        replace_empty_select_list_with_constant_expression(query)
+    end
 end
 
 --- Rewrite the original query.
@@ -77,12 +97,8 @@ end
 -- @param _ cache taken from the adapter notes
 -- @param _ list of tables that appear in the query
 -- @return string containing the rewritten query
-function QueryRewriter.rewrite(original_query, source_schema_id, _, _)
-    validate(original_query)
-    local query = extend_query_with_source_schema(original_query, source_schema_id)
-    rewrite(query)
-    local renderer = QueryRenderer:new(query)
-    return renderer:render()
+function AbstractQueryRewriter:rewrite(_, _, _, _)
+    error("Called abstract function 'rewrite'.")
 end
 
-return QueryRewriter
+return AbstractQueryRewriter

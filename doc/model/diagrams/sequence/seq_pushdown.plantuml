@@ -1,4 +1,5 @@
-' [dsn -> req~push-down~1 >> impl, itest]
+' [dsn -> req~local-push-down~1 >> impl, itest]
+' [dsn -> req~remote-push-down~1 >> impl, itest]
 
 @startuml
 !include ../clean.skin
@@ -7,8 +8,10 @@ title: Query Push-down
 
 participant RequestDispatcher
 participant ExasolAdapter
-participant QueryRewriter
+participant RemoteQueryRewriter
+participant LocalQueryRewriter
 participant QueryRenderer
+participant QueryRewriterFactory
 
 activate RequestDispatcher
 RequestDispatcher -> ExasolAdapter : push down (request)
@@ -16,21 +19,54 @@ activate ExasolAdapter
 ExasolAdapter -> ExasolAdapter : extract adapter notes (request)
 activate ExasolAdapter
 deactivate ExasolAdapter
-ExasolAdapter -> QueryRewriter : rewrite (query, schema\nadapter notes, involved table[])
-activate QueryRewriter
-ref over QueryRewriter : **[[../activity/act_rewrite_with_protection.svg rewrite query]]**
 
-create QueryRenderer
-QueryRewriter -> QueryRenderer : new(query)
-activate QueryRenderer
-QueryRenderer -->> QueryRewriter : instance
-deactivate QueryRenderer
-QueryRewriter -> QueryRenderer : render ()
-activate QueryRenderer
-QueryRenderer -->> QueryRewriter : query : SQL string
-deactivate QueryRenderer
-QueryRewriter --> ExasolAdapter : query : SQL string
-deactivate QueryRewriter
+alt connection provided
+    ExasolAdapter -> QueryRewriterFactory : create_rewriter(connection_id)
+    activate QueryRewriterFactory
+    create RemoteQueryRewriter
+    QueryRewriterFactory -> RemoteQueryRewriter : new ()
+    QueryRewriterFactory -->> ExasolAdapter : instance
+    deactivate QueryRewriterFactory
+    ExasolAdapter -> RemoteQueryRewriter : rewrite (query, schema\nadapter notes, involved table[])
+    activate RemoteQueryRewriter
+    ref over RemoteQueryRewriter : **[[../activity/act_rewrite.svg rewrite query]]**
+    create QueryRenderer
+    RemoteQueryRewriter -> QueryRenderer : new(query)
+    activate QueryRenderer
+    QueryRenderer -->> RemoteQueryRewriter : instance
+    deactivate QueryRenderer
+    RemoteQueryRewriter -> QueryRenderer : render ()
+    activate QueryRenderer
+    QueryRenderer -->> RemoteQueryRewriter : query : SQL string
+    deactivate QueryRenderer
+    RemoteQueryRewriter -> RemoteQueryRewriter : _wrap_in_import (SQL string)
+    note right : Uses the ""ImportBuilder"".
+    activate RemoteQueryRewriter
+    deactivate RemoteQueryRewriter
+    RemoteQueryRewriter --> ExasolAdapter : query : SQL string
+    deactivate RemoteQueryRewriter
+else no connection provided
+    ExasolAdapter -> QueryRewriterFactory : create_rewriter()
+    activate QueryRewriterFactory
+    create LocalQueryRewriter
+    QueryRewriterFactory -> LocalQueryRewriter : new ()
+    QueryRewriterFactory -->> ExasolAdapter : instance
+    deactivate QueryRewriterFactory
+    ExasolAdapter -> LocalQueryRewriter : rewrite (query, schema adapter notes, involved table[])
+    activate LocalQueryRewriter
+    ref over LocalQueryRewriter : **[[../activity/act_rewrite.svg rewrite query]]**
+    create QueryRenderer
+    LocalQueryRewriter -> QueryRenderer : new (query)
+    activate QueryRenderer
+    QueryRenderer -->> LocalQueryRewriter : instance
+    deactivate QueryRenderer
+    LocalQueryRewriter -> QueryRenderer : render ()
+    activate QueryRenderer
+    QueryRenderer -->> LocalQueryRewriter : query : SQL string
+    deactivate QueryRenderer
+    LocalQueryRewriter --> ExasolAdapter : query : SQL string
+    deactivate LocalQueryRewriter
+end
 ExasolAdapter -->> RequestDispatcher : wrapped response
 deactivate ExasolAdapter
 @enduml
