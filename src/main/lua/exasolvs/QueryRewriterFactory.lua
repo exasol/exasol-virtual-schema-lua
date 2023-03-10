@@ -12,9 +12,9 @@ function QueryRewriterFactory:new()
     return instance
 end
 
---- Create a query rewriter that produces local (`SELECT`) queries.
+--- Create a query rewriter that produces local or remote queries.
 -- Depending on whether a remote connection is supplied or not creates either a rewriter that produces an `IMPORT`
--- statement (remote) or a `SELECT` (local).
+-- statement (remote) or a `SELECT` statement (local).
 -- @param connection_id optional connection object name
 -- @return local query rewriter
 function QueryRewriterFactory:create_rewriter(connection_id)

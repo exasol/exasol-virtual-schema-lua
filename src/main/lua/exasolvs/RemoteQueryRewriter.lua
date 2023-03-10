@@ -2,13 +2,13 @@ local AbstractQueryRewriter = require("exasolvs.AbstractQueryRewriter")
 local QueryRenderer = require("exasolvs.QueryRenderer")
 local ImportBuilder = require("exasolvs.ImportBuilder")
 
---- This class rewrites the query.
+--- This class rewrites the query for a remote database.
 -- @classmod RemoteQueryRewriter
 local RemoteQueryRewriter = {_NAME = "RemoteQueryRewriter"}
 RemoteQueryRewriter.__index = RemoteQueryRewriter
 setmetatable(RemoteQueryRewriter, {__index = AbstractQueryRewriter})
 
---- Create a new instance of a <code>RemoteQueryRewriter</code>.
+--- Create a new instance of a `RemoteQueryRewriter`.
 -- @param connection_id name of the connection object that defines the details of the connection to the remote Exasol
 -- @return new instance
 function RemoteQueryRewriter:new(connection_id)
