@@ -1,13 +1,13 @@
 local AbstractQueryRewriter = require("exasolvs.AbstractQueryRewriter")
 local QueryRenderer = require("exasolvs.QueryRenderer")
 
---- This class rewrites the query.
+--- This class rewrites the query for the local database.
 -- @classmod LocalQueryRewriter
 local LocalQueryRewriter = {_NAME = "LocalQueryRewriter"}
 LocalQueryRewriter.__index = LocalQueryRewriter
 setmetatable(LocalQueryRewriter, {__index = AbstractQueryRewriter})
 
---- Create a new instance of a <code>LocalQueryRewriter</code>.
+--- Create a new instance of a `LocalQueryRewriter`.
 -- @return new instance
 function LocalQueryRewriter:new()
     local instance = setmetatable({}, self)

@@ -41,10 +41,16 @@ local function split_connection_address(address)
             local host = string.sub(address, 1, colon_location - 1)
             local port = string.sub(address, colon_location + 1)
             validator.validate_port(port)
-            return host, port
+            return host, port, nil
+        end
+    else
+        if slash_location > 0 then
+            local host = string.sub(address, 1, slash_location - 1)
+            local fingerprint = string.sub(address, slash_location + 1)
+            return host, EXASOL_DEFAULT_PORT, fingerprint
         else
             local host = string.sub(address, 1, colon_location - 1)
-            return host, EXASOL_DEFAULT_PORT
+            return host, EXASOL_DEFAULT_PORT, nil
         end
     end
 end

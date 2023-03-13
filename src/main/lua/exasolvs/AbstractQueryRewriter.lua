@@ -6,7 +6,7 @@ AbstractQueryRewriter.__index = AbstractQueryRewriter
 local log = require("remotelog")
 local ExaError = require("ExaError")
 
---- Create a new instance of a <code>QueryRewriter</code>.
+--- Create a new instance of a `QueryRewriter`.
 -- @return new instance
 function AbstractQueryRewriter:new()
     local instance = setmetatable({}, self)
