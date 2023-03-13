@@ -43,7 +43,7 @@ describe("ConnectionReader", function()
 
     it("reads a connection definition with a fingerprint and custom port", function()
         mock_get_connection("the_connection",
-                "example.org:333/f1db0bd29facca504240c859d1021f0f169106713052952c83a3407d4ca647ef",
+                "example.org/f1db0bd29facca504240c859d1021f0f169106713052952c83a3407d4ca647ef:333",
                 "joe", "test_password")
         local connection_definition = reader:read("the_connection")
         assert.are_same({host = "example.org", port = 333, user = "joe", password = "test_password",

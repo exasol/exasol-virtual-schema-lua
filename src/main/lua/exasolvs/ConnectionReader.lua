@@ -22,26 +22,26 @@ function ConnectionReader:_init(exasol_context)
 end
 
 local function split_connection_address(address)
-    local colon_location = string.find(address, ":", 1, true) or 0
-    local slash_location = string.find(address, "/", colon_location + 1, true) or 0
-    if colon_location > 0 then
-        if slash_location > colon_location then
-            local host = string.sub(address, 1, colon_location - 1)
-            local port = string.sub(address, colon_location + 1, slash_location - 1)
-            local fingerprint = string.sub(address, slash_location + 1)
+    local slash_location = string.find(address, "/", 1, true) or 0
+    local colon_location = string.find(address, ":", slash_location + 1, true) or 0
+    if slash_location > 0 then
+        if  colon_location > slash_location then
+            local host = string.sub(address, 1, slash_location - 1)
+            local fingerprint = string.sub(address, slash_location + 1, colon_location - 1)
+            local port = string.sub(address, colon_location + 1)
             validator.validate_port(port)
             return host, port, fingerprint
         else
+            local host = string.sub(address, 1, slash_location - 1)
+            local fingerprint = string.sub(address, slash_location + 1)
+            return host, EXASOL_DEFAULT_PORT, fingerprint
+        end
+    else
+        if colon_location > 0 then
             local host = string.sub(address, 1, colon_location - 1)
             local port = string.sub(address, colon_location + 1)
             validator.validate_port(port)
             return host, port
-        end
-    else
-        if slash_location > 0 then
-            local host = string.sub(address, 1, slash_location - 1)
-            local fingerprint = string.sub(address, slash_location + 1)
-            return host, EXASOL_DEFAULT_PORT, fingerprint
         else
             local host = string.sub(address, 1, colon_location - 1)
             return host, EXASOL_DEFAULT_PORT

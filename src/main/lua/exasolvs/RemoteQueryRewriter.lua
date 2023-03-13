@@ -9,7 +9,7 @@ RemoteQueryRewriter.__index = RemoteQueryRewriter
 setmetatable(RemoteQueryRewriter, {__index = AbstractQueryRewriter})
 
 --- Create a new instance of a <code>RemoteQueryRewriter</code>.
--- @param connection_id name of the connection object that defines the details of the connection to the remote Exasol
+-- @param connection_id ID of the connection object that defines the details of the connection to the remote Exasol
 -- @return new instance
 function RemoteQueryRewriter:new(connection_id)
     local instance = setmetatable({}, self)
