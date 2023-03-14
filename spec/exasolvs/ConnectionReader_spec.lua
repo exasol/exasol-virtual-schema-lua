@@ -41,10 +41,29 @@ describe("ConnectionReader", function()
                 connection_definition)
     end)
 
+    it("reads a connection definition with a fingerprint and custom port", function()
+        mock_get_connection("the_connection",
+                "example.org/f1db0bd29facca504240c859d1021f0f169106713052952c83a3407d4ca647ef:333",
+                "joe", "test_password")
+        local connection_definition = reader:read("the_connection")
+        assert.are_same({host = "example.org", port = 333, user = "joe", password = "test_password",
+                         fingerprint = "f1db0bd29facca504240c859d1021f0f169106713052952c83a3407d4ca647ef"},
+                connection_definition)
+    end)
+
+    it("reads a connection definition with a fingerprint and default port", function()
+        mock_get_connection("the_connection",
+                "example.org/f1db0bd29facca504240c859d1021f0f169106713052952c83a3407d4ca647ef", "joe", "test_password")
+        local connection_definition = reader:read("the_connection")
+        assert.are_same({host = "example.org", port = 8563, user = "joe", password = "test_password",
+                         fingerprint = "f1db0bd29facca504240c859d1021f0f169106713052952c83a3407d4ca647ef"},
+                connection_definition)
+    end)
+
     it("raises an error if the port is not numeric", function()
         mock_get_connection("non_numeric_port_connection", "example.org:non-numeric", nil, nil)
         assert.error_matches(function() reader:read("non_numeric_port_connection") end,
-                ".*Illegal source database port %(no a number%): 'non%-numeric'.*")
+                ".*Illegal source database port %(not a number%): 'non%-numeric'.*")
     end)
 
     describe("raises an error if the port is out of range:", function()

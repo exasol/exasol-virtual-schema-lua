@@ -1,11 +1,9 @@
---- Virtual Schema adapter for Exasol-to-Exasol Virtual Schemas.
--- @classmod ExasolAdapter
-
 local AbstractVirtualSchemaAdapter = require("exasolvs.AbstractVirtualSchemaAdapter")
 local adapter_capabilities = require("exasolvs.adapter_capabilities")
-local QueryRewriter = require("exasolvs.QueryRewriter")
 local log = require("remotelog")
 
+--- Virtual Schema adapter for Exasol-to-Exasol Virtual Schemas.
+-- @classmod ExasolAdapter
 local ExasolAdapter = {}
 ExasolAdapter.__index = ExasolAdapter
 setmetatable(ExasolAdapter, {__index = AbstractVirtualSchemaAdapter})
@@ -13,16 +11,18 @@ local VERSION <const> = "0.4.0"
 
 --- Create an `ExasolAdapter`.
 -- @param metadata_reader_factory factory for the metadata reader (e.g. local or remote)
+-- @param query_rewriter_factory factory for the query rewriter (e.g. local or remote)
 -- @return new instance
-function ExasolAdapter:new(metadata_reader_factory)
+function ExasolAdapter:new(metadata_reader_factory, query_rewriter_factory)
     local instance = setmetatable({}, self)
-    instance:_init(metadata_reader_factory)
+    instance:_init(metadata_reader_factory, query_rewriter_factory)
     return instance
 end
 
-function ExasolAdapter:_init(metadata_reader_factory)
+function ExasolAdapter:_init(metadata_reader_factory, query_rewriter_factory)
     AbstractVirtualSchemaAdapter._init(self)
     self._metadata_reader_factory = metadata_reader_factory
+    self._query_rewriter_factory = query_rewriter_factory
 end
 
 --- Get the version number of the Virtual Schema adapter.
@@ -41,13 +41,14 @@ end
 -- @param request virtual schema request
 -- @param properties user-defined properties
 -- @return response containing the metadata for the virtual schema like table and column structure
--- @cover [impl -> dsn~creating-a-local-virtual-schema~0]
 function ExasolAdapter:create_virtual_schema(request, properties)
     properties:validate()
     local metadata = self:_handle_schema_scanning_request(request, properties)
     return {type = "createVirtualSchema", schemaMetadata = metadata}
 end
 
+-- @cover [impl -> dsn~creating-a-local-virtual-schema~0]
+-- @cover [impl -> dsn~creating-a-remote-virtual-schema~0]
 function ExasolAdapter:_handle_schema_scanning_request(_, properties)
     local schema_id = properties:get_schema_name()
     local table_filter = properties:get_table_filter()
@@ -95,11 +96,14 @@ end
 -- @param request virtual schema request
 -- @param properties user-defined properties
 -- @return response containing the list of reported capabilities
--- @cover [impl ->  dsn~push-down~0]
+-- @cover [impl -> dsn~local-push-down~0]
+-- @cover [impl -> dsn~remote-push-down~0]
 function ExasolAdapter:push_down(request, properties)
     properties:validate()
     local adapter_cache = request.schemaMetadataInfo.adapterNotes
-    local rewritten_query = QueryRewriter.rewrite(request.pushdownRequest, properties:get_schema_name(),
+    local connection_id = properties:get_connection_name()
+    local rewriter = self._query_rewriter_factory:create_rewriter(connection_id)
+    local rewritten_query = rewriter:rewrite(request.pushdownRequest, properties:get_schema_name(),
             adapter_cache, request.involvedTables)
     return {type = "pushdown", sql = rewritten_query}
 end

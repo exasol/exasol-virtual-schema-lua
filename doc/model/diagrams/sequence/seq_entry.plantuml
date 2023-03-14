@@ -7,28 +7,34 @@ participant "Exasol Compiler" as compiler
 participant entry
 participant RequestDispatcher
 participant ExasolAdapter
-participant MetadataReader
+participant QueryRewriterFactory
+participant MetadataReaderFactory
 
 activate compiler
 compiler -> entry : adapter_call(request : JSON string)
 activate entry
-create MetadataReader
-entry -> MetadataReader : new(exasol_context)
-activate MetadataReader
-MetadataReader -->> entry : instance
-deactivate MetadataReader
+create MetadataReaderFactory
+entry -> MetadataReaderFactory : new(exasol_context)
+activate MetadataReaderFactory
+MetadataReaderFactory -->> entry : instance
+deactivate MetadataReaderFactory
+create QueryRewriterFactory
+entry -> QueryRewriterFactory : new()
+activate QueryRewriterFactory
+QueryRewriterFactory -->> entry : instance
+deactivate QueryRewriterFactory
 create ExasolAdapter
-entry -> ExasolAdapter : new(metadata_reader)
+entry -> ExasolAdapter : new(metadata_reader_factory, metadata_reader_factory)
 activate ExasolAdapter
 ExasolAdapter -->> entry : instance
 deactivate ExasolAdapter
 create RequestDispatcher
 entry -> RequestDispatcher : new(adapter, metadata_reader)
 note right
-    Different Virtual Schemas support
-    different properties. Injecting the reader
-    class allows the dispatcher to construct
-    the appropriate reader for those properties.
+    Different Virtual Schemas support different properties.
+    The metadata reader factory and query rewriter factory
+    support creating the required kind of objects depending
+    on the settings the user chooses.
 end note
 activate RequestDispatcher
 RequestDispatcher -->> entry : instance

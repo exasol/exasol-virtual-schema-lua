@@ -1,4 +1,5 @@
 ' [dsn -> req~creating-a-local-virtual-schema~1 >> impl, utest, itest]
+' [dsn -> req~creating-a-remote-virtual-schema~1 >> impl, utest, itest]
 
 @startuml
 !include ../clean.skin

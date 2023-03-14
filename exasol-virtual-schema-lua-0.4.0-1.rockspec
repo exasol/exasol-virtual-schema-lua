@@ -22,7 +22,7 @@ description = {
 }
 
 dependencies = {
-    "virtual-schema-common-lua = 2.4.0",
+    "virtual-schema-common-lua = 2.4.1",
     "luasql-exasol = 0.2.0"
 }
 
@@ -45,14 +45,15 @@ local package_items = {
     "exasol.validator",
     "exasolvs.adapter_capabilities", "exasolvs.ExasolAdapterProperties", "exasolvs.ExasolAdapter",
     "exasolvs.MetadataReaderFactory", "exasolvs.AbstractMetadataReader", "exasolvs.LocalMetadataReader",
-    "exasolvs.RemoteMetadataReader", "exasolvs.ConnectionReader",
-    "exasolvs.QueryRewriter", "remotelog", "ExaError", "MessageExpander",
+    "exasolvs.RemoteMetadataReader", "exasolvs.ConnectionReader", "exasolvs.QueryRewriterFactory",
+    "exasolvs.AbstractQueryRewriter", "exasolvs.LocalQueryRewriter", "exasolvs.RemoteQueryRewriter",
+    "remotelog", "ExaError", "MessageExpander",
     -- from virtual-schema-common-lua"
     "exasolvs.AbstractVirtualSchemaAdapter", "exasolvs.AdapterProperties",
     "exasolvs.RequestDispatcher", "exasolvs.Query", "exasolvs.QueryRenderer",
     "exasolvs.queryrenderer.AbstractQueryAppender", "exasolvs.queryrenderer.ExpressionAppender",
     "exasolvs.queryrenderer.ScalarFunctionAppender", "exasolvs.queryrenderer.AggregateFunctionAppender",
-    "exasolvs.queryrenderer.SelectAppender",
+    "exasolvs.queryrenderer.SelectAppender", "exasolvs.ImportBuilder",
     "text",
     -- driver dependencies
     "luasql.exasol", "luasql.exasol.Connection", "luasql.exasol.ConnectionProperties", "luasql.exasol.Cursor",

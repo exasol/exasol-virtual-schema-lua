@@ -5,6 +5,7 @@
 local ExasolAdapter = require("exasolvs.ExasolAdapter")
 local ExasolAdapterProperties = require("exasolvs.ExasolAdapterProperties")
 local MetadataReaderFactory = require("exasolvs.MetadataReaderFactory")
+local QueryRewriterFactory = require("exasolvs.QueryRewriterFactory")
 local RequestDispatcher = require("exasolvs.RequestDispatcher")
 
 --- Handle a Virtual Schema request.
@@ -13,7 +14,8 @@ local RequestDispatcher = require("exasolvs.RequestDispatcher")
 function adapter_call(request_as_json)
     local exasol_context = _G.exa
     local metadata_reader_factory = MetadataReaderFactory:new(exasol_context)
-    local adapter = ExasolAdapter:new(metadata_reader_factory)
+    local query_rewriter_factory = QueryRewriterFactory:new()
+    local adapter = ExasolAdapter:new(metadata_reader_factory, query_rewriter_factory)
     local dispatcher = RequestDispatcher:new(adapter, ExasolAdapterProperties)
     return dispatcher:adapter_call(request_as_json)
 end

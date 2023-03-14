@@ -36,8 +36,8 @@ describe("ExasolAdapter", function()
         assert.are.equal("Exasol Virtual Schema adapter (Lua)", adapter:get_name())
     end)
 
-    it("answers a request to create the Virtual Schema with the metadata of the source schema"
-            .. "[utest -> dsn~creating-a-local-virtual-schema~0]", function()
+    it("answers a request to create a local Virtual Schema with the metadata of the source schema"
+            .. " [utest -> dsn~creating-a-local-virtual-schema~0]", function()
         local schema_metadata = {
             tables = {
                 {type = "table", name = "T1", columns = {{name = "C1", dataType = {type = "BOOLEAN"}}}}
@@ -72,7 +72,8 @@ describe("ExasolAdapter", function()
                 "validation failed")
     end)
 
-    it("Uses a remote metadata reader when a connection parameter is specified", function()
+    it("Uses a remote metadata reader when a connection parameter is specified"
+            .. " [utest -> dsn~creating-a-remote-virtual-schema~0]", function()
         local schema_metadata = {
             tables = {
                 {type = "table", name = "T2", columns = {{name = "C2", dataType = {type = "BOOLEAN"}}}}
