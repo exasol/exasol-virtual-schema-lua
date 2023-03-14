@@ -4,6 +4,8 @@ import com.exasol.dbbuilder.dialects.Schema;
 import com.exasol.dbbuilder.dialects.User;
 import com.exasol.dbbuilder.dialects.exasol.ConnectionDefinition;
 import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
+import org.junit.jupiter.api.Assumptions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -16,6 +18,12 @@ import static com.exasol.matcher.TypeMatchMode.*;
 // [itest -> dsn~creating-a-remote-virtual-schema~0] implicitly tested with each query on a Virtual Schema
 @Testcontainers
 class ImportIT extends AbstractLuaVirtualSchemaIT {
+    @BeforeAll
+    static void beforeAll() {
+        // Since there is no V8 image on DockerHub yet, we need to skip this test in CI.
+        Assumptions.assumeFalse("true".equals(System.getenv("CI")));
+    }
+
     // [itest -> dsn~remote-push-down~0]
     @Test
     void testSelectStarOnUnprotectedTable() {
