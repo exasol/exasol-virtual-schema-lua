@@ -1,6 +1,6 @@
 local AbstractQueryRewriter = require("exasolvs.AbstractQueryRewriter")
 local QueryRenderer = require("exasolvs.QueryRenderer")
-local ImportBuilder = require("exasolvs.ImportBuilder")
+local ImportQueryBuilder = require("exasolvs.ImportQueryBuilder")
 
 --- This class rewrites the query.
 -- @classmod RemoteQueryRewriter
@@ -28,21 +28,22 @@ function RemoteQueryRewriter:class()
     return RemoteQueryRewriter
 end
 
-function RemoteQueryRewriter:_wrap_in_import(query)
-    return ImportBuilder:new("EXA")
-        :statement(query)
-        :connection(self._connection_id)
-        :build()
+function RemoteQueryRewriter:_create_import(original_query, source_schema_id)
+    local remote_query = self:_extend_query_with_source_schema(original_query, source_schema_id)
+    self:_expand_select_list(remote_query)
+    local import_query = ImportQueryBuilder:new()
+            :connection(self._connection_id)
+            :column_types(original_query.selectListDataTypes)
+            :statement(remote_query)
+            :build()
+    local renderer = QueryRenderer:new(import_query)
+    return renderer:render()
 end
 
 -- Override
 function RemoteQueryRewriter:rewrite(original_query, source_schema_id, _, _)
     self:_validate(original_query)
-    local query = self:_extend_query_with_source_schema(original_query, source_schema_id)
-    self:_expand_select_list(query)
-    local renderer = QueryRenderer:new(query)
-    local remote_query = renderer:render()
-    return self:_wrap_in_import(remote_query)
+    return self:_create_import(original_query, source_schema_id)
 end
 
 return RemoteQueryRewriter

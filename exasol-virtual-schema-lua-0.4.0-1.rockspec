@@ -22,7 +22,7 @@ description = {
 }
 
 dependencies = {
-    "virtual-schema-common-lua = 2.4.1",
+    "virtual-schema-common-lua = 3.0.0",
     "luasql-exasol = 0.2.0"
 }
 
@@ -52,8 +52,9 @@ local package_items = {
     "exasolvs.AbstractVirtualSchemaAdapter", "exasolvs.AdapterProperties",
     "exasolvs.RequestDispatcher", "exasolvs.Query", "exasolvs.QueryRenderer",
     "exasolvs.queryrenderer.AbstractQueryAppender", "exasolvs.queryrenderer.ExpressionAppender",
+    "exasolvs.queryrenderer.ImportAppender",
     "exasolvs.queryrenderer.ScalarFunctionAppender", "exasolvs.queryrenderer.AggregateFunctionAppender",
-    "exasolvs.queryrenderer.SelectAppender", "exasolvs.ImportBuilder",
+    "exasolvs.queryrenderer.SelectAppender", "exasolvs.ImportQueryBuilder",
     "text",
     -- driver dependencies
     "luasql.exasol", "luasql.exasol.Connection", "luasql.exasol.ConnectionProperties", "luasql.exasol.Cursor",
