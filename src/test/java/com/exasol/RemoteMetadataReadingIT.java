@@ -71,12 +71,6 @@ class RemoteMetadataReadingIT extends AbstractLuaVirtualSchemaIT {
                 "VU", "VARCHAR(12) UTF8"));
     }
 
-    private void assertVirtualTableStructure(final Table table, final User user,
-            final Matcher<ResultSet> tableMatcher) {
-        assertQueryWithUser("/*snapshot execution*/DESCRIBE " + getVirtualSchemaName(table.getParent().getName())
-                        + "." + table.getName(), user, tableMatcher);
-    }
-
     private Matcher<ResultSet> expectRows(final String... strings) {
         assertThat("Expected metadata rows must be given as tuples of field name and data type.", strings.length % 2,
                 equalTo(0));

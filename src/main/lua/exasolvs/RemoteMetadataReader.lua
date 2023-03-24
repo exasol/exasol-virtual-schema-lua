@@ -10,6 +10,8 @@ local RemoteMetadataReader = {}
 RemoteMetadataReader.__index = RemoteMetadataReader
 setmetatable(RemoteMetadataReader, {__index = AbstractMetadataReader})
 
+local TLS_PROPERTIES <const> = {tls_verify = "peer", tls_protocol = "tlsv1_3"}
+
 --- Create a new `RemoteMetadataReader`.
 -- @param exasol_context handle to local database functions and status
 -- @param connection_id name of the connection object that contains the details of the connection to the remote data
@@ -42,8 +44,9 @@ function RemoteMetadataReader:_get_connection()
     if not self._connection then
         local connection_definition = self:_read_connection_definition_from_context()
         self._environment = driver.exasol()
-        local connection, err = self._environment:connect(connection_definition.host .. ":"
-                .. connection_definition.port, connection_definition.user, connection_definition.password)
+        local address = connection_definition.host .. ":" .. connection_definition.port
+        local connection, err = self._environment:connect(address, connection_definition.user,
+                connection_definition.password, TLS_PROPERTIES)
         if err then
             ExaError:new("E-EVSL-RMR-1", "Unable to connect to remote data source: '{{cause}}'",
                     {cause = {value = err, description = "The error that caused the connection issue"}})
