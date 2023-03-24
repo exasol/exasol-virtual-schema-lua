@@ -1,4 +1,4 @@
-# Exasol Virtual Schema (Lua) 0.4.0, released 2023-02-??
+# Exasol Virtual Schema (Lua) 0.4.0, released 2023-03-24
 
 Code name: Remote EVSL (without TLS)
 
