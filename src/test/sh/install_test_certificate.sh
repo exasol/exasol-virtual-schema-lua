@@ -38,7 +38,7 @@ cp server.key /exa/etc/ssl/ssl.key
 cp server.crt /exa/etc/ssl/ssl.crt
 
 dwad_client stop DB1
-# TODO: find a better way than waiting a couple of minutes.
+# https://github.com/exasol/exasol-virtual-schema-lua/issues/36: find a better way than waiting a couple of minutes.
 dwad_client start DB1
 
 # This is a workaround for the fact that the change in /exa/etc/ssl does not take immediate effect:
