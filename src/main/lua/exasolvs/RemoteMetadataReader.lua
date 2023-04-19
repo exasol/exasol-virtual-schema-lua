@@ -10,7 +10,7 @@ local RemoteMetadataReader = {}
 RemoteMetadataReader.__index = RemoteMetadataReader
 setmetatable(RemoteMetadataReader, {__index = AbstractMetadataReader})
 
-local TLS_PROPERTIES <const> = {tls_verify = "peer", tls_protocol = "tlsv1_3"}
+local TLS_PROPERTIES <const> = {tls_verify = "none", tls_protocol = "tlsv1_3"}
 
 --- Create a new `RemoteMetadataReader`.
 -- @param exasol_context handle to local database functions and status

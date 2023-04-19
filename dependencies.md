@@ -22,7 +22,7 @@
 | ------------------------------------------------------- | -------------------------------------------------------------- |
 | [SonarQube Scanner for Maven][18]                       | [GNU LGPL 3][19]                                               |
 | [Apache Maven Compiler Plugin][20]                      | [Apache License, Version 2.0][21]                              |
-| [Apache Maven Enforcer Plugin][22]                      | [Apache License, Version 2.0][21]                              |
+| [Apache Maven Enforcer Plugin][22]                      | [Apache-2.0][21]                                               |
 | [Maven Flatten Plugin][23]                              | [Apache Software Licenese][21]                                 |
 | [org.sonatype.ossindex.maven:ossindex-maven-plugin][24] | [ASL2][25]                                                     |
 | [Maven Surefire Plugin][26]                             | [Apache License, Version 2.0][21]                              |
@@ -45,7 +45,7 @@
 | [Maven Site Plugin 3][48]                               | [The Apache Software License, Version 2.0][25]                 |
 
 [0]: http://www.exasol.com
-[1]: https://docs.exasol.com/db/latest/connect_exasol/drivers/jdbc.htm
+[1]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/7.1.19/exasol-jdbc-7.1.19-license.txt
 [2]: https://github.com/exasol/exasol-testcontainers/
 [3]: https://github.com/exasol/exasol-testcontainers/blob/main/LICENSE
 [4]: https://testcontainers.org
