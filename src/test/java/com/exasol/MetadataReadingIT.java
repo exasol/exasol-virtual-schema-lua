@@ -1,20 +1,17 @@
 package com.exasol;
 
+import static com.exasol.MetadataAssertions.expectRows;
 import static com.exasol.matcher.ResultSetStructureMatcher.table;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.anything;
-import static org.hamcrest.Matchers.equalTo;
 
 import java.sql.*;
 import java.util.Map;
 
-import org.hamcrest.Matcher;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.exasol.dbbuilder.dialects.*;
 import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
-import com.exasol.matcher.ResultSetStructureMatcher.Builder;
 
 @Testcontainers
 class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
@@ -114,22 +111,6 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
                 "T2", "TIMESTAMP(3) WITH LOCAL TIME ZONE", //
                 "VA", "VARCHAR(123) ASCII", //
                 "VU", "VARCHAR(12) UTF8"));
-    }
-
-    private void assertVirtualTableStructure(final Table table, final User user,
-            final Matcher<ResultSet> tableMatcher) {
-        assertQueryWithUser("/*snapshot execution*/DESCRIBE " + getVirtualSchemaName(table.getParent().getName())
-                        + "." + table.getName(), user, tableMatcher);
-    }
-
-    private Matcher<ResultSet> expectRows(final String... strings) {
-        assertThat("Expected metadata rows must be given as tuples of field name and data type.", strings.length % 2,
-                equalTo(0));
-        final Builder builder = table();
-        for (int i = 0; i < strings.length; i += 2) {
-            builder.row(strings[i], strings[i + 1], anything(), anything(), anything());
-        }
-        return builder.matches();
     }
 
     // [itest -> dsn~refreshing-a-virtual-schema~0]

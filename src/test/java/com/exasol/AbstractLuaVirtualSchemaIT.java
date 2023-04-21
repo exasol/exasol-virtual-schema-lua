@@ -188,4 +188,10 @@ abstract class AbstractLuaVirtualSchemaIT {
     protected void assumeExasol7OrLower() {
         final ExasolDockerImageReference imageReference = EXASOL.getDockerImageReference();
         assumeTrue(imageReference.hasMajor() && (imageReference.getMajor() <=7));}
+
+    protected void assertVirtualTableStructure(final Table table, final User user,
+                                               final Matcher<ResultSet> tableMatcher) {
+        assertQueryWithUser("/*snapshot execution*/DESCRIBE " + getVirtualSchemaName(table.getParent().getName())
+                        + "." + table.getName(), user, tableMatcher);
     }
+}
