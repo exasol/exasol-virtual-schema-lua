@@ -5,11 +5,15 @@
 # NEVER USE THIS IN PRODUCTION! #
 #################################
 
+set -o errexit
+set -o nounset
+set -o pipefail
+
 readonly working_dir='/tmp/test-certificates'
 readonly testpw='testpw'
 
 mkdir -p "$working_dir"
-cd "$working_dir" || exit
+cd "$working_dir"
 
 # Create CA key:
 openssl genrsa -aes256 -out ca.key --passout "pass:$testpw" 4096
