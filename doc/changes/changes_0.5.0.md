@@ -1,4 +1,4 @@
-# Exasol Virtual Schema (Lua) 0.5.0, released 2023-04-19
+# Exasol Virtual Schema (Lua) 0.5.0, released 2023-04-21
 
 Code name: Partial TLS Support (without certificate validation)
 
