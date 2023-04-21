@@ -9,9 +9,13 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static com.exasol.MetadataAssertions.expectRows;
 
-// TODO: [[itest -> dsn~XYZ~0]]
 @Testcontainers
 class TlsIT extends AbstractLuaVirtualSchemaIT {
+
+    // https://github.com/exasol/exasol-virtual-schema-lua/issues/36:
+    // When FS access is available, execute install_test_certificate.sh on the docker instance in the test preparation
+
+    // [[itest -> dsn~tls-connection~0]]
     @Test
     void testTlsWithCertificateCheck() {
         assumeExasol8OrHigher();

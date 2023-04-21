@@ -31,11 +31,20 @@ component exasol-virtual-schema-lua {
         MetadataReaderFactory --> LocalMetadataReader : create
         MetadataReaderFactory --> RemoteMetadataReader : create
     }
-    
+
+    package luasql <<external>> {
+        package exasol {
+            component Driver
+            component WebSockets
+
+            Driver -l-> WebSockets
+        }
+    }
+
     entry -d-> RequestDispatcher : create
     entry -d-> ExasolAdapter : create
     entry -d-> MetadataReaderFactory : create
-
+    RemoteMetadataReader -d-> Driver
 }
 
 url of entry is [[../sequence/seq_entry.svg]]

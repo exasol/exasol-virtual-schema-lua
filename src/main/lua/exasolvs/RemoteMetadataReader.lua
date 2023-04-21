@@ -40,6 +40,7 @@ function RemoteMetadataReader:_read_connection_definition_from_context()
     return connection_reader:read(self._connection_id)
 end
 
+-- [impl -> dsn~tls-connection~0]
 function RemoteMetadataReader:_get_connection()
     if not self._connection then
         local connection_definition = self:_read_connection_definition_from_context()

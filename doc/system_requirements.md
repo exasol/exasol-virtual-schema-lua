@@ -119,6 +119,34 @@ Covers:
 
 Needs: dsn
 
+### TLS Connection
+`req~tls-connection~1`
+
+EVSL establishes a TLS connection to the remote Exasol database.
+
+Rationale:
+
+TLS provides the necessary privacy for transmitting production data.
+
+Covers:
+
+* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+
+Needs: dsn
+
+### TLS Certificate Validation
+`req~tls-certificate-validation~1`
+
+EVSL validates TLS certificate.
+
+Rationale:
+
+Certificate validation is required to establish trusted connection to a remote Exasol database.
+
+Comment:
+
+[#38](https://github.com/exasol/exasol-virtual-schema-lua/issues/36): This requirement is currently blocked by missing access for Lua to the truststore. Therefore, the `needs` part of this requirement is no yet here. 
+
 ### Reading Source Metadata
 `req~reading-source-metadata~1`
 

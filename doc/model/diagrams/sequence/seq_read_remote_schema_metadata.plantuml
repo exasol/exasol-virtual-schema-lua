@@ -1,6 +1,7 @@
 ' [dsn -> req~reading-source-metadata~1] forwarding already done in local metadata reading UML
 ' [dsn -> req~filtering-tables~1] forwarding already done in local metadata reading UML
 ' [dsn -> req~defining-the-remote-connection~1 >> impl, utest, itest]
+' [dsn -> req~tls-connection~1 >> impl, itest]
 
 @startuml
 !include ../clean.skin
@@ -33,6 +34,9 @@ deactivate ConnectionReader
 
 RemotedMetadataReader -> ExasolDriverLua : read schema details (schema)
 activate ExasolDriverLua
+ExasolDriverLua -> ExasolDriverLua : connect (TLS options)
+activate ExasolDriverLua
+deactivate ExasolDriverLua
 ExasolDriverLua -->> RemotedMetadataReader : list of tables
 deactivate ExasolDriverLua
 
