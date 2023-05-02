@@ -1,14 +1,14 @@
-local AbstractMetadataReader = require("exasolvs.AbstractMetadataReader")
-local ExaError = require("ExaError")
-local ConnectionReader = require("exasolvs.ConnectionReader")
-local driver = require("luasql.exasol")
-local log = require("remotelog")
-
 --- This class reads schema, table and column metadata from a schema on a remote Exasol database.
 -- @classmod RemoteMetadataReader
 local RemoteMetadataReader = {}
 RemoteMetadataReader.__index = RemoteMetadataReader
+local AbstractMetadataReader = require("exasol.evscl.AbstractMetadataReader")
 setmetatable(RemoteMetadataReader, {__index = AbstractMetadataReader})
+
+local ExaError = require("ExaError")
+local ConnectionReader = require("exasolvs.ConnectionReader")
+local driver = require("luasql.exasol")
+local log = require("remotelog")
 
 local TLS_PROPERTIES <const> = {tls_verify = "none", tls_protocol = "tlsv1_3"}
 

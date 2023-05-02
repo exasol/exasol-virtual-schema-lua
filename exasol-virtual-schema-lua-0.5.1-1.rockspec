@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 
-local tag = "0.5.0"
+local tag = "0.5.1"
 local project = "exasol-virtual-schema-lua"
 local src = "src/main/lua"
 
@@ -22,7 +22,7 @@ description = {
 }
 
 dependencies = {
-    "virtual-schema-common-lua = 3.0.0",
+    "exasol-virtual-schema-common-lua = 1.0.0",
     "luasql-exasol = 0.2.0"
 }
 
@@ -42,20 +42,22 @@ test = {
 }
 
 local package_items = {
-    "exasol.validator",
-    "exasolvs.adapter_capabilities", "exasolvs.ExasolAdapterProperties", "exasolvs.ExasolAdapter",
-    "exasolvs.MetadataReaderFactory", "exasolvs.AbstractMetadataReader", "exasolvs.LocalMetadataReader",
-    "exasolvs.RemoteMetadataReader", "exasolvs.ConnectionReader", "exasolvs.QueryRewriterFactory",
-    "exasolvs.AbstractQueryRewriter", "exasolvs.LocalQueryRewriter", "exasolvs.RemoteQueryRewriter",
+    "exasolvs.adapter_capabilities",  "exasolvs.ExasolAdapter", "exasolvs.ExasolAdapterProperties",
+    "exasolvs.MetadataReaderFactory", "exasolvs.RemoteMetadataReader", "exasolvs.ConnectionReader",
+    "exasolvs.QueryRewriterFactory", "exasolvs.RemoteQueryRewriter",
+    -- from remotelog
     "remotelog", "ExaError", "MessageExpander",
+    -- from exasol-virtual-schema-common-lua
+    "exasol.evscl.ExasolBaseAdapterProperties", "exasol.evscl.AbstractMetadataReader", "exasol.evscl.LocalMetadataReader",
+    "exasol.evscl.AbstractQueryRewriter", "exasol.evscl.LocalQueryRewriter",
     -- from virtual-schema-common-lua"
-    "exasolvs.AbstractVirtualSchemaAdapter", "exasolvs.AdapterProperties",
-    "exasolvs.RequestDispatcher", "exasolvs.Query", "exasolvs.QueryRenderer",
-    "exasolvs.queryrenderer.AbstractQueryAppender", "exasolvs.queryrenderer.ExpressionAppender",
-    "exasolvs.queryrenderer.ImportAppender",
-    "exasolvs.queryrenderer.ScalarFunctionAppender", "exasolvs.queryrenderer.AggregateFunctionAppender",
-    "exasolvs.queryrenderer.SelectAppender", "exasolvs.ImportQueryBuilder",
-    "text",
+    "exasol.vscl.AbstractVirtualSchemaAdapter", "exasol.vscl.AdapterProperties",
+    "exasol.vscl.RequestDispatcher", "exasol.vscl.Query", "exasol.vscl.QueryRenderer",
+    "exasol.vscl.queryrenderer.AbstractQueryAppender", "exasol.vscl.queryrenderer.ExpressionAppender",
+    "exasol.vscl.queryrenderer.ImportAppender",
+    "exasol.vscl.queryrenderer.ScalarFunctionAppender", "exasol.vscl.queryrenderer.AggregateFunctionAppender",
+    "exasol.vscl.queryrenderer.SelectAppender", "exasol.vscl.ImportQueryBuilder",
+    "exasol.vscl.text", "exasol.vscl.validator",
     -- driver dependencies
     "luasql.exasol", "luasql.exasol.Connection", "luasql.exasol.ConnectionProperties", "luasql.exasol.Cursor",
     "luasql.exasol.CursorData", "luasql.exasol.Environment", "luasql.exasol.ExasolWebsocket", "luasql.exasol.Websocket",

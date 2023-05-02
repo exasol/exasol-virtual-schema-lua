@@ -25,7 +25,7 @@ end
 --- Create a metadata reader that reads the metadata from the local database.
 -- @return local metadata reader
 function MetadataReaderFactory:create_local_reader()
-    return require("exasolvs.LocalMetadataReader"):new(self._exasol_context)
+    return require("exasol.evscl.LocalMetadataReader"):new(self._exasol_context)
 end
 
 --- Create a metadata reader that reads the metadata from a remote database.

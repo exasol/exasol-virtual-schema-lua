@@ -6,7 +6,7 @@ local ExasolAdapter = require("exasolvs.ExasolAdapter")
 local ExasolAdapterProperties = require("exasolvs.ExasolAdapterProperties")
 local MetadataReaderFactory = require("exasolvs.MetadataReaderFactory")
 local QueryRewriterFactory = require("exasolvs.QueryRewriterFactory")
-local RequestDispatcher = require("exasolvs.RequestDispatcher")
+local RequestDispatcher = require("exasol.vscl.RequestDispatcher")
 
 --- Handle a Virtual Schema request.
 -- @param request_as_json JSON-encoded adapter request
