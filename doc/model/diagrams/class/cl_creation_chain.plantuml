@@ -46,7 +46,7 @@ note as N1
     Factories, adapter and dispatcher are always created at the start.
 
     Depending on which type of virtual schema and what request is
-    handled is used, the factories either produce a local or the remote
+   used, the factories either produce a local or the remote
     variant of the query rewriter and metadata reader.
 end note
 
