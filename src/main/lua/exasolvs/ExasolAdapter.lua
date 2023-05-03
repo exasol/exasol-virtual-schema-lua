@@ -1,4 +1,4 @@
-local AbstractVirtualSchemaAdapter = require("exasolvs.AbstractVirtualSchemaAdapter")
+local AbstractVirtualSchemaAdapter = require("exasol.vscl.AbstractVirtualSchemaAdapter")
 local adapter_capabilities = require("exasolvs.adapter_capabilities")
 local log = require("remotelog")
 
@@ -7,7 +7,7 @@ local log = require("remotelog")
 local ExasolAdapter = {}
 ExasolAdapter.__index = ExasolAdapter
 setmetatable(ExasolAdapter, {__index = AbstractVirtualSchemaAdapter})
-local VERSION <const> = "0.5.0"
+local VERSION <const> = "0.5.1"
 
 --- Create an `ExasolAdapter`.
 -- @param metadata_reader_factory factory for the metadata reader (e.g. local or remote)

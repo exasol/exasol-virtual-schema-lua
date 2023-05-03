@@ -1,5 +1,5 @@
-' [dsn -> req~reading-source-metadata~1 >> impl, utest, itest]
-' [dsn -> req~filtering-tables~1 >> impl, utest, itest]
+' [dsn -> req~reading-source-metadata~1 >> impl, itest] Unit test is in EVSCL base library
+' [dsn -> req~filtering-tables~1 >> impl, itest] Unit test is in EVSCL base library
 
 @startuml
 !include ../clean.skin

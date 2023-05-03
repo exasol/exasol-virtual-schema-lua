@@ -13,6 +13,11 @@ activate RequestDispatcher
 RequestDispatcher -> ExasolAdapter : set properties (request)
 activate ExasolAdapter
 ExasolAdapter -> MetadataReader : read (schema)
+note right
+    Changing properties most of the time requires
+    rereading the source scheme. For example if
+    the schema name or table filter were modified.
+end note
 activate MetadataReader
 ref over MetadataReader : **[[seq_read_table_metadata.svg read table metadata]]**
 MetadataReader -->> ExasolAdapter : schema metadata

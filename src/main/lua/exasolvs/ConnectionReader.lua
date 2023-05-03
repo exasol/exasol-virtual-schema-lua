@@ -1,4 +1,4 @@
-local validator = require("exasol.validator")
+local validator = require("exasol.vscl.validator")
 local log = require("remotelog")
 
 --- This class reads details of a named connection database object from Exasol's Lua script context.

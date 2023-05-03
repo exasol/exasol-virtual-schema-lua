@@ -8,7 +8,7 @@ title: Create Virtual Schema
 
 participant RequestDispatcher
 participant ExasolAdapter
-participant MetadataReader
+participant MetadataReader <<interface>>
 
 activate RequestDispatcher
 RequestDispatcher -> ExasolAdapter : create virtual schema (request)
