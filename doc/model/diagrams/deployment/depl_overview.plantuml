@@ -29,5 +29,5 @@ Engine - vs
 
 source -[hidden]d- vs
 
-url of vs_adapter is [[../component/comp_virtual_schema.svg]]
+url of vs_adapter is [[../class/cl_exasol_virtual_schema.svg]]
 @enduml

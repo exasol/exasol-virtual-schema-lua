@@ -1,0 +1,31 @@
+@startuml
+!pragma layout smetana
+!include ../clean.skin
+set separator none
+
+title Exasol Virtual Schema Lua and its Dependencies
+
+package exasol.evsl [
+Exasol Virtual Schema for Lua
+]
+
+package exasol.evscl <<external>> [
+    Base library for virtual schemas that
+    have Exasol as target database
+]
+
+package exasol.vscl <<external>> [
+    Base library for all virtual schemas
+    ' [impl -> dsn~filtering-tables~0]
+    ' [impl -> dsn~reading-source-metadata~0]
+]
+
+package luasql.exasol <<external>> [
+    Exasol database driver for Lua
+]
+
+exasol.evsl ..> exasol.evscl
+exasol.evscl ..> exasol.vscl
+exasol.vscl ..> luasql.exasol
+
+@enduml

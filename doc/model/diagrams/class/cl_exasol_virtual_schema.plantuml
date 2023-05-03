@@ -1,0 +1,58 @@
+@startuml
+!pragma layout smetana
+!include ../clean.skin
+set separator none
+
+title: Exasol Virtual Schema Components
+
+package exasol.evscl <<external>> {
+    interface MetadataReader <<interface>>
+    abstract class AbstractMetadataReader <<abstract>>
+    class LocalMetadataReader
+    class LocalQueryRewriter
+
+    AbstractMetadataReader .u.|> MetadataReader
+    LocalMetadataReader -u-|> AbstractMetadataReader
+}
+
+package exasol.evsl {
+    class ExasolAdapter
+    class RemoteMetadataReader
+    class RemoteQueryRewriter
+
+    ExasolAdapter -[hidden]d- RemoteMetadataReader
+}
+
+package exasol.vscl <<external>> {
+    interface Adapter <<interface>>
+    abstract class AbstractVirtualSchemaAdapter <<abstract>>
+    interface QueryRewriter <<interface>>
+    abstract class AbstractQueryRewriter <<abstract>>
+    class QueryRenderer
+    class RequestDispatcher
+
+    AbstractVirtualSchemaAdapter .u.|> Adapter
+    AbstractQueryRewriter .u.|> QueryRewriter
+    AbstractQueryRewriter --> QueryRenderer
+    RequestDispatcher ..> Adapter : <<use>>
+}
+
+ExasolAdapter -u-|> AbstractVirtualSchemaAdapter
+
+ExasolAdapter ..> MetadataReader : <<use>>
+ExasolAdapter -l-> QueryRewriter
+RemoteMetadataReader -u-|> AbstractMetadataReader
+RemoteQueryRewriter -u-|> AbstractQueryRewriter
+LocalQueryRewriter -u-|> AbstractQueryRewriter
+
+package luasql.exasol <<external>> {
+        class Driver
+        class WebSockets
+
+        Driver -r-> WebSockets
+}
+
+RemoteMetadataReader -r-> Driver
+
+url of RequestDispatcher is [[../sequence/seq_handle_request.svg]]
+@enduml
