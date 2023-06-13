@@ -3,13 +3,7 @@
 !include ../clean.skin
 set separator none
 
-title: Creation Chain
-
-
-package exasol.evscl <<external>> {
-    class LocalMetadataReader
-    class LocalQueryRewriter
-}
+title: Creation Chain Remote vs
 
 package exasol.evsl {
     class entry <<function>>
@@ -22,8 +16,8 @@ package exasol.evsl {
     entry -d-> MetadataReaderFactory : "**1:** create"
     entry -r-> QueryRewriterFactory : "**2:** create"
     entry -d-> ExasolAdapter : "**3:** create"
-    MetadataReaderFactory -r-> RemoteMetadataReader : "create"
-    QueryRewriterFactory -l-> RemoteQueryRewriter : "create"
+    MetadataReaderFactory -d-> RemoteMetadataReader : "create"
+    QueryRewriterFactory -r-> RemoteQueryRewriter : "create"
 
 
     url of entry is [[../sequence/seq_entry.svg]]
@@ -37,19 +31,6 @@ package exasol.vscl <<external>> {
 }
 
 entry -d-> RequestDispatcher : "**4:** create"
-MetadataReaderFactory --> LocalMetadataReader : create
-QueryRewriterFactory --> LocalQueryRewriter : create
 RemoteQueryRewriter -->  QueryRenderer : create
-LocalQueryRewriter --> QueryRenderer : create
-
-note as N1
-    Factories, adapter and dispatcher are always created at the start.
-
-    Depending on which type of virtual schema and what request is
-   used, the factories either produce a local or the remote
-    variant of the query rewriter and metadata reader.
-end note
-
-exasol.vscl -[hidden]d- N1
 
 @enduml

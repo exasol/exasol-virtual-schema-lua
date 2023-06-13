@@ -8,10 +8,11 @@ title: Query Push-down
 
 participant RequestDispatcher
 participant ExasolAdapter
+participant QueryRewriterFactory
 participant RemoteQueryRewriter
 participant LocalQueryRewriter
+participant ImportQueryBuilder
 participant QueryRenderer
-participant QueryRewriterFactory
 
 activate RequestDispatcher
 RequestDispatcher -> ExasolAdapter : push down (request)
@@ -30,8 +31,18 @@ alt connection provided
     ExasolAdapter -> RemoteQueryRewriter : rewrite (query, schema\nadapter notes, involved table[])
     activate RemoteQueryRewriter
     ref over RemoteQueryRewriter : **[[../activity/act_rewrite.svg rewrite query]]**
+    create ImportQueryBuilder
+    RemoteQueryRewriter -> ImportQueryBuilder : new()
+    activate ImportQueryBuilder
+    ImportQueryBuilder -->> RemoteQueryRewriter : instance
+    deactivate ImportQueryBuilder
+    note over RemoteQueryRewriter, ImportQueryBuilder : Set connection, result column types and query to be wrapped in the import
+    RemoteQueryRewriter -> ImportQueryBuilder : build()
+    activate ImportQueryBuilder
+    ImportQueryBuilder -->> RemoteQueryRewriter : import query
+    deactivate ImportQueryBuilder
     create QueryRenderer
-    RemoteQueryRewriter -> QueryRenderer : new(query)
+    RemoteQueryRewriter -> QueryRenderer : new(import query)
     activate QueryRenderer
     QueryRenderer -->> RemoteQueryRewriter : instance
     deactivate QueryRenderer
@@ -39,12 +50,11 @@ alt connection provided
     activate QueryRenderer
     QueryRenderer -->> RemoteQueryRewriter : query : SQL string
     deactivate QueryRenderer
-    RemoteQueryRewriter -> RemoteQueryRewriter : _wrap_in_import (SQL string)
-    note right : Uses the ""ImportBuilder"".
-    activate RemoteQueryRewriter
-    deactivate RemoteQueryRewriter
     RemoteQueryRewriter --> ExasolAdapter : query : SQL string
     deactivate RemoteQueryRewriter
+    destroy ImportQueryBuilder
+    destroy QueryRenderer
+    destroy RemoteQueryRewriter
 else no connection provided
     ExasolAdapter -> QueryRewriterFactory : create_rewriter()
     activate QueryRewriterFactory
@@ -66,6 +76,8 @@ else no connection provided
     deactivate QueryRenderer
     LocalQueryRewriter --> ExasolAdapter : query : SQL string
     deactivate LocalQueryRewriter
+    destroy QueryRenderer
+    destroy LocalQueryRewriter
 end
 ExasolAdapter -->> RequestDispatcher : wrapped response
 deactivate ExasolAdapter

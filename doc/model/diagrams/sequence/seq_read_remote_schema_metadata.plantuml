@@ -31,7 +31,6 @@ deactivate ConnectionReader
 ConnectionReader -->> RemotedMetadataReader : host, port, user, password
 deactivate ConnectionReader
 
-
 RemotedMetadataReader -> ExasolDriverLua : read schema details (schema)
 activate ExasolDriverLua
 ExasolDriverLua -> ExasolDriverLua : connect (TLS options)
