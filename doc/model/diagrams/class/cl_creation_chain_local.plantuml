@@ -1,0 +1,40 @@
+@startuml
+!pragma layout smetana
+!include ../clean.skin
+set separator none
+
+title: Creation Chain for Local Virtual Schema
+
+package exasol.evscl <<external>> {
+    class LocalMetadataReader
+    class LocalQueryRewriter
+
+}
+
+package exasol.vscl <<external>> {
+    class QueryRenderer
+    class RequestDispatcher
+
+    url of RequestDispatcher is [[../sequence/seq_handle_request.svg]]
+}
+
+package exasol.evsl {
+    class entry <<function>>
+    class ExasolAdapter
+    class QueryRewriterFactory
+    class MetadataReaderFactory
+
+    entry -d-> MetadataReaderFactory : "**1:** create"
+    entry -r-> QueryRewriterFactory : "**2:** create"
+    entry -d-> ExasolAdapter : "**3:** create"
+
+
+    url of entry is [[../sequence/seq_entry.svg]]
+}
+
+entry --> RequestDispatcher : "**4:** create"
+MetadataReaderFactory -d-> LocalMetadataReader : create
+QueryRewriterFactory -d-> LocalQueryRewriter : create
+LocalQueryRewriter -d-> QueryRenderer : create
+
+@enduml
