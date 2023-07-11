@@ -8,6 +8,7 @@ on:
 
 jobs:
   build:
+    name: Build with Lua ${{ matrix.lua_version }} using Exasol ${{ matrix.docker_db_version }}
     strategy:
       fail-fast: true
       matrix:
