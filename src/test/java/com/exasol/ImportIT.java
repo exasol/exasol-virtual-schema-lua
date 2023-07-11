@@ -5,7 +5,6 @@ import static com.exasol.matcher.TypeMatchMode.NO_JAVA_TYPE_CHECK;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.sql.SQLException;
-import java.util.Optional;
 
 import org.junit.jupiter.api.*;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -42,12 +41,10 @@ class ImportIT extends AbstractLuaVirtualSchemaIT {
     }
 
     private static String getAddressWithDynamicTlsFingerprint() {
-        final Optional<String> fingerprint = EXASOL.getTlsCertificateFingerprint();
-        if (fingerprint.isPresent()) {
-            return "localhost/" + fingerprint.get();
-        } else {
-            throw new AssertionError("TLS Fingerprint is missing when trying to construct connection object for test.");
-        }
+        return EXASOL.getTlsCertificateFingerprint() //
+                .map(fingerprint -> "localhost/" + fingerprint) //
+                .orElseThrow(() -> new AssertionError(
+                        "TLS Fingerprint is missing when trying to construct connection object for test."));
     }
 
     // This test case describes a situation where a push-down query request with an empty select list is received. This
