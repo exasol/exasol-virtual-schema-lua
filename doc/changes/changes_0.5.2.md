@@ -4,11 +4,11 @@ Code name:
 
 ## Summary
 
-This release adds tests using Exasol v8 to the CI build.
+This release adds integration tests using Exasol v8 to the CI build.
 
 ## Refactoring
 
-* #31: Added tests using Exasol v8 to CI build
+* #31: Added integration tests using Exasol v8 to CI build
 
 ## Dependency Updates
 

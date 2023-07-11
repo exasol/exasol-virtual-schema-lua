@@ -179,7 +179,7 @@ abstract class AbstractLuaVirtualSchemaIT {
     }
 
     static void assumeExasol8OrHigher() {
-        assumeTrue(isExasol8OrHigher());
+        assumeTrue(isExasol8OrHigher(), "is Exasol version 8 or higher");
     }
 
     static boolean isExasol8OrHigher() {
@@ -189,7 +189,7 @@ abstract class AbstractLuaVirtualSchemaIT {
 
     protected void assumeExasol7OrLower() {
         final ExasolDockerImageReference imageReference = EXASOL.getDockerImageReference();
-        assumeTrue(imageReference.hasMajor() && (imageReference.getMajor() <= 7));
+        assumeTrue(imageReference.hasMajor() && (imageReference.getMajor() <= 7), "is Exasol version 7 or lower");
     }
 
     protected void assertVirtualTableStructure(final Table table, final User user,
