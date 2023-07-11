@@ -1,17 +1,18 @@
 package com.exasol;
 
-import com.exasol.matcher.ResultSetStructureMatcher;
-import org.hamcrest.Matcher;
-
-import java.sql.ResultSet;
-
 import static com.exasol.matcher.ResultSetStructureMatcher.table;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;
 
+import java.sql.ResultSet;
+
+import org.hamcrest.Matcher;
+
+import com.exasol.matcher.ResultSetStructureMatcher;
+
 public final class MetadataAssertions {
-    private MetadataAssertions () {
+    private MetadataAssertions() {
         // Prevent instantiation.
     }
 
@@ -20,8 +21,21 @@ public final class MetadataAssertions {
                 equalTo(0));
         final ResultSetStructureMatcher.Builder builder = table();
         for (int i = 0; i < strings.length; i += 2) {
-            builder.row(strings[i], strings[i + 1], anything(), anything(), anything());
+            final String columnName = strings[i];
+            final String sqlType = strings[i + 1];
+            addExpectedRow(builder, columnName, sqlType);
         }
         return builder.matches();
+    }
+
+    private static void addExpectedRow(final ResultSetStructureMatcher.Builder builder, final String columnName,
+            final String sqlType) {
+        if (AbstractLuaVirtualSchemaIT.isExasol8OrHigher()) {
+            builder.row(columnName, sqlType, anything("nullable"), anything("distribution_key"),
+                    anything("partition_key"), anything("zonemapped"));
+        } else {
+            builder.row(columnName, sqlType, anything("nullable"), anything("distribution_key"),
+                    anything("partition_key"));
+        }
     }
 }

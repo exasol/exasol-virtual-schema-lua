@@ -1,29 +1,27 @@
 package com.exasol;
 
-import com.exasol.dbbuilder.dialects.Schema;
-import com.exasol.dbbuilder.dialects.User;
-import com.exasol.dbbuilder.dialects.exasol.ConnectionDefinition;
-import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
-import org.junit.jupiter.api.Assumptions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.testcontainers.junit.jupiter.Testcontainers;
+import static com.exasol.matcher.ResultSetStructureMatcher.table;
+import static com.exasol.matcher.TypeMatchMode.NO_JAVA_TYPE_CHECK;
+import static org.hamcrest.Matchers.equalTo;
 
 import java.sql.SQLException;
 import java.util.Optional;
 
-import static com.exasol.matcher.ResultSetStructureMatcher.table;
-import static com.exasol.matcher.TypeMatchMode.*;
-import static org.hamcrest.Matchers.equalTo;
+import org.junit.jupiter.api.*;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
+import com.exasol.dbbuilder.dialects.Schema;
+import com.exasol.dbbuilder.dialects.User;
+import com.exasol.dbbuilder.dialects.exasol.ConnectionDefinition;
+import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
 
 // [itest -> dsn~creating-a-remote-virtual-schema~0] implicitly tested with each query on a Virtual Schema
 @Testcontainers
 class ImportIT extends AbstractLuaVirtualSchemaIT {
+
     @BeforeAll
     static void beforeAll() throws SQLException {
-        // Since there is no V8 image on DockerHub yet, we need to skip this test in CI.
-        Assumptions.assumeFalse("true".equals(System.getenv("CI")));
+        assumeExasol8OrHigher();
         AbstractLuaVirtualSchemaIT.beforeAll();
     }
 
@@ -39,14 +37,13 @@ class ImportIT extends AbstractLuaVirtualSchemaIT {
         final User user = createUserWithVirtualSchemaAccess("SELECT_STAR_VS_USER", virtualSchema);
         final String sql = "SELECT * FROM " + getVirtualSchemaName(sourceSchemaName) + ".T";
         assertQueryWithUser(sql, user, table().row(true).row(false).matches());
-        assertPushDown(sql, user,
-                equalTo("IMPORT INTO (c1 BOOLEAN) FROM EXA AT \"SELECT_STAR_CONNECTION\" STATEMENT '"
-                        + "SELECT * FROM \"SELECT_STAR_SCHEMA\".\"T\"'"));
+        assertPushDown(sql, user, equalTo("IMPORT INTO (c1 BOOLEAN) FROM EXA AT \"SELECT_STAR_CONNECTION\" STATEMENT '"
+                + "SELECT * FROM \"SELECT_STAR_SCHEMA\".\"T\"'"));
     }
 
     private static String getAddressWithDynamicTlsFingerprint() {
         final Optional<String> fingerprint = EXASOL.getTlsCertificateFingerprint();
-        if(fingerprint.isPresent()) {
+        if (fingerprint.isPresent()) {
             return "localhost/" + fingerprint.get();
         } else {
             throw new AssertionError("TLS Fingerprint is missing when trying to construct connection object for test.");
@@ -82,12 +79,11 @@ class ImportIT extends AbstractLuaVirtualSchemaIT {
                 getAddressWithDynamicTlsFingerprint(), "sys", "exasol");
         final VirtualSchema virtualSchema = createRemoteVirtualSchema(sourceSchema, connection.getName());
         final User user = createUserWithVirtualSchemaAccess("ORDER_LIMIT_USER", virtualSchema);
-        assertQueryWithUser("SELECT NR FROM " + getVirtualSchemaName(sourceSchemaName)
-                        + ".T ORDER BY NR LIMIT 2", user,
+        assertQueryWithUser("SELECT NR FROM " + getVirtualSchemaName(sourceSchemaName) + ".T ORDER BY NR LIMIT 2", user,
                 table().row(1).row(2).matches(NO_JAVA_TYPE_CHECK));
     }
 
-    //  [itest -> dsn~remote-push-down~0]
+    // [itest -> dsn~remote-push-down~0]
     @Test
     void testSelectWithOrderByExpressionAndLimitWithOffset() {
         final String sourceSchemaName = "ORDER_LIMIT_OFFSET_SCHEMA";
@@ -98,7 +94,6 @@ class ImportIT extends AbstractLuaVirtualSchemaIT {
         final VirtualSchema virtualSchema = createRemoteVirtualSchema(sourceSchema, connection.getName());
         final User user = createUserWithVirtualSchemaAccess("ORDER_LIMIT_OFFSET_USER", virtualSchema);
         assertQueryWithUser("SELECT TXT FROM " + getVirtualSchemaName(sourceSchemaName)
-                        + ".T ORDER BY LENGTH(TXT) LIMIT 2 OFFSET 1", user,
-                table().row("bb").row("ccc").matches());
+                + ".T ORDER BY LENGTH(TXT) LIMIT 2 OFFSET 1", user, table().row("bb").row("ccc").matches());
     }
 }
