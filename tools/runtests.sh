@@ -7,11 +7,11 @@ set -o nounset
 set -o pipefail
 
 readonly script_dir=$(dirname "$(readlink -f "$0")")
-if [[ -v $1 ]]
+if [[ -z "${1+x}" ]]
 then
-    readonly base_dir="$1"
-else
     readonly base_dir=$(readlink -f "$script_dir/..")
+else
+    readonly base_dir="$1"
 fi
 
 readonly exit_ok=0
