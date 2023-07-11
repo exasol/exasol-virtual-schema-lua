@@ -73,7 +73,7 @@
 [25]: http://www.apache.org/licenses/LICENSE-2.0.txt
 [26]: https://maven.apache.org/surefire/maven-surefire-plugin/
 [27]: https://www.mojohaus.org/versions/versions-maven-plugin/
-[28]: https://github.com/basepom/duplicate-finder-maven-plugin
+[28]: https://basepom.github.io/duplicate-finder-maven-plugin
 [29]: http://www.apache.org/licenses/LICENSE-2.0.html
 [30]: https://maven.apache.org/surefire/maven-failsafe-plugin/
 [31]: https://www.jacoco.org/jacoco/trunk/doc/maven.html

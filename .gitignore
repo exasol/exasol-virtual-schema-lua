@@ -26,3 +26,5 @@ pom.xml.versionsBackup
 *.orig
 *.old
 *.flattened-pom.xml
+.settings/org.eclipse.jdt.apt.core.prefs
+.settings/org.eclipse.core.resources.prefs

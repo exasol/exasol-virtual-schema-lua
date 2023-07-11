@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 
-local tag = "0.5.1"
+local tag = "0.5.2"
 local project = "exasol-virtual-schema-lua"
 local src = "src/main/lua"
 
@@ -75,7 +75,7 @@ build = {
     build_command = "mkdir -p target"
             .. " && cd " .. src
             .. " && amalg.lua "
-            .. "-o ../../../target/exasol-virtual-schema-dist-" .. tag .. ".lua "
-            .. "-s entry.lua"
+            .. "--output=../../../target/exasol-virtual-schema-dist-" .. tag .. ".lua "
+            .. "--script=entry.lua "
             .. item_path_list
 }
