@@ -6,7 +6,8 @@ import static org.hamcrest.Matchers.equalTo;
 
 import java.sql.SQLException;
 
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.exasol.dbbuilder.dialects.Schema;
@@ -52,7 +53,6 @@ class ImportIT extends AbstractLuaVirtualSchemaIT {
     // the Virtual Schema. In such cases the adapter internally fills the select list with a dummy expression that only
     // serves the purpose of providing the right number of rows in the result set.
     // [itest -> dsn~remote-push-down~0]
-    @Disabled("https://github.com/exasol/exasol-virtual-schema-lua/issues/32")
     @Test
     void testEmptySelectList() {
         final String sourceSchemaName = "EMPTY_SELECT_SCHEMA";
