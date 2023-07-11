@@ -1,20 +1,19 @@
 package com.exasol;
 
-import com.exasol.dbbuilder.dialects.Schema;
-import com.exasol.dbbuilder.dialects.Table;
-import com.exasol.dbbuilder.dialects.User;
-import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
-import com.exasol.matcher.ResultSetStructureMatcher.Builder;
-import org.hamcrest.Matcher;
-import org.junit.jupiter.api.Test;
-import org.testcontainers.junit.jupiter.Testcontainers;
-
-import java.sql.*;
-
 import static com.exasol.matcher.ResultSetStructureMatcher.table;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;
+
+import java.sql.ResultSet;
+
+import org.hamcrest.Matcher;
+import org.junit.jupiter.api.Test;
+import org.testcontainers.junit.jupiter.Testcontainers;
+
+import com.exasol.dbbuilder.dialects.*;
+import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
+import com.exasol.matcher.ResultSetStructureMatcher.Builder;
 
 // [[itest -> dsn~defining-the-remote-connection~0]]
 @Testcontainers
@@ -76,7 +75,8 @@ class RemoteMetadataReadingIT extends AbstractLuaVirtualSchemaIT {
                 equalTo(0));
         final Builder builder = table();
         for (int i = 0; i < strings.length; i += 2) {
-            builder.row(strings[i], strings[i + 1], anything(), anything(), anything());
+            builder.row(strings[i], strings[i + 1], anything("nullable"), anything("distribution_key"),
+                    anything("partition_key"), anything("zonemapped"));
         }
         return builder.matches();
     }
