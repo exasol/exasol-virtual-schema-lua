@@ -4,9 +4,11 @@ Code name:
 
 ## Summary
 
-## Features
+This release adds tests using Exasol v8 to the CI build.
 
-* ISSUE_NUMBER: description
+## Refactoring
+
+* #31: Added tests using Exasol v8 to CI build
 
 ## Dependency Updates
 
