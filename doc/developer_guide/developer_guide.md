@@ -44,7 +44,7 @@ As most non-trivial pieces of software, `row-level-security-lua` is modularized.
 
 To make this process easier, the [Maven POM file](../../pom.xml) contains an execution that automates this step. Still it is necessary to add new modules by hand in the list of modules to be bundled in the POM.
 
-Note that the entry point `request_dispatcher.lua` is a regular Lua script that must be added to the bundle using the `--script` switch and its relative path. The remaining bundle elements are Lua modules and must be listed in dot-notation.
+Note that the entry point `entry.lua` is a regular Lua script that must be added to the bundle using the `--script` switch and its relative path. The remaining bundle elements are Lua modules and must be listed in dot-notation.
 
 To make a bundle via Maven run the following command:
 
@@ -64,13 +64,13 @@ To run unit tests from terminal, you first need to install test dependencies (th
 luarocks --local test
 ```
 
-After that you can try to run any test file:
+After that you can to run an individual test file like this:
 
 ```bash
 lua spec/build_preconditions_spec.lua
 ```
 
-To just run all unit tests, run the following command:
+To just execute all unit tests, run the following command:
 
 ```bash
 busted
