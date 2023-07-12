@@ -1,6 +1,6 @@
 package com.exasol;
 
-import static com.exasol.ExasolVirtualSchemaTestConstants.*;
+import static com.exasol.ExasolVirtualSchemaTestConstants.DOCKER_DB;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -13,16 +13,16 @@ import java.sql.*;
 import java.time.Duration;
 import java.util.*;
 
-import com.exasol.containers.ExasolDockerImageReference;
-import com.exasol.matcher.ResultSetStructureMatcher;
 import org.hamcrest.Matcher;
 import org.junit.jupiter.api.BeforeAll;
 import org.testcontainers.containers.JdbcDatabaseContainer.NoDriverFoundException;
 import org.testcontainers.junit.jupiter.Container;
 
 import com.exasol.containers.ExasolContainer;
+import com.exasol.containers.ExasolDockerImageReference;
 import com.exasol.dbbuilder.dialects.*;
 import com.exasol.dbbuilder.dialects.exasol.*;
+import com.exasol.matcher.ResultSetStructureMatcher;
 import com.exasol.mavenprojectversiongetter.MavenProjectVersionGetter;
 
 abstract class AbstractLuaVirtualSchemaIT {
@@ -100,7 +100,6 @@ abstract class AbstractLuaVirtualSchemaIT {
         return createVirtualSchema(sourceSchema, Map.of("CONNECTION_NAME", connectionName));
     }
 
-
     protected AdapterScript createAdapterScript(final String prefix) throws IOException {
         final String content = EXASOL_LUA_MODULE_LOADER_WORKAROUND + Files.readString(VS_PACKAGE_PATH);
         return scriptSchema.createAdapterScript(prefix + "_ADAPTER", AdapterScript.Language.LUA, content);
@@ -122,8 +121,7 @@ abstract class AbstractLuaVirtualSchemaIT {
 
     protected TimedResultSet executeTimedRlsQueryWithUser(final String query, final User user) throws SQLException {
         try (final Connection uncachedConnection = EXASOL.createConnectionForUser(user.getName(), user.getPassword());
-             final Statement statement = uncachedConnection.createStatement()
-        ) {
+                final Statement statement = uncachedConnection.createStatement()) {
             statement.execute("ALTER SESSION SET QUERY_CACHE = 'OFF'");
             final long before = System.nanoTime();
             final ResultSet result = statement.executeQuery(query);
@@ -150,7 +148,7 @@ abstract class AbstractLuaVirtualSchemaIT {
     }
 
     protected Duration assertTimedVsQueryWithUser(final String sql, final User user,
-                                                  final Matcher<ResultSet> expected) {
+            final Matcher<ResultSet> expected) {
         try {
             final TimedResultSet timedResult = executeTimedRlsQueryWithUser(sql, user);
             assertThat(timedResult.getResultSet(), expected);
@@ -161,7 +159,7 @@ abstract class AbstractLuaVirtualSchemaIT {
     }
 
     protected void assertJoinQuery(final String sql, final User user,
-                                   final ResultSetStructureMatcher.Builder resultMatcher, final String expectedPushDown) {
+            final ResultSetStructureMatcher.Builder resultMatcher, final String expectedPushDown) {
         assertAll(() -> assertQueryWithUser(sql, user, resultMatcher.matches()),
                 () -> assertPushDownMatches(sql, user, expectedPushDown));
     }
@@ -180,18 +178,23 @@ abstract class AbstractLuaVirtualSchemaIT {
         }
     }
 
-    protected void assumeExasol8OrHigher() {
+    static void assumeExasol8OrHigher() {
+        assumeTrue(isExasol8OrHigher(), "is Exasol version 8 or higher");
+    }
+
+    static boolean isExasol8OrHigher() {
         final ExasolDockerImageReference imageReference = EXASOL.getDockerImageReference();
-        assumeTrue(imageReference.hasMajor() && (imageReference.getMajor() >= 8));
+        return imageReference.hasMajor() && (imageReference.getMajor() >= 8);
     }
 
     protected void assumeExasol7OrLower() {
         final ExasolDockerImageReference imageReference = EXASOL.getDockerImageReference();
-        assumeTrue(imageReference.hasMajor() && (imageReference.getMajor() <=7));}
+        assumeTrue(imageReference.hasMajor() && (imageReference.getMajor() <= 7), "is Exasol version 7 or lower");
+    }
 
     protected void assertVirtualTableStructure(final Table table, final User user,
-                                               final Matcher<ResultSet> tableMatcher) {
-        assertQueryWithUser("/*snapshot execution*/DESCRIBE " + getVirtualSchemaName(table.getParent().getName())
-                        + "." + table.getName(), user, tableMatcher);
+            final Matcher<ResultSet> tableMatcher) {
+        assertQueryWithUser("/*snapshot execution*/DESCRIBE " + getVirtualSchemaName(table.getParent().getName()) + "."
+                + table.getName(), user, tableMatcher);
     }
 }

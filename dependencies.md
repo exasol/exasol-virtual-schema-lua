@@ -46,7 +46,7 @@
 | [Maven Site Plugin 3][50]                               | [The Apache Software License, Version 2.0][25]                 |
 
 [0]: http://www.exasol.com
-[1]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/7.1.19/exasol-jdbc-7.1.19-license.txt
+[1]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/7.1.20/exasol-jdbc-7.1.20-license.txt
 [2]: https://github.com/exasol/exasol-testcontainers/
 [3]: https://github.com/exasol/exasol-testcontainers/blob/main/LICENSE
 [4]: https://testcontainers.org
@@ -73,7 +73,7 @@
 [25]: http://www.apache.org/licenses/LICENSE-2.0.txt
 [26]: https://maven.apache.org/surefire/maven-surefire-plugin/
 [27]: https://www.mojohaus.org/versions/versions-maven-plugin/
-[28]: https://github.com/basepom/duplicate-finder-maven-plugin
+[28]: https://basepom.github.io/duplicate-finder-maven-plugin
 [29]: http://www.apache.org/licenses/LICENSE-2.0.html
 [30]: https://maven.apache.org/surefire/maven-failsafe-plugin/
 [31]: https://www.jacoco.org/jacoco/trunk/doc/maven.html
@@ -83,8 +83,8 @@
 [35]: https://www.mojohaus.org/exec-maven-plugin
 [36]: https://github.com/itsallcode/openfasttrace-maven-plugin
 [37]: https://www.gnu.org/licenses/gpl-3.0.html
-[38]: http://www.mojohaus.org/build-helper-maven-plugin/
-[39]: https://opensource.org/licenses/mit-license.php
+[38]: https://www.mojohaus.org/build-helper-maven-plugin/
+[39]: https://spdx.org/licenses/MIT.txt
 [40]: https://maven.apache.org/plugins/maven-jar-plugin/
 [41]: https://github.com/Huluvu424242/plantuml-maven-plugin
 [42]: https://www.apache.org/licenses/LICENSE-2.0

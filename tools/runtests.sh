@@ -2,12 +2,16 @@
 
 # This script runs Lua unit tests, collects coverage and runs static code analysis.
 
+set -o errexit
+set -o nounset
+set -o pipefail
+
 readonly script_dir=$(dirname "$(readlink -f "$0")")
-if [[ -v $1 ]]
+if [[ -z "${1+x}" ]]
 then
-    readonly base_dir="$1"
-else
     readonly base_dir=$(readlink -f "$script_dir/..")
+else
+    readonly base_dir="$1"
 fi
 
 readonly exit_ok=0
@@ -31,7 +35,7 @@ function create_target_directories {
 #
 function run_tests {
     cd "$base_dir" || exit
-    luarocks test
+    luarocks --local test
 }
 
 ##
@@ -80,10 +84,10 @@ function run_static_code_analysis {
 
 create_target_directories
 run_tests \
-&& collect_coverage_results \
-&& move_coverage_results \
-&& print_coverage_summary \
-&& run_static_code_analysis \
-|| exit "$exit_software"
+  && collect_coverage_results \
+  && move_coverage_results \
+  && print_coverage_summary \
+  && run_static_code_analysis \
+  || exit "$exit_software"
 
 exit "$exit_ok"
