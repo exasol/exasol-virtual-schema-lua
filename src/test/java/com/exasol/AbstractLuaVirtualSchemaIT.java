@@ -185,11 +185,7 @@ abstract class AbstractLuaVirtualSchemaIT {
 
     protected void assumeExasol7OrLower() {
         final ExasolDockerImageReference imageReference = EXASOL.getDockerImageReference();
-<<<<<<< HEAD
         assumeTrue(imageReference.hasMajor() && (imageReference.getMajor() <= 7), "is Exasol version 7 or lower");
-=======
-        assumeTrue(imageReference.hasMajor() && (imageReference.getMajor() <= 7));
->>>>>>> 6c05d6b (Unify debug output configuration)
     }
 
     protected void assertVirtualTableStructure(final Table table, final User user,
