@@ -6,6 +6,8 @@ import static org.hamcrest.Matchers.anything;
 import static org.hamcrest.Matchers.equalTo;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hamcrest.Matcher;
 
@@ -30,12 +32,15 @@ public final class MetadataAssertions {
 
     private static void addExpectedRow(final ResultSetStructureMatcher.Builder builder, final String columnName,
             final String sqlType) {
+        final List<Object> list = new ArrayList<>(List.of( //
+                columnName, //
+                sqlType, //
+                anything("nullable"), //
+                anything("distribution_key"), //
+                anything("partition_key")));
         if (AbstractLuaVirtualSchemaIT.isExasol8OrHigher()) {
-            builder.row(columnName, sqlType, anything("nullable"), anything("distribution_key"),
-                    anything("partition_key"), anything("zonemapped"));
-        } else {
-            builder.row(columnName, sqlType, anything("nullable"), anything("distribution_key"),
-                    anything("partition_key"));
+            list.add(anything("zonemapped"));
         }
+        builder.row(list.toArray());
     }
 }
