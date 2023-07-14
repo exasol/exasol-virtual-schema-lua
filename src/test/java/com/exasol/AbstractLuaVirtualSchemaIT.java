@@ -27,9 +27,6 @@ import com.exasol.matcher.ResultSetStructureMatcher;
 import com.exasol.mavenprojectversiongetter.MavenProjectVersionGetter;
 
 abstract class AbstractLuaVirtualSchemaIT {
-    private static final int DEFAULT_LOG_PORT = 3000;
-    private static final String LOG_PORT_PROPERTY = "com.exasol.log.port";
-    private static final String LOG_HOST_PROPERTY = "com.exasol.log.host";
     private static final String VERSION = MavenProjectVersionGetter.getCurrentProjectVersion();
     private static final Path VS_PACKAGE_PATH = Path.of("target/exasol-virtual-schema-dist-" + VERSION + ".lua");
     @Container

@@ -8,8 +8,7 @@ import static org.hamcrest.Matchers.equalTo;
 import java.sql.SQLException;
 import java.util.Map;
 
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 import com.exasol.dbbuilder.dialects.*;
@@ -40,8 +39,8 @@ class CapabilitiesIT extends AbstractLuaVirtualSchemaIT {
                 "SELECT * FROM \"" + sourceSchemaName + "\".\"T\"");
     }
 
-    // This test is disabled until we implement aggregate functions parsing:
-    // https://github.com/exasol/row-level-security-lua/issues/103
+    @Test
+    @Disabled("Disabled until we implement aggregate functions parsing: https://github.com/exasol/row-level-security-lua/issues/103")
     void testAggregateSingleGroupCapability() {
         final String sourceSchemaName = "HAS_AGGREGATE_SINGLE_GROUP_CAPABILITY_SCHEMA";
         final Schema sourceSchema = createSchema(sourceSchemaName);
