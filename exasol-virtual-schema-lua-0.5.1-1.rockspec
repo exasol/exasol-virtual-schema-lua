@@ -1,6 +1,6 @@
 rockspec_format = "3.0"
 
-local tag = "0.5.2"
+local tag = "0.5.1"
 local project = "exasol-virtual-schema-lua"
 local src = "src/main/lua"
 
@@ -22,7 +22,7 @@ description = {
 }
 
 dependencies = {
-    "exasol-virtual-schema-common-lua = 1.0.1",
+    "exasol-virtual-schema-common-lua = 1.0.2",
     "luasql-exasol = 0.2.0"
 }
 
