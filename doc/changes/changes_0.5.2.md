@@ -10,7 +10,7 @@ We also changed the namespace for the virtual schema adapter in the code from `e
 
 ## Features
 
-* #40: Changed namespace `exasolvs` to `exasol.evsl`
+* #38: Changed namespace `exasolvs` to `exasol.evsl`
 * #45: Fix CVE-2023-42503 in test dependency
 
 ## Dependency Updates
