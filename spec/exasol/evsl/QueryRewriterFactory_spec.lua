@@ -1,6 +1,6 @@
 package.path = "src/main/lua/?.lua;" .. package.path
 require("busted.runner")()
-local QueryRewriterFactory = require("exasolvs.QueryRewriterFactory")
+local QueryRewriterFactory = require("exasol.evsl.QueryRewriterFactory")
 
 describe("QueryRewriterFactory", function()
     it("creates a local query rewriter", function()

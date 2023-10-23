@@ -150,7 +150,7 @@ Of course, we trust that you will pick a stronger password in real life than we 
 
 Which SQL constructs are pushed-down to Exasol's Virtual Schema is decided by the optimizer based on the original query and on the capabilities reported by the Virtual Schema adapter (i.e. the software driving RLS).
 
-The Exasol Virtual Schema supports the capabilities listed in the file [`adapter_capabilities.lua`](../../src/main/lua/exasolvs/adapter_capabilities.lua).
+The Exasol Virtual Schema supports the capabilities listed in the file [`adapter_capabilities.lua`](../../src/main/lua/exasol/evsl/adapter_capabilities.lua).
 
 Please note that excluded capabilities are not the only reason why a construct might not be pushed down. Given the nature of the queries pushed to RLS, the `LIMIT`-clause for example will rarely &mdash; if ever &mdash; be pushed down even though the adapter can handle that. RLS creates `SELECT` statements and not `IMPORT` statements.
 The simple reason `LIMIT` not pushed is, that the optimizer decides it is more efficient in this particular case.

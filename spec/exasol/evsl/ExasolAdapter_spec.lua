@@ -2,9 +2,9 @@ package.path = "src/main/lua/?.lua;" .. package.path
 require("busted.runner")()
 local assert = require("luassert")
 local mockagne = require("mockagne")
-local adapter_capabilities = require("exasolvs.adapter_capabilities")
-local RlsAdapter = require("exasolvs.ExasolAdapter")
-require("exasolvs.ExasolAdapterProperties")
+local adapter_capabilities = require("exasol.evsl.adapter_capabilities")
+local RlsAdapter = require("exasol.evsl.ExasolAdapter")
+require("exasol.evsl.ExasolAdapterProperties")
 local PomReader = require("spec.PomReader")
 local pom = PomReader:new()
 

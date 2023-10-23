@@ -1,6 +1,6 @@
 package.path = "src/main/lua/?.lua;" .. package.path
 require("busted.runner")()
-local RemoteQueryRewriter = require("exasolvs.RemoteQueryRewriter")
+local RemoteQueryRewriter = require("exasol.evsl.RemoteQueryRewriter")
 
 describe("Remote Query rewriter", function()
     local rewriter = RemoteQueryRewriter:new("TEST_CONNECTION")

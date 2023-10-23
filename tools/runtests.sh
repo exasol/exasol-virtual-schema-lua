@@ -17,7 +17,7 @@ fi
 readonly exit_ok=0
 readonly exit_software=2
 readonly src_module_path="$base_dir/src/main/lua"
-readonly src_exasolvs_path="$src_module_path/exasolvs"
+readonly src_exasol_evsl_path="$src_module_path/exasol/evsl"
 readonly test_module_path="$base_dir/spec"
 readonly target_dir="$base_dir/target"
 readonly reports_dir="$target_dir/luaunit-reports"
@@ -78,7 +78,7 @@ function run_static_code_analysis {
     echo
     echo "Running static code analysis"
     echo
-    luacheck "$src_exasolvs_path" "$test_module_path" --codes --ignore 111 --ignore 112 --ignore 212
+    luacheck "$src_exasol_evsl_path" "$test_module_path" --codes --ignore 111 --ignore 112 --ignore 212
     return "$?"
 }
 

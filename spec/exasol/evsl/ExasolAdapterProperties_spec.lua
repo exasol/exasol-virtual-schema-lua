@@ -1,5 +1,5 @@
 require("busted.runner")()
-local ExasolAdapterProperties = require("exasolvs.ExasolAdapterProperties")
+local ExasolAdapterProperties = require("exasol.evsl.ExasolAdapterProperties")
 
 describe("adapter_properties", function()
     describe("validates property rule:", function()
