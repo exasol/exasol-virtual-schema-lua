@@ -7,7 +7,7 @@ local log = require("remotelog")
 local ExasolAdapter = {}
 ExasolAdapter.__index = ExasolAdapter
 setmetatable(ExasolAdapter, {__index = AbstractVirtualSchemaAdapter})
-local VERSION<const> = "0.5.1"
+local VERSION<const> = "0.5.2"
 
 --- Create an `ExasolAdapter`.
 -- @param metadata_reader_factory factory for the metadata reader (e.g. local or remote)
