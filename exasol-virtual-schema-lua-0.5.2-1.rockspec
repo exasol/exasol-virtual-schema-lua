@@ -42,9 +42,9 @@ test = {
 }
 
 local package_items = {
-    "exasolvs.adapter_capabilities",  "exasolvs.ExasolAdapter", "exasolvs.ExasolAdapterProperties",
-    "exasolvs.MetadataReaderFactory", "exasolvs.RemoteMetadataReader", "exasolvs.ConnectionReader",
-    "exasolvs.QueryRewriterFactory", "exasolvs.RemoteQueryRewriter",
+    "exasol.evsl.adapter_capabilities",  "exasol.evsl.ExasolAdapter", "exasol.evsl.ExasolAdapterProperties",
+    "exasol.evsl.MetadataReaderFactory", "exasol.evsl.RemoteMetadataReader", "exasol.evsl.ConnectionReader",
+    "exasol.evsl.QueryRewriterFactory", "exasol.evsl.RemoteQueryRewriter",
     -- from remotelog
     "remotelog", "ExaError", "MessageExpander",
     -- from exasol-virtual-schema-common-lua

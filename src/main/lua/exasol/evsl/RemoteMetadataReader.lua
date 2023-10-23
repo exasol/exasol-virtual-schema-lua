@@ -6,7 +6,7 @@ local AbstractMetadataReader = require("exasol.evscl.AbstractMetadataReader")
 setmetatable(RemoteMetadataReader, {__index = AbstractMetadataReader})
 
 local ExaError = require("ExaError")
-local ConnectionReader = require("exasolvs.ConnectionReader")
+local ConnectionReader = require("exasol.evsl.ConnectionReader")
 local driver = require("luasql.exasol")
 local log = require("remotelog")
 

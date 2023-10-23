@@ -1,6 +1,6 @@
 package.path = "src/main/lua/?.lua;" .. package.path
 require("busted.runner")()
-local MetadataReaderFactory = require("exasolvs.MetadataReaderFactory")
+local MetadataReaderFactory = require("exasol.evsl.MetadataReaderFactory")
 
 describe("MetadataReaderFactory", function()
     it("asserts that the Exasol context is provided during construction", function()

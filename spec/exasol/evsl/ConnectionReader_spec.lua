@@ -3,7 +3,7 @@ require("busted.runner")()
 local assert = require("luassert")
 local mockagne = require("mockagne")
 
-local ConnectionReader = require("exasolvs.ConnectionReader")
+local ConnectionReader = require("exasol.evsl.ConnectionReader")
 
 -- [[utest -> dsn~defining-the-remote-connection~0]]
 describe("ConnectionReader", function()

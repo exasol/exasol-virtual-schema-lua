@@ -2,10 +2,10 @@
 -- It is responsible for creating and wiring up the main adapter objects.
 -- @script entry.lua
 
-local ExasolAdapter = require("exasolvs.ExasolAdapter")
-local ExasolAdapterProperties = require("exasolvs.ExasolAdapterProperties")
-local MetadataReaderFactory = require("exasolvs.MetadataReaderFactory")
-local QueryRewriterFactory = require("exasolvs.QueryRewriterFactory")
+local ExasolAdapter = require("exasol.evsl.ExasolAdapter")
+local ExasolAdapterProperties = require("exasol.evsl.ExasolAdapterProperties")
+local MetadataReaderFactory = require("exasol.evsl.MetadataReaderFactory")
+local QueryRewriterFactory = require("exasol.evsl.QueryRewriterFactory")
 local RequestDispatcher = require("exasol.vscl.RequestDispatcher")
 
 --- Handle a Virtual Schema request.

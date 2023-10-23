@@ -4,11 +4,14 @@ Code name: Fix CVE-2023-42503 in test dependency
 
 ## Summary
 
-This release we replaced a testing dependency that was vulnerable to CVE-2023-42503. Production code was not affected.
+In this release we replaced a testing dependency that was vulnerable to CVE-2023-42503. Production code was not affected.
+
+We also changed the namespace for the virtual schema adapter in the code from `exasolvs` to `exasol.evsl` for uniformity across projects. This has no impact on the function of the virtual schema.
 
 ## Features
 
-* 45: Fix CVE-2023-42503 in test dependency
+* #38: Changed namespace `exasolvs` to `exasol.evsl`
+* #45: Fixed CVE-2023-42503 in test dependency
 
 ## Dependency Updates
 

@@ -1,5 +1,5 @@
 local AbstractVirtualSchemaAdapter = require("exasol.vscl.AbstractVirtualSchemaAdapter")
-local adapter_capabilities = require("exasolvs.adapter_capabilities")
+local adapter_capabilities = require("exasol.evsl.adapter_capabilities")
 local log = require("remotelog")
 
 --- Virtual Schema adapter for Exasol-to-Exasol Virtual Schemas.

@@ -32,7 +32,7 @@ end
 -- @param connection_id name of the connection object that defines the connection to the remote data source
 -- @return local metadata reader
 function MetadataReaderFactory:create_remote_reader(connection_id)
-    return require("exasolvs.RemoteMetadataReader"):new(self._exasol_context, connection_id)
+    return require("exasol.evsl.RemoteMetadataReader"):new(self._exasol_context, connection_id)
 end
 
 return MetadataReaderFactory

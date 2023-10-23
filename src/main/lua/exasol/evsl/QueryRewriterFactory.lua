@@ -20,7 +20,7 @@ end
 function QueryRewriterFactory:create_rewriter(connection_id)
     if connection_id then
         log.debug("Creating remote query rewriter (IMPORT) for connection '%s'.", connection_id)
-        return require("exasolvs.RemoteQueryRewriter"):new(connection_id)
+        return require("exasol.evsl.RemoteQueryRewriter"):new(connection_id)
     else
         log.debug("No connection specified by user. Creating local query rewriter (SELECT).")
         return require("exasol.evscl.LocalQueryRewriter"):new()
