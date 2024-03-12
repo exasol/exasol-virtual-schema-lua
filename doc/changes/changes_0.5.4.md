@@ -25,7 +25,7 @@ In this security release we fixed CVE-2024-25710 and CVE-2024-26308 by updating 
 
 ### Plugin Dependency Updates
 
-* Updated `com.exasol:project-keeper-maven-plugin:2.9.16` to `4.2.0`
+* Updated `com.exasol:project-keeper-maven-plugin:2.9.16` to `4.1.0`
 * Updated `org.apache.maven.plugins:maven-compiler-plugin:3.11.0` to `3.12.1`
 * Updated `org.apache.maven.plugins:maven-failsafe-plugin:3.2.2` to `3.2.5`
 * Updated `org.apache.maven.plugins:maven-surefire-plugin:3.2.2` to `3.2.5`
