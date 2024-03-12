@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       upload_url:
-        description: 'Assets upload URL'
+        description: "Assets upload URL"
         required: true
 
 jobs:
@@ -16,19 +16,19 @@ jobs:
         with:
           fetch-depth: 0
       - name: Set up JDK 11
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: 11
-          cache: 'maven'
+          distribution: "temurin"
+          java-version: 17
+          cache: "maven"
       - name: Install Lua
-        uses: leafo/gh-actions-lua@v9.1.0
+        uses: leafo/gh-actions-lua@v10
         with:
           luaVersion: 5.4
       - name: Install LuaRocks
         uses: leafo/gh-actions-luarocks@v4
         with:
-          luarocksVersion: "3.9.1"
+          luaRocksVersion: "3.9.1"
       - name: Install Lua dependencies
         run: luarocks --local install --only-deps *.rockspec
       - name: Build with Maven skipping tests

@@ -6,7 +6,9 @@ sources:
 linkReplacements:
   - "LICENSE-exasol-jdbc.txt|https://docs.exasol.com/db/latest/connect_exasol/drivers/jdbc.htm"
 excludes:
+  # Project is based on Lua, no need to build it with Java 17
   - "E-PK-CORE-17: Missing required file: '.github/workflows/ci-build-next-java.yml'"
+  # Custom build process for Lua project
   - "E-PK-CORE-18: Outdated content: '.github/workflows/ci-build.yml'"
   - "E-PK-CORE-18: Outdated content: '.github/workflows/release_droid_prepare_original_checksum.yml'"
   - "E-PK-CORE-18: Outdated content: '.github/workflows/release_droid_print_quick_checksum.yml'"
