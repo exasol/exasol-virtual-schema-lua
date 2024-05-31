@@ -28,9 +28,16 @@ openssl genrsa -out server.key 4096
 openssl req -new -nodes -key server.key -sha256 -out server.csr -subj '/CN=ITest Exasol Server/C=DE/O=ITest'
 
 # Create certificate extensions configuration:
-echo '[extensions]
+cat > server_cert_extensions.cfg <<EOL
+[extensions]
 keyUsage = critical, nonRepudiation, digitalSignature, keyEncipherment, keyAgreement
-basicConstraints = CA:false' > server_cert_extensions.cfg
+basicConstraints = CA:false
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = localhost
+IP.1 = 127.0.0.1
+EOL
 
 # Sign the request:
 openssl x509 -req -in server.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out server.crt -days 90 -sha256 -extfile server_cert_extensions.cfg -extensions extensions --passin "pass:$testpw"
