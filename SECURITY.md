@@ -18,7 +18,7 @@ If you believe you have found a new security vulnerability in any of the Exasol 
 
 * Feel free to include any script you wrote and used but avoid sending us scripts that download and run unknown binaries. 
 
-* We will priritise reports that show how the exploits work in realistic environments. 
+* We will prioritise reports that show how the exploits work in realistic environments. 
 
 * We prefer all communications to be in English. 
 
