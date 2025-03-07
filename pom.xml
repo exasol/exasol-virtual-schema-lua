@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>exasol-virtual-schema-lua</artifactId>
-    <version>0.5.4</version>
-    <name>Exasol Virtual Schema (Lua)</name>
+    <version>0.5.5</version>
+    <name>Exasol Virtual Schema Lua</name>
     <description>This projects provides a plug-in to the Exasol database that adds per-row access control.</description>
     <url>https://github.com/exasol/exasol-virtual-schema-lua/</url>
     <properties>
@@ -91,7 +91,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>4.1.0</version>
+                <version>4.5.0</version>
                 <executions>
                     <execution>
                         <goals>
@@ -220,7 +220,7 @@
     <parent>
         <artifactId>exasol-virtual-schema-lua-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>0.5.4</version>
+        <version>0.5.5</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>
