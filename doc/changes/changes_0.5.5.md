@@ -30,7 +30,6 @@ In this release we added a security policy that describes how to report vulnerab
 * Updated `com.exasol:project-keeper-maven-plugin:4.1.0` to `4.5.0`
 * Added `com.exasol:quality-summarizer-maven-plugin:0.2.0`
 * Updated `io.github.zlika:reproducible-build-maven-plugin:0.16` to `0.17`
-* Updated `io.github.zlika:reproducible-build-maven-plugin:0.16` to `0.17`
 * Updated `org.apache.maven.plugins:maven-clean-plugin:3.2.0` to `3.4.0`
 * Updated `org.apache.maven.plugins:maven-compiler-plugin:3.12.1` to `3.13.0`
 * Updated `org.apache.maven.plugins:maven-enforcer-plugin:3.4.1` to `3.5.0`
