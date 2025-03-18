@@ -1,4 +1,4 @@
-# Exasol Virtual Schema Lua 0.5.5, released 2025-03-07
+# Exasol Virtual Schema Lua 0.5.5, released 2025-03-18
 
 Code name: Vulnerability Reporting Policy
 
