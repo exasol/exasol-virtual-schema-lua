@@ -9,6 +9,7 @@ excludes:
   # Project is based on Lua, no need to build it with Java 17
   - "E-PK-CORE-17: Missing required file: '.github/workflows/ci-build-next-java.yml'"
 build:
+  runnerOs: ubuntu-24.04
   workflows:
     - name: "ci-build.yml"
       stepCustomizations:
