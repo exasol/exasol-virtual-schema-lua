@@ -21,8 +21,6 @@ build:
             id: install-lua
             run: |
               sudo apt-get install lua5.4 liblua5.4-dev
-              sudo update-alternatives --set lua /usr/bin/lua5.4
-              sudo update-alternatives --set luac /usr/bin/luac5.4
               lua -v
               sudo apt-get install luarocks
               luarocks --version
