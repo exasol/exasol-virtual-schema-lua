@@ -49,13 +49,10 @@ jobs:
       - name: Install Lua 5.4, LuaRocks and Lua Dependencies
         id: install-lua
         run: |-
-          sudo apt-get install lua5.4 liblua5.4-dev
+          sudo apt-get install lua5.4 liblua5.4-dev luarocks
           lua -v
-          sudo apt-get install luarocks
           luarocks --version
-          sudo update-alternatives --set lua /usr/bin/lua5.4
-          sudo update-alternatives --set luac /usr/bin/luac5.4
-          luarocks --local install --only-deps *.rockspec
+          luarocks --lua-version=5.4 --local install --only-deps *.rockspec
       - name: Set up JDKs
         id: setup-java
         uses: actions/setup-java@v4
