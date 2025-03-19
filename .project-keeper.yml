@@ -8,17 +8,18 @@ linkReplacements:
 excludes:
   # Project is based on Lua, no need to build it with Java 17
   - "E-PK-CORE-17: Missing required file: '.github/workflows/ci-build-next-java.yml'"
-workflows:
-  - name: "ci-build.yml"
-    stepCustomizations:
-      - action: INSERT_AFTER
-        job: build-and-test
-        stepId: checkout
-        content:
-          name: "Install Lua, LuaRocks and Lua Dependencies"
-          id: install-lua
-          run: |
-            sudo apt-get install lua5.4 luarocks
-            lua -v
-            luarocks --version
-            luarocks --local install --only-deps *.rockspec
+build:
+  workflows:
+    - name: "ci-build.yml"
+      stepCustomizations:
+        - action: INSERT_AFTER
+          job: build-and-test
+          stepId: checkout
+          content:
+            name: "Install Lua, LuaRocks and Lua Dependencies"
+            id: install-lua
+            run: |
+              sudo apt-get install lua5.4 luarocks
+              lua -v
+              luarocks --version
+              luarocks --local install --only-deps *.rockspec
