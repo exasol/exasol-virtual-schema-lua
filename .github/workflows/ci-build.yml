@@ -53,6 +53,8 @@ jobs:
           lua -v
           sudo apt-get install luarocks
           luarocks --version
+          sudo update-alternatives --set lua /usr/bin/lua5.4
+          sudo update-alternatives --set luac /usr/bin/luac5.4
           luarocks --local install --only-deps *.rockspec
       - name: Set up JDKs
         id: setup-java
