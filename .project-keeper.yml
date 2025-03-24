@@ -10,6 +10,7 @@ excludes:
   - "E-PK-CORE-17: Missing required file: '.github/workflows/ci-build-next-java.yml'"
 build:
   runnerOs: ubuntu-24.04
+  freeDiskSpace: false
   workflows:
     - name: "ci-build.yml"
       stepCustomizations:
@@ -22,7 +23,7 @@ build:
             run: |
               sudo apt-get install lua5.4 liblua5.4-dev luarocks
               luarocks --version
-              eval "$(luarocks --lua-version=5.4 path)"
+              luarocks path --export >> $GITHUB_ENV
               luarocks --lua-version=5.4 --local install --only-deps *.rockspec
         # We don't need to test "Java next" compatibility in a Lua project:
         - action: REPLACE
