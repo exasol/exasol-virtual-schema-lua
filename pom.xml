@@ -131,7 +131,7 @@
                             <executable>luarocks</executable>
                             <useMavenLogger>true</useMavenLogger>
                             <arguments>
-                                <argument>----lua-version</argument>
+                                <argument>--lua-version</argument>
                                 <argument>5.4</argument>
                                 <argument>--local</argument>
                                 <argument>make</argument>
