@@ -24,3 +24,24 @@ build:
               lua -v
               luarocks --version
               luarocks --lua-version=5.4 --local install --only-deps *.rockspec
+        # We don't need to test "Java next" compatibility in a Lua project:
+        - action: REPLACE
+          job: "next-java-compatibility"
+          stepId: checkout
+          content:
+            id: skipped-checkout
+            run: echo "Skipped next-Java checkout - Lua project"
+        - action: REPLACE
+          job: "next-java-compatibility"
+          stepId: setup-java
+          content:
+            id: skipped-setup-java
+            if: ${{ false }}
+            run: echo Skipped
+        - action: REPLACE
+          job: "next-java-compatibility"
+          stepId: build-next-java
+          content:
+            id: skipped-build-next-java
+            if: ${{ false }}
+            run: echo Skipped
