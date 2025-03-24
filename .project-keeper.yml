@@ -23,7 +23,7 @@ build:
             run: |
               sudo apt-get install lua5.4 liblua5.4-dev luarocks
               luarocks --version
-              luarocks path --export >> $GITHUB_ENV
+              luarocks path --lua-version=5.4 --local >> $GITHUB_ENV
               luarocks --lua-version=5.4 --local install --only-deps *.rockspec
         # We don't need to test "Java next" compatibility in a Lua project:
         - action: REPLACE
