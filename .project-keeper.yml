@@ -15,19 +15,32 @@ build:
     - name: "ci-build.yml"
       stepCustomizations:
         - action: INSERT_AFTER
-          job: build-and-test
+          job: "build-and-test"
           stepId: checkout
           content:
-            name: "Install Lua 5.4, LuaRocks and Lua Dependencies"
+            name: "Install Lua, LuaRocks and Lua Dependencies"
             id: install-lua
             run: |
-              sudo apt-get install lua5.4 liblua5.4-dev luarocks
+              lua_version=5.4
+              sudo apt-get install lua"$lua_version" liblua"$lua_version"-dev luarocks
               luarocks --version
               mkdir -p "$HOME"/.luarocks
-              echo 'lua_version = "5.4"' > "$HOME"/.luarocks/config-5.4.lua
-              echo 'return "5.4"' > "$HOME"/.luarocks/default-lua-version.lua
-              luarocks --lua-version=5.4 --local path >> $GITHUB_ENV
-              luarocks --lua-version=5.4 --local install --only-deps *.rockspec
+              echo 'lua_version = "$lua_version"' > "$HOME"/.luarocks/config-"$lua_version".lua
+              echo 'return "$lua_version"' > "$HOME"/.luarocks/default-lua-version.lua
+              luarocks --lua-version="$lua_version" --local path >> $GITHUB_ENV
+              luarocks --lua-version="$lua_version" --local install --only-deps *.rockspec
+        # Create a dummy Exasol error_code_report.json file with required fields:
+        - action: INSERT_AFTER
+          job: "build-and-test"
+          stepId: build-pk-verify
+          content:
+            run: |
+              echo '{
+                  "errorReportVersion" : "1.0",
+                  "errorCodes": [
+                      {"identifier": E-"DUMMY-1"}
+                  ]
+              }' > target/error_code_report.json
         # We don't need to test "Java next" compatibility in a Lua project:
         - action: REPLACE
           job: "next-java-compatibility"
