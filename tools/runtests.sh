@@ -35,7 +35,7 @@ function create_target_directories {
 #
 function run_tests {
     cd "$base_dir" || exit
-    luarocks_cmd --local test
+    luarocks --local test
 }
 
 ##
