@@ -37,7 +37,7 @@ build:
               echo '{
                   "errorReportVersion" : "1.0",
                   "errorCodes": [
-                      {"identifier": E-"DUMMY-1"}
+                      {"identifier": "E-DUMMY-1"}
                   ]
               }' > target/error_code_report.json
         # We don't need to test "Java next" compatibility in a Lua project:

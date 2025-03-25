@@ -87,7 +87,7 @@ jobs:
           echo '{
               "errorReportVersion" : "1.0",
               "errorCodes": [
-                  {"identifier": E-"DUMMY-1"}
+                  {"identifier": "E-DUMMY-1"}
               ]
           }' > target/error_code_report.json
       - name: Sonar analysis
