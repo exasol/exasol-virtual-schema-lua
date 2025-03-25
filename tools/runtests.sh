@@ -14,6 +14,9 @@ else
     readonly base_dir="$1"
 fi
 
+# Source the LuaRocks paths
+eval $(luarocks --local path)
+
 readonly exit_ok=0
 readonly exit_software=2
 readonly src_module_path="$base_dir/src/main/lua"
