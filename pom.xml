@@ -131,19 +131,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <phase>verify</phase>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                        <configuration>
-                            <executable>bash</executable>
-                            <arguments>
-                                <argument>-c</argument>
-                                <argument>echo "PATH: $PATH"; echo "LUA_PATH: $LUA_PATH"; echo "LUA_CPATH: $LUA_CPATH"</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                    <execution>
                         <!-- Bundle the main script (dispatcher) and the modules into a single lua package 
                             that can be deployed as Lua adapter script. -->
                         <id>bundle</id>
@@ -152,13 +139,10 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>luarocks</executable>
+                            <executable>${project.basedir}/tools/bundle.sh</executable>
                             <useMavenLogger>true</useMavenLogger>
                             <arguments>
-                                <argument>--lua-version</argument>
-                                <argument>5.4</argument>
-                                <argument>--local</argument>
-                                <argument>make</argument>
+                                <argument>${project.basedir}</argument>
                             </arguments>
                         </configuration>
                     </execution>
