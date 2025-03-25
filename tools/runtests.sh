@@ -8,7 +8,10 @@ set -o pipefail
 
 # Enforce Lua 5.4
 readonly lua_version=5.4
-alias luarocks_cmd="luarocks --lua-version=$lua_version"
+
+luarocks_cmd() {
+  luarocks --lua-version=$lua_version
+}
 # Make sure Lua paths are correctly set
 eval $(luarocks_cmd path)
 
@@ -97,3 +100,5 @@ run_tests \
   || exit "$exit_software"
 
 exit "$exit_ok"
+
+}
