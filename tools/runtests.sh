@@ -94,5 +94,3 @@ run_tests \
   || exit "$exit_software"
 
 exit "$exit_ok"
-
-}
