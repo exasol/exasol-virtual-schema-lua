@@ -6,15 +6,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-# Enforce Lua 5.4
-readonly lua_version=5.4
-
-luarocks_cmd() {
-  luarocks --lua-version=$lua_version
-}
-# Make sure Lua paths are correctly set
-eval $(luarocks_cmd path)
-
 readonly script_dir=$(dirname "$(readlink -f "$0")")
 if [[ -z "${1+x}" ]]
 then
