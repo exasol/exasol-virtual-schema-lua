@@ -7,9 +7,10 @@ set -o nounset
 set -o pipefail
 
 # Enforce Lua 5.4
-export LUA_VERSION=5.4
+readonly lua_version=5.4
+alias luarocks_cmd="luarocks --lua-version=$lua_version"
 # Make sure Lua paths are correctly set
-eval $(luarocks path)
+eval $(luarocks_cmd path)
 
 readonly script_dir=$(dirname "$(readlink -f "$0")")
 if [[ -z "${1+x}" ]]
@@ -40,7 +41,7 @@ function create_target_directories {
 #
 function run_tests {
     cd "$base_dir" || exit
-    luarocks --local test
+    luarocks_cmd --local test
 }
 
 ##
