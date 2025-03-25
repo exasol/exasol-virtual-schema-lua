@@ -51,6 +51,8 @@ jobs:
         run: |
           sudo apt-get install lua5.4 liblua5.4-dev luarocks
           luarocks --version
+          echo 'lua_version = "5.4"' > "$HOME"/.luarocks/config-5.4.lua
+          echo 'return "5.4"' > "$HOME"/.luarocks/default-lua-version.lua
           luarocks path --lua-version=5.4 --local >> $GITHUB_ENV
           luarocks --lua-version=5.4 --local install --only-deps *.rockspec
       - name: Set up JDKs
