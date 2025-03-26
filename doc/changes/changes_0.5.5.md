@@ -1,4 +1,4 @@
-# Exasol Virtual Schema Lua 0.5.5, released 2025-03-25
+# Exasol Virtual Schema Lua 0.5.5, released 2025-03-26
 
 Code name: Vulnerability Reporting Policy
 
@@ -6,7 +6,7 @@ Code name: Vulnerability Reporting Policy
 
 In this release we added a security policy that describes how to report vulnerabilities. We also updated dependencies.
 
-We replaced the installation of Luarocks from a GitHub action to `apt-get`.
+We switched the installation method of Luarocks from the GitHub action `leafo/gh-actions-luarocks` to using `apt-get`.
 
 ## Features
 
