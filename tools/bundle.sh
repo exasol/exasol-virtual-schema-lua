@@ -2,13 +2,11 @@
 
 # This script bundles the individual Lua modules into one file.
 
-set -o errexit
-set -o nounset
-set -o pipefail
+set -euo pipefail
 
-readonly script_dir=$(dirname "$(readlink -f "$0")")
 if [[ -z "${1+x}" ]]
 then
+    readonly script_dir=$(dirname "$(readlink -f "$0")")
     readonly base_dir=$(readlink -f "$script_dir/..")
 else
     readonly base_dir="$1"
@@ -28,9 +26,6 @@ function create_bundle {
     luarocks --local make
 }
 
-create_bundle \
-|| exit "$exit_software"
+create_bundle || exit "$exit_software"
 
 exit "$exit_ok"
-
-}

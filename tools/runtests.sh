@@ -2,13 +2,11 @@
 
 # This script runs Lua unit tests, collects coverage and runs static code analysis.
 
-set -o errexit
-set -o nounset
-set -o pipefail
+set -euo pipefail
 
-readonly script_dir=$(dirname "$(readlink -f "$0")")
 if [[ -z "${1+x}" ]]
 then
+    readonly script_dir=$(dirname "$(readlink -f "$0")")
     readonly base_dir=$(readlink -f "$script_dir/..")
 else
     readonly base_dir="$1"
