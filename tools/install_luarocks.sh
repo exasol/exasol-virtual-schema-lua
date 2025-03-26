@@ -53,7 +53,6 @@ readonly luarocks_command="luarocks --lua-version=${lua_version} --local"
 
 # Function to install Lua and basic dependencies
 install_dependencies() {
-  sudo apt-get update
   sudo apt-get install -y "lua${lua_version}" "liblua${lua_version}-dev" luarocks
   luarocks --version
 }
