@@ -49,6 +49,13 @@ jobs:
       - name: Install Lua, LuaRocks and Lua Dependencies
         id: install-lua
         run: |
+          sudo apt-get install lua5.4 liblua5.4-dev luarocks
+          luarocks --version
+          mkdir -p "$HOME"/.luarocks
+          echo 'lua_version = "5.4"' > "$HOME"/.luarocks/config-5.4.lua
+          echo 'return "5.4"' > "$HOME"/.luarocks/default-lua-version.lua
+          luarocks --lua-version=5.4 --local path >> $GITHUB_ENV
+          luarocks --lua-version=5.4 --local install --only-deps *.rockspec
           tools/install_luarocks.sh --lua-version=5.4 --path >> $GITHUB_ENV
       - name: Set up JDKs
         id: setup-java
