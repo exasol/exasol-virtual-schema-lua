@@ -8,9 +8,9 @@ In this release we added a security policy that describes how to report vulnerab
 
 We switched the installation method of Luarocks from the GitHub action `leafo/gh-actions-luarocks` to using `apt-get`.
 
-## Features
+## Documentation
 
-* #53: Added security policy
+* Added security policy (PR #58)
 
 ## Dependency Updates
 
