@@ -78,6 +78,16 @@
     </dependencies>
     <build>
         <plugins>
+            <!-- OSSIndex disabled temporarily until the fix for CVE-2024-55551 is accepted -->
+            <plugin>
+                <groupId>org.sonatype.ossindex.maven</groupId>
+                <artifactId>ossindex-maven-plugin</artifactId>
+                <configuration>
+                    <excludeVulnerabilityIds>
+                        <vulnerabilityId>CVE-2024-55551</vulnerabilityId>
+                    </excludeVulnerabilityIds>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -91,7 +101,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>4.5.0</version>
+                <version>5.0.0</version>
                 <executions>
                     <execution>
                         <goals>
@@ -128,11 +138,10 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>luarocks</executable>
+                            <executable>${project.basedir}/tools/bundle.sh</executable>
                             <useMavenLogger>true</useMavenLogger>
                             <arguments>
-                                <argument>--local</argument>
-                                <argument>make</argument>
+                                <argument>${project.basedir}</argument>
                             </arguments>
                         </configuration>
                     </execution>

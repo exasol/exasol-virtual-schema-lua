@@ -8,8 +8,66 @@ linkReplacements:
 excludes:
   # Project is based on Lua, no need to build it with Java 17
   - "E-PK-CORE-17: Missing required file: '.github/workflows/ci-build-next-java.yml'"
-  # Custom build process for Lua project
-  - "E-PK-CORE-18: Outdated content: '.github/workflows/ci-build.yml'"
-  - "E-PK-CORE-18: Outdated content: '.github/workflows/release_droid_prepare_original_checksum.yml'"
-  - "E-PK-CORE-18: Outdated content: '.github/workflows/release_droid_print_quick_checksum.yml'"
-  - "E-PK-CORE-18: Outdated content: '.github/workflows/release_droid_upload_github_release_assets.yml'"
+build:
+  runnerOs: ubuntu-24.04
+  freeDiskSpace: false
+  workflows:
+    - name: "ci-build.yml"
+      stepCustomizations:
+        - action: INSERT_AFTER
+          job: "build-and-test"
+          stepId: checkout
+          content:
+            name: "Install Lua, LuaRocks and Lua Dependencies"
+            id: install-lua
+            run: |
+              sudo apt-get install lua5.4 liblua5.4-dev luarocks
+              luarocks --version
+              mkdir -p "$HOME"/.luarocks
+              echo 'lua_version = "5.4"' > "$HOME"/.luarocks/config-5.4.lua
+              echo 'return "5.4"' > "$HOME"/.luarocks/default-lua-version.lua
+              luarocks --lua-version=5.4 --local path >> $GITHUB_ENV
+              luarocks --lua-version=5.4 --local install --only-deps *.rockspec
+        # Create a dummy Exasol error_code_report.json file with required fields:
+        - action: INSERT_AFTER
+          job: "build-and-test"
+          stepId: build-pk-verify
+          content:
+            name: "Create dummy error report"
+            id: error-report
+            run: |
+              echo '{
+                  "errorReportVersion" : "1.0",
+                  "errorCodes": [
+                      {"identifier": "E-DUMMY-1"}
+                  ]
+              }' > target/error_code_report.json
+        # Check the shell scripts
+        - action: INSERT_AFTER
+          job: "build-and-test"
+          stepId: error-report
+          content:
+            name: "Check shell scripts"
+            id: shell-check
+            run: tools/shellcheck.sh
+        # We don't need to test "Java next" compatibility in a Lua project:
+        - action: REPLACE
+          job: "next-java-compatibility"
+          stepId: checkout
+          content:
+            id: skipped-checkout
+            run: echo "Skipped next-Java checkout - Lua project"
+        - action: REPLACE
+          job: "next-java-compatibility"
+          stepId: setup-java
+          content:
+            id: skipped-setup-java
+            if: ${{ false }}
+            run: echo Skipped
+        - action: REPLACE
+          job: "next-java-compatibility"
+          stepId: build-next-java
+          content:
+            id: skipped-build-next-java
+            if: ${{ false }}
+            run: echo Skipped
