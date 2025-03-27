@@ -5,12 +5,12 @@ set -euo pipefail
 readonly exit_usage=64
 readonly exit_ok=0
 
-PARSED=$(getopt --options "" --longoptions "lua-version:" --name "$0" -- "$@")
-if [[ $? -ne 0 ]]; then
+
+if ! parsed_options=$(getopt --options "" --longoptions "lua-version:" --name "$0" -- "$@"); then
   echo "Allowed options are: --lua-version=<version>"
   exit "$exit_usage"
 fi
-eval set -- "$PARSED"
+eval set -- "$parsed_options"
 
 lua_version=""
 while true; do
@@ -36,10 +36,10 @@ if [[ -z "${lua_version:-}" ]]; then
   exit "$exit_usage"
 fi
 
-sudo apt-get install lua${lua_version} liblua${lua_version}-dev luarocks
+sudo apt-get install "lua${lua_version}" "liblua${lua_version}-dev" luarocks
 luarocks --version
 mkdir -p "$HOME"/.luarocks
-echo "lua_version = \"$lua_version\"" > "$HOME"/.luarocks/config-${lua_version}.lua
-echo "return \"$lua_version\"" > "$HOME"/.luarocks/default-lua-version.lua
+echo "lua_version = \"$lua_version\"" > "$HOME/.luarocks/config-${lua_version}.lua"
+echo "return \"$lua_version\"" > "$HOME/.luarocks/default-lua-version.lua"
 
 exit "$exit_ok"
