@@ -56,7 +56,6 @@ jobs:
           echo 'return "5.4"' > "$HOME"/.luarocks/default-lua-version.lua
           luarocks --lua-version=5.4 --local path >> $GITHUB_ENV
           luarocks --lua-version=5.4 --local install --only-deps *.rockspec
-          tools/install_luarocks.sh --lua-version=5.4 --path >> $GITHUB_ENV
       - name: Set up JDKs
         id: setup-java
         uses: actions/setup-java@v4
