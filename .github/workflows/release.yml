@@ -46,6 +46,11 @@ jobs:
         with: {
           fetch-depth: 0
         }
+      - name: Install Lua, LuaRocks and Lua Dependencies
+        id: install-lua
+        run: |-
+          tools/install_luarocks.sh --lua-version=5.4
+          luarocks --lua-version=5.4 --local install --only-deps *.rockspec
       - name: Set up Maven Central Repository
         id: configure-maven-central-credentials
         if: ${{ false }}
