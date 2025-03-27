@@ -5,11 +5,23 @@ set -euo pipefail
 readonly exit_usage=64
 readonly exit_ok=0
 
-while [[ $# -gt 0 ]]; do
+PARSED=$(getopt --options "" --longoptions "lua-version:" --name "$0" -- "$@")
+if [[ $? -ne 0 ]]; then
+  echo "Allowed options are: --lua-version=<version>"
+  exit "$exit_usage"
+fi
+eval set -- "$PARSED"
+
+lua_version=""
+while true; do
   case "$1" in
     --lua-version)
       lua_version="$2"
       shift 2
+      ;;
+    --)
+      shift
+      break
       ;;
     *)
       echo "Unknown option: $1"
