@@ -33,9 +33,7 @@ build:
             run: |
               echo '{
                   "errorReportVersion" : "1.0",
-                  "errorCodes": [
-                      {"identifier": "E-DUMMY-1"}
-                  ]
+                  "errorCodes": []
               }' > target/error_code_report.json
         # Check the shell scripts
         - action: INSERT_AFTER
@@ -78,3 +76,15 @@ build:
             run: |
               tools/install_luarocks.sh --lua-version=5.4
               luarocks --lua-version=5.4 --local install --only-deps *.rockspec
+        # Create a dummy Exasol error_code_report.json file with required fields:
+        - action: INSERT_AFTER
+          job: "release"
+          stepId: build
+          content:
+            name: "Create dummy error report"
+            id: error-report
+            run: |
+              echo '{
+                  "errorReportVersion" : "1.0",
+                  "errorCodes": []
+              }' > target/error_code_report.json

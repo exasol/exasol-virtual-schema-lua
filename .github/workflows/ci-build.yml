@@ -83,9 +83,7 @@ jobs:
         run: |
           echo '{
               "errorReportVersion" : "1.0",
-              "errorCodes": [
-                  {"identifier": "E-DUMMY-1"}
-              ]
+              "errorCodes": []
           }' > target/error_code_report.json
       - {
         name: Check shell scripts,
