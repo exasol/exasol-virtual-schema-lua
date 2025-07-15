@@ -47,7 +47,7 @@
 | [Reproducible Build Maven Plugin][52]                   | [Apache 2.0][30]                                               |
 
 [0]: http://www.exasol.com/
-[1]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/25.2.2/exasol-jdbc-25.2.2-license.txt
+[1]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/25.2.4/exasol-jdbc-25.2.4-license.txt
 [2]: https://github.com/exasol/exasol-testcontainers/
 [3]: https://github.com/exasol/exasol-testcontainers/blob/main/LICENSE
 [4]: https://java.testcontainers.org
@@ -56,7 +56,7 @@
 [7]: https://raw.githubusercontent.com/hamcrest/JavaHamcrest/master/LICENSE
 [8]: https://github.com/exasol/hamcrest-resultset-matcher/
 [9]: https://github.com/exasol/hamcrest-resultset-matcher/blob/main/LICENSE
-[10]: https://junit.org/junit5/
+[10]: https://junit.org/
 [11]: https://www.eclipse.org/legal/epl-v20.html
 [12]: http://www.slf4j.org
 [13]: https://opensource.org/license/mit

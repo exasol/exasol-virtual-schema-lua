@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>exasol-virtual-schema-lua</artifactId>
-    <version>0.5.5</version>
+    <version>0.5.6</version>
     <name>Exasol Virtual Schema Lua</name>
     <description>This projects provides a plug-in to the Exasol database that adds per-row access control.</description>
     <url>https://github.com/exasol/exasol-virtual-schema-lua/</url>
@@ -18,19 +18,19 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-jdbc</artifactId>
-            <version>25.2.2</version>
+            <version>25.2.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>exasol-testcontainers</artifactId>
-            <version>7.1.3</version>
+            <version>7.1.6</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>1.20.6</version>
+            <version>1.21.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -42,19 +42,19 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>hamcrest-resultset-matcher</artifactId>
-            <version>1.7.0</version>
+            <version>1.7.1</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>
-            <version>5.12.0</version>
+            <version>5.13.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-params</artifactId>
-            <version>5.12.0</version>
+            <version>5.13.3</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -66,7 +66,7 @@
         <dependency>
             <groupId>com.exasol</groupId>
             <artifactId>test-db-builder-java</artifactId>
-            <version>3.6.0</version>
+            <version>3.6.2</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -101,7 +101,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>5.0.0</version>
+                <version>5.2.2</version>
                 <executions>
                     <execution>
                         <goals>
@@ -229,7 +229,7 @@
     <parent>
         <artifactId>exasol-virtual-schema-lua-generated-parent</artifactId>
         <groupId>com.exasol</groupId>
-        <version>0.5.5</version>
+        <version>0.5.6</version>
         <relativePath>pk_generated_parent.pom</relativePath>
     </parent>
 </project>
