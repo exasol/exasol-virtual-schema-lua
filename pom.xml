@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <artifactId>exasol-virtual-schema-lua</artifactId>
@@ -78,16 +78,6 @@
     </dependencies>
     <build>
         <plugins>
-            <!-- OSSIndex disabled temporarily until the fix for CVE-2024-55551 is accepted -->
-            <plugin>
-                <groupId>org.sonatype.ossindex.maven</groupId>
-                <artifactId>ossindex-maven-plugin</artifactId>
-                <configuration>
-                    <excludeVulnerabilityIds>
-                        <vulnerabilityId>CVE-2024-55551</vulnerabilityId>
-                    </excludeVulnerabilityIds>
-                </configuration>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -101,7 +91,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>5.2.3</version>
+                <version>5.7.4</version>
                 <executions>
                     <execution>
                         <goals>
@@ -113,7 +103,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>3.6.3</version>
                 <executions>
                     <execution>
                         <id>unit-test</id>
@@ -150,7 +140,7 @@
             <plugin>
                 <groupId>org.itsallcode</groupId>
                 <artifactId>openfasttrace-maven-plugin</artifactId>
-                <version>2.3.0</version>
+                <version>3.0.0</version>
                 <executions>
                     <execution>
                         <id>trace-requirements</id>
@@ -163,7 +153,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.4.0</version>
+                <version>3.6.1</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -186,15 +176,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.3.0</version>
+                <version>3.5.1</version>
                 <configuration>
                     <skipIfEmpty>true</skipIfEmpty>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>com.github.funthomas424242</groupId>
+                <groupId>org.itsallcode</groupId>
                 <artifactId>plantuml-maven-plugin</artifactId>
-                <version>1.5.2</version>
+                <version>1.0.0</version>
                 <configuration>
                     <format>svg</format>
                     <sourceFiles>
@@ -208,14 +198,14 @@
                     <dependency>
                         <groupId>net.sourceforge.plantuml</groupId>
                         <artifactId>plantuml</artifactId>
-                        <version>1.2025.0</version>
+                        <version>1.2026.5</version>
                     </dependency>
                 </dependencies>
             </plugin>
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>error-code-crawler-maven-plugin</artifactId>
-                <version>1.3.0</version>
+                <version>2.1.1</version>
                 <executions>
                     <execution>
                         <id>verify</id>
