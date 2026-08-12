@@ -171,18 +171,15 @@ abstract class AbstractLuaVirtualSchemaIT {
         }
     }
 
-    static void assumeExasol8OrHigher() {
-        assumeTrue(isExasol8OrHigher(), "is Exasol version 8 or higher");
+    static void assumeTimestampPrecisionSupported() {
+        final ExasolDockerImageReference imageReference = EXASOL.getDockerImageReference();
+        assumeTrue(imageReference.hasMajor() && imageReference.getMajor() > 8, "has timestamp precision (Exasol > 8)");
     }
 
-    static boolean isExasol8OrHigher() {
+    static void assumeTimestampPrecisionNotSupported() {
         final ExasolDockerImageReference imageReference = EXASOL.getDockerImageReference();
-        return imageReference.hasMajor() && (imageReference.getMajor() >= 8);
-    }
-
-    protected void assumeExasol7OrLower() {
-        final ExasolDockerImageReference imageReference = EXASOL.getDockerImageReference();
-        assumeTrue(imageReference.hasMajor() && (imageReference.getMajor() <= 7), "is Exasol version 7 or lower");
+        assumeTrue(imageReference.hasMajor() && imageReference.getMajor() <= 8,
+                "has not timestamp precision (Exasol ≤ 8)");
     }
 
     protected void assertVirtualTableStructure(final Table table, final User user,

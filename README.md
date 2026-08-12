@@ -23,6 +23,7 @@ Abstract read access from Exasol to Exasol via a Virtual Schema.
 ## Features
 
 * Access a local Exasol schema through a Virtual Schema
+* Preserve `TIMESTAMP(9)` metadata precision on Exasol 9 and later
 
 ## Table of Contents
 
