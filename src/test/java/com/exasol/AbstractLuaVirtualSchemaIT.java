@@ -1,6 +1,5 @@
 package com.exasol;
 
-import static com.exasol.ExasolVirtualSchemaTestConstants.DOCKER_DB;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -30,23 +29,26 @@ abstract class AbstractLuaVirtualSchemaIT {
     private static final String VERSION = MavenProjectVersionGetter.getCurrentProjectVersion();
     private static final Path VS_PACKAGE_PATH = Path.of("target/exasol-virtual-schema-dist-" + VERSION + ".lua");
     @Container
-    protected static final ExasolContainer<? extends ExasolContainer<?>> EXASOL = //
-            new ExasolContainer<>(DOCKER_DB) //
-                    .withRequiredServices() //
-                    .withExposedPorts(8563) //
+    protected static final ExasolContainer<? extends ExasolContainer<?>> EXASOL =
+            new ExasolContainer<>()
+                    .withRequiredServices()
+                    .withExposedPorts(8563)
                     .withReuse(true);
-    private static final String EXASOL_LUA_MODULE_LOADER_WORKAROUND = "table.insert(" //
-            + "package.searchers" //
-            + ",\n" //
-            + "    function (module_name)\n" //
-            + "        local loader = package.preload[module_name]\n" //
-            + "        if(loader == nil) then\n" //
-            + "            error(\"Module \" .. module_name .. \" not found in package.preload.\")\n" //
-            + "        else\n" //
-            + "            return loader\n" //
-            + "        end\n" //
-            + "    end\n" //
-            + ")\n\n";
+    private static final String EXASOL_LUA_MODULE_LOADER_WORKAROUND = """
+            table.insert(
+            package.searchers
+            ,
+                function (module_name)
+                    local loader = package.preload[module_name]
+                    if(loader == nil) then
+                        error("Module " .. module_name .. " not found in package.preload.")
+                    else
+                        return loader
+                    end
+                end
+            )
+            
+            """;
     protected static Connection connection;
     protected static ExasolObjectFactory factory;
     private static ExasolSchema scriptSchema;
@@ -78,10 +80,10 @@ abstract class AbstractLuaVirtualSchemaIT {
         } catch (final IOException exception) {
             throw new AssertionError("Unable to prepare adapter script \"" + name + "\" required for test", exception);
         }
-        return factory.createVirtualSchemaBuilder(getVirtualSchemaName(name)) //
-                .adapterScript(adapterScript) //
-                .sourceSchema(sourceSchema) //
-                .properties(properties) //
+        return factory.createVirtualSchemaBuilder(getVirtualSchemaName(name))
+                .adapterScript(adapterScript)
+                .sourceSchema(sourceSchema)
+                .addProperties(properties)
                 .build();
     }
 

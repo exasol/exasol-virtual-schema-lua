@@ -69,31 +69,37 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
 
     // [itest -> dsn~reading-source-metadata~0]
     @Test
-    void testExasol8TimestampPrecisions() {
+    void testPreNanoSecondTimestampPrecisions() {
         assumeTimestampPrecisionNotSupported();
         final Schema sourceSchema = createSchema("SCHEMA_TIMESTAMP_PRECISIONS");
-        final Table table = sourceSchema.createTableBuilder("T") //
-                .column("T0", "TIMESTAMP") //
-                .column("T3", "TIMESTAMP(3)") //
-                .column("T6", "TIMESTAMP(6)") //
+        final Table table = sourceSchema.createTableBuilder("T")
+                .column("TS", "TIMESTAMP")
+                .column("TS3", "TIMESTAMP(3)")
+                .column("TS6", "TIMESTAMP(6)")
                 .build();
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess("USER_TIMESTAMP_PRECISIONS", virtualSchema);
-        assertVirtualTableStructure(table, user, expectRows( //
-                "T0", "TIMESTAMP(3)", //
-                "T3", "TIMESTAMP(3)", //
-                "T6", "TIMESTAMP(3)"));
+        assertVirtualTableStructure(table, user, expectRows(
+                "TS", "TIMESTAMP(3)",
+                "TS3", "TIMESTAMP(3)",
+                "TS6", "TIMESTAMP(3)"));
     }
 
     // [itest -> dsn~reading-source-metadata~0]
     @Test
-    void testExasol9OrHigherTimestampNanosecondPrecision() {
+    void testTimestampNanosecondPrecision() {
         assumeTimestampPrecisionSupported();
         final Schema sourceSchema = createSchema("SCHEMA_TIMESTAMP_NANOSECOND_PRECISION");
-        final Table table = sourceSchema.createTable("T", "T9", "TIMESTAMP(9)");
+        final Table table = sourceSchema.createTable("T",
+                "TS", "TIMESTAMP(3)",
+                "TS1", "TIMESTAMP(1)",
+                "TS9", "TIMESTAMP(9)");
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
         final User user = createUserWithVirtualSchemaAccess("USER_TIMESTAMP_NANOSECOND_PRECISION", virtualSchema);
-        assertVirtualTableStructure(table, user, expectRows("T9", "TIMESTAMP(9)"));
+        assertVirtualTableStructure(table, user, expectRows(
+                "TS", "TIMESTAMP(3)",
+                "TS1", "TIMESTAMP(1)",
+                "TS9", "TIMESTAMP(9)"));
     }
 
     // [itest -> dsn~refreshing-a-virtual-schema~0]

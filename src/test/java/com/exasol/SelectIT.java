@@ -2,7 +2,9 @@ package com.exasol;
 
 import static com.exasol.matcher.ResultSetStructureMatcher.table;
 
+import com.exasol.dbbuilder.dialects.Table;
 import com.exasol.matcher.TypeMatchMode;
+import org.hamcrest.Matchers;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -10,6 +12,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import com.exasol.dbbuilder.dialects.Schema;
 import com.exasol.dbbuilder.dialects.User;
 import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
+
+import java.sql.Timestamp;
 
 // [itest -> dsn~creating-a-local-virtual-schema~0] implicitly tested with each query on a Virtual Schema
 @Testcontainers
@@ -75,7 +79,7 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
         final User user = createUserWithVirtualSchemaAccess("INNER_JOIN_USER", virtualSchema);
         final String virtualSchemaName = getVirtualSchemaName(sourceSchema.getName());
         assertJoinQuery("SELECT LJC, RJC FROM " + virtualSchemaName + ".T_LEFT"
-                + " INNER JOIN " + virtualSchemaName + ".T_RIGHT ON LJC = RJC ORDER BY LJC, RJC", user,
+                        + " INNER JOIN " + virtualSchemaName + ".T_RIGHT ON LJC = RJC ORDER BY LJC, RJC", user,
                 table().row("L+R", "L+R"), "SELECT.*FROM.*INNER JOIN.*");
     }
 
@@ -86,7 +90,7 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
         final User user = createUserWithVirtualSchemaAccess("FULL_OUTER_JOIN_USER", virtualSchema);
         final String virtualSchemaName = getVirtualSchemaName(sourceSchema.getName());
         assertJoinQuery("SELECT LJC, RJC FROM " + virtualSchemaName + ".T_LEFT"
-                + " FULL OUTER JOIN " + virtualSchemaName + ".T_RIGHT ON LJC = RJC ORDER BY LJC, RJC", user,
+                        + " FULL OUTER JOIN " + virtualSchemaName + ".T_RIGHT ON LJC = RJC ORDER BY LJC, RJC", user,
                 table().row("L", null).row("L+R", "L+R").row(null, "R"), "SELECT.*FROM.*FULL OUTER JOIN.*");
     }
 
@@ -97,7 +101,7 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
         final User user = createUserWithVirtualSchemaAccess("LEFT_JOIN_USER", virtualSchema);
         final String virtualSchemaName = getVirtualSchemaName(sourceSchema.getName());
         assertJoinQuery("SELECT LJC, RJC FROM " + virtualSchemaName + ".T_LEFT"
-                + " LEFT JOIN " + virtualSchemaName + ".T_RIGHT ON LJC = RJC ORDER BY LJC, RJC", user,
+                        + " LEFT JOIN " + virtualSchemaName + ".T_RIGHT ON LJC = RJC ORDER BY LJC, RJC", user,
                 table().row("L", null).row("L+R", "L+R"), "SELECT.*FROM.*LEFT OUTER JOIN.*");
     }
 
@@ -108,7 +112,7 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
         final User user = createUserWithVirtualSchemaAccess("RIGHT_JOIN_USER", virtualSchema);
         final String virtualSchemaName = getVirtualSchemaName(sourceSchema.getName());
         assertJoinQuery("SELECT LJC, RJC FROM " + virtualSchemaName + ".T_LEFT"
-                + " RIGHT JOIN " + virtualSchemaName + ".T_RIGHT ON LJC = RJC ORDER BY LJC, RJC", user,
+                        + " RIGHT JOIN " + virtualSchemaName + ".T_RIGHT ON LJC = RJC ORDER BY LJC, RJC", user,
                 table().row("L+R", "L+R").row(null, "R"), "SELECT.*FROM.*RIGHT OUTER JOIN.*");
     }
 
@@ -142,5 +146,24 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
         sourceSchema.createTable("T_LEFT", "LJC", "VARCHAR(3)").insert("L").insert("L+R");
         sourceSchema.createTable("T_RIGHT", "RJC", "VARCHAR(3)").insert("L+R").insert("R");
         return sourceSchema;
+    }
+
+    @Test
+    void testTimestampPrecision() {
+        assumeTimestampPrecisionSupported();
+        final Schema sourceSchema = factory.createSchema("TIMESTAMP_SCHEMA");
+        final Table table = sourceSchema.createTable("TT", "TS", "TIMESTAMP", "TS1", "TIMESTAMP(1)",
+                "TS9", "TIMESTAMP(9)");
+        final Timestamp timestamp = Timestamp.valueOf("1234-05-06 07:08:09.123");
+        final Timestamp epoch = Timestamp.valueOf("1970-01-01 00:00:00");
+        final Timestamp timestamp9 = Timestamp.valueOf("1999-12-31 23:59:59.999999999");
+        table.insert(timestamp, epoch, timestamp9);
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("TIMESTAMP_USER", virtualSchema);
+        assertQueryWithUser("SELECT * FROM " + virtualSchema.getName() + ".TT",
+                user,
+                table("TIMESTAMP", "TIMESTAMP(1)", "TIMESTAMP(9)")
+                        .row(timestamp, Matchers.anything(), timestamp9)
+                        .matches(TypeMatchMode.NO_JAVA_TYPE_CHECK));
     }
 }
