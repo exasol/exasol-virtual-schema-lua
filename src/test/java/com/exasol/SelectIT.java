@@ -162,8 +162,7 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
         final User user = createUserWithVirtualSchemaAccess("TIMESTAMP_USER", virtualSchema);
         assertQueryWithUser("SELECT * FROM " + virtualSchema.getName() + ".TT",
                 user,
-                table("TIMESTAMP", "TIMESTAMP(1)", "TIMESTAMP(9)")
-                        .row(timestamp, Matchers.anything(), timestamp9)
+                table().row(timestamp, Matchers.anything(), timestamp9)
                         .matches(TypeMatchMode.NO_JAVA_TYPE_CHECK));
     }
 }

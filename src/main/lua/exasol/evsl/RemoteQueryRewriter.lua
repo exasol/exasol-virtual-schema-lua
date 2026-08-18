@@ -7,6 +7,7 @@ setmetatable(RemoteQueryRewriter, {__index = AbstractQueryRewriter})
 
 local QueryRenderer = require("exasol.vscl.QueryRenderer")
 local ImportQueryBuilder = require("exasol.vscl.ImportQueryBuilder")
+local AbstractQueryAppender = require("exasol.vscl.queryrenderer.AbstractQueryAppender")
 
 --- Create a new instance of a `RemoteQueryRewriter`.
 -- @param connection_id ID of the connection object that defines the details of the connection to the remote Exasol
@@ -36,7 +37,7 @@ function RemoteQueryRewriter:_create_import(original_query, source_schema_id)
             :column_types(original_query.selectListDataTypes)
             :statement(remote_query)
             :build()
-    local renderer = QueryRenderer:new(import_query)
+    local renderer = QueryRenderer:new(import_query, AbstractQueryAppender.DEFAULT_APPENDER_CONFIG)
     return renderer:render()
 end
 
