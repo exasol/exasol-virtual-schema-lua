@@ -155,7 +155,7 @@ jobs:
       }
       - name: Create dummy error report
         id: error-report
-        run: |-
+        run: |
           echo '{
               "errorReportVersion" : "1.0",
               "errorCodes": []
