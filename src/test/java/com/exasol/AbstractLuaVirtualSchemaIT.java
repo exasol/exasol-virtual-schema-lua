@@ -34,21 +34,6 @@ abstract class AbstractLuaVirtualSchemaIT {
                     .withRequiredServices()
                     .withExposedPorts(8563)
                     .withReuse(true);
-    private static final String EXASOL_LUA_MODULE_LOADER_WORKAROUND = """
-            table.insert(
-            package.searchers
-            ,
-                function (module_name)
-                    local loader = package.preload[module_name]
-                    if(loader == nil) then
-                        error("Module " .. module_name .. " not found in package.preload.")
-                    else
-                        return loader
-                    end
-                end
-            )
-            
-            """;
     protected static Connection connection;
     protected static ExasolObjectFactory factory;
     private static ExasolSchema scriptSchema;
@@ -96,7 +81,7 @@ abstract class AbstractLuaVirtualSchemaIT {
     }
 
     protected AdapterScript createAdapterScript(final String prefix) throws IOException {
-        final String content = EXASOL_LUA_MODULE_LOADER_WORKAROUND + Files.readString(VS_PACKAGE_PATH);
+        final String content = Files.readString(VS_PACKAGE_PATH);
         return scriptSchema.createAdapterScript(prefix + "_ADAPTER", AdapterScript.Language.LUA, content);
     }
 
