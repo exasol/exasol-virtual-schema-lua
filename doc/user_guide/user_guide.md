@@ -11,13 +11,13 @@ Exasol Virtual Schema comes in two flavors:
 
 Local access means that origin schema and Virtual Schema must be on the same database. The remote database connection is more useful, as it allows projecting a schema from a different Exasol database into your own.
 
-Remote connections are not yet implemented in the Lua-Variant. If you need it, please use [Exasol Virtual Schema for Java](https://github.com/exasol/exasol-virtual-schema). Remote support is on the roadmap for the Lua-Variant. You can check [ticket #80](https://github.com/exasol/exasol-virtual-schema/issues/80) to monitor the progress.
+Remote connections are also often used as a means of access control layer to database-external data sources for local database users. That is because the Virtual Schema itself can have different permissions than the users of the Virtual Schema.
 
 ## Introduction
 
 Each Virtual Schema needs a data source. In the case of Exasol Virtual Schema for Lua, this source is a database schema in an Exasol database. We call that the "origin schema".
 
-Conceptually Virtual Schemas are very similar to database views. They have an owner (typically the one who creates them) and share that owners access permissions. This means that for a Virtual Schema to be useful, the owner must have the permissions to view the source.
+Conceptually Virtual Schemas are very similar to database views. They have an owner (typically the one who creates them) and share that owner's access permissions. This means that for a Virtual Schema to be useful, the owner must have the permissions to view the source.
 
 Users of the Virtual Schema must have permissions to view the Virtual Schema itself, but they don't need permissions to view the source.
 
@@ -29,13 +29,9 @@ Check the section ["Installation"](#installation) for details on how to install 
 
 ### Lua Versus Java
 
-Exasol Virtual Schema for Lua is much faster than the Java Variant. The reason for this is that is does not have the overhead of starting the sandbox and runtime environment that Java variant requires. This allows for much lower query latency. Typically, milliseconds instead of seconds.
+Exasol Virtual Schema for Lua is much faster than the Java Variant. The reason for this is that it does not have the overhead of starting the OS container and runtime environment that Java variant requires. This allows for much lower query latency. Typically, milliseconds instead of seconds.
 
 EVSL requires Exasol 7.1 or later to run, since Virtual Schema support for the Lua language has been introduced with 7.1.
-
-### Exasol Virtual Schema Lua Supersedes the Java Variant
-
-Since the Lua variant is a lot faster, we will retire the Java variant once EVSL is a feature parity (i.e. version 1.0.0) and Exasol 7.0 goes out of support. See our [product life cycle](https://www.exasol.com/portal/display/DOWNLOAD/Exasol+Life+Cycle) for details.
 
 ### Use Cases
 
@@ -49,9 +45,9 @@ Local connections mainly exist as a means of testing Virtual Schemas without dep
 
 ### Query Rewriting and Push-Down
 
-The main function of a Virtual Schema is to take a query and turn it into a different one that reads from the data source. The input query &mdash; that means the query users of a Virtual Schema run &mdash; is always a `SELECT` statement.
+The main function of a Virtual Schema is to take a query and turn it into a different one that reads from the data source. The input query — that means the query users of a Virtual Schema run — is always a `SELECT` statement.
 
-If your EVSL uses local access the output query will also be a `SELECT` statement &mdash; after all the data is on the same database.
+If your EVSL uses local access the output query will also be a `SELECT` statement — after all the data is on the same database.
 
 In the remote connection case the output query is an `IMPORT` statement, thus allowing to get data via a network connection.
 
@@ -63,7 +59,7 @@ The output query is also called "push-down query", since it is pushed down to th
 
 What you will need before you begin:
 
-1. Exasol Version 7.1
+1. Exasol Version 7.1 or higher
 2. A database schema where you can install the adapter script
 3. The database privilege to install the script
 4. A copy of the adapter script from the [release page](https://github.com/exasol/exasol-virtual-schema-lua/releases) (check for latest release)
@@ -74,7 +70,7 @@ Make sure you pick the file with `-dist-` in the name, because that is the insta
 
 ### Creating a Schema to Hold the Adapter Script
 
-For the purpose of the User Guide we will assume that you install the adapter in a schema called `EVSL_SCHEMA`.
+For the purpose of the user guide we will assume that you install the adapter in a schema called `EVSL_SCHEMA`.
 
 If you are not the admin the database, please ask an administrator to create that schema for you and grant you write permissions.
 
@@ -104,23 +100,66 @@ CREATE OR REPLACE LUA ADAPTER SCRIPT EVSL_SCHEMA.EVSL_ADAPTER AS
 ;
 ```
 
-The first fixed part is a module loading preamble that is required with 7.1. Later versions will make this unnecessary, the user guide will be updated accordingly if an Exasol release is available that incorporates that module loading feature by default.
+The first fixed part is a module loading preamble that is required since Exasol's Lua implementation changes module loading from vanilla Lua. These lines are required to re-add the missing loader feature.
 
-### Creating Virtual Schema
+### Creating a Virtual Schema
+
+Now that the adapter is ready, you can define the actual Virtual Schema. The VS definition references the adapter, so that Exasol knows which piece of software it should delegate requests to the VS to.
+
+Here's how you create a local Virtual Schema:
 
 ```sql
 CREATE VIRTUAL SCHEMA EVSL_VIRTUAL_SCHEMA
     USING EVSL_SCHEMA.EVSL_ADAPTER
     WITH
-    SCHEMA_NAME     = '<schema name>'
+    SCHEMA_NAME = '<schema name>'
 ```
+The adapter property `SCHEMA_NAME` points to the _source_ schema on top of which the Virtual Schema acts as projection. This is a _mandatory_ adapter property.
+
+See ["Adapter Properties"](#adapter-properties) for details on the configuration options.
+
+For a remote virtual schema you first need to [create a connection](https://docs.exasol.com/db/latest/sql/create_connection.htm).
+
+```sql
+CREATE CONNECTION VS_CONNECTION
+   TO '<host-or-list>:<port>'
+   USER '<user>'
+   IDENTIFIED BY '<password>'
+```
+
+Then you can reference that connection in the Virtual Schema creation:
+
+```sql
+CREATE VIRTUAL SCHEMA EVSL_VIRTUAL_SCHEMA
+    USING EVSL_SCHEMA.EVSL_ADAPTER
+    WITH
+    SCHEMA_NAME = '<schema name>'
+    CONNECTION_NAME = 'VS_CONNECTION'
+```
+
+Remote connections have been supported since EVSL 0.4.0.
+
+#### Adapter Properties
+
+Adapter properties are configuration key-value pairs that you can use to control the behavior of the Virtual Schema. When you create the Virtual Schema, adapter properties follow the `WITH` keyword.
+
+
+| Property              | Meaning                                                                       | Example          | Mandatory |
+|-----------------------|-------------------------------------------------------------------------------|------------------|:---------:|
+| **SCHEMA_NAME**       | Name of the source schema                                                     | `SALES`          |    ✅     |
+| **CONNECTION_NAME**   | Name of the connection object containing access configuration and credentials | `VS_CONNECTION`  |  remote   |
+| DEBUG_ADDRESS         | Host and port where the debug log should go                                   | `localhost:3000` |    ❌     |
+| EXCLUDED_CAPABILITIES | Comma-separated list of capabilities not to push down                         | `LIMIT`          |    ❌     |
+| LOG_LEVEL             | How detailed the log should be                                                | `TRACE`          |    ❌     |
+| TABLE_FILTER          | Comma-separated include-list for tables from the source                       | `STOCK, PRICES`  |    ❌     |
+
 
 ### Granting Access to the Virtual Schema
 
 Granting permissions requires admin privileges on the database, so if you are not the administrator, please ask your admin to do that for you.
 
-⚠ 
-A word or warning before you start granting permissions. Make sure you grant only access to the Exasol Virtual Schema to regular users and _not to the origin_ schema. Otherwise, those users can simply bypass the Virtual Schema by going to the source.
+> [!IMPORTANT]
+> Make sure you grant regular users only access to the Exasol Virtual Schema. _Not to the origin_ schema. Otherwise, those users can simply bypass the Virtual Schema by going to the source.
 
 Here is an example for allowing `SELECT` statements to a user.
 
@@ -130,7 +169,7 @@ GRANT SELECT ON SCHEMA <virtual schema name> TO <user>;
 
 Please refer to the documentation of the [`GRANT`](https://docs.exasol.com/sql/grant.htm) statement for further details.
 
-The minimum requirements for a regular user in order to be able to access the RLS are:
+The minimum requirements for a regular user in order to be able to access the Virtual Schema are:
 
 * User must exist (`CREATE USER`)
 * User is allowed to create sessions (`GRANT CREATE SESSION`)
@@ -139,25 +178,24 @@ The minimum requirements for a regular user in order to be able to access the RL
 Here is an example where we create a user `JOHN_DOE` and grant just the minimal permissions required to use the Virtual Schema.
 
 ```sql
-CREATE USER JOHN_DOE IDENTIFIED BY "the password";
+CREATE USER JOHN_DOE IDENTIFIED BY "<strong password goes here>";
 GRANT CREATE SESSION TO JOHN_DOE;
 GRANT SELECT ON EVSL_VIRTUAL_SCHEMA TO JOHN_DOE;
 ```
 
-Of course, we trust that you will pick a stronger password in real life than we used for the purpose of this example. 
-
 ### Adapter Capabilities
 
-Which SQL constructs are pushed-down to Exasol's Virtual Schema is decided by the optimizer based on the original query and on the capabilities reported by the Virtual Schema adapter (i.e. the software driving RLS).
+Which SQL constructs are pushed-down to Exasol's Virtual Schema is decided by the optimizer based on the original query and on the capabilities reported by the [Virtual Schema adapter](#virtual-schema-adapter).
 
 The Exasol Virtual Schema supports the capabilities listed in the file [`adapter_capabilities.lua`](../../src/main/lua/exasol/evsl/adapter_capabilities.lua).
 
-Please note that excluded capabilities are not the only reason why a construct might not be pushed down. Given the nature of the queries pushed to RLS, the `LIMIT`-clause for example will rarely &mdash; if ever &mdash; be pushed down even though the adapter can handle that. RLS creates `SELECT` statements and not `IMPORT` statements.
+Please note that excluded capabilities are not the only reason why a construct might not be pushed down. Given the nature of the queries pushed to the Virtual Schema, the `LIMIT`-clause for example will rarely — if ever — be pushed down with a local setup even though the adapter can handle that. The Virtual Schema creates `SELECT` statements and not `IMPORT` statements.
+
 The simple reason `LIMIT` not pushed is, that the optimizer decides it is more efficient in this particular case.
 
 #### Excluding Capabilities
 
-Sometimes you want to prevent constructs from being pushed down. In this case, you can tell the RLS adapter to exclude one or more capabilities from being reported to the core database.
+Sometimes you want to prevent constructs from being pushed down. In this case, you can tell the Virtual Schema adapter to exclude one or more capabilities from being reported to the core database.
 
 The core database will then refrain from pushing down the related SQL constructs.
 
@@ -167,13 +205,13 @@ Just add the property `EXCLUDED_CAPABILITIES` to the Virtual Schema creation sta
 CREATE VIRTUAL SCHEMA EVSL_VIRTUAL_SCHEMA
     USING EVSL_SCHEMA.EVSL_ADAPTER
     WITH
-    SCHEMA_NAME           = '<schema name>'
+    SCHEMA_NAME = '<schema name>'
     EXCLUDED_CAPABILITIES = 'SELECTLIST_PROJECTION, ORDER_BY_COLUMN'
 ```
 
 ### Filtering Tables
 
-Often you will not need or even want all the tables in the source schema to be visible in the RLS-protected schema. In those cases you can simply specify an include-list as a property when creating the RLS Virtual Schema.
+Often you will not need or even want all the tables in the source schema to be visible in the RLS-protected schema. In those cases you can simply specify an include-list as a property when creating the Virtual Schema.
 
 Just provide a comma-separated list of table names in the property `TABLE_FILTER` and the scan of the source schema will skip all tables that are not listed. In a source schema with a large number of tables, this can also speed up the scan.
 
@@ -181,7 +219,7 @@ Just provide a comma-separated list of table names in the property `TABLE_FILTER
 CREATE VIRTUAL SCHEMA EVSL_VIRTUAL_SCHEMA
     USING EVSL_SCHEMA.EVSL_ADAPTER
     WITH
-    SCHEMA_NAME  = '<schema name>'
+    SCHEMA_NAME = '<schema name>'
     TABLE_FILTER = 'ORDERS, ORDER_ITEMS, PRODUCTS'
 ```
 
@@ -189,7 +227,7 @@ Spaces around the table names are ignored.
 
 ### Changing the Properties of an Existing Virtual Schema
 
-While you could in theory drop and re-create an Virtual Schema, there is a more convenient way to apply changes in the adapter properties.
+While you could in theory drop and re-create a Virtual Schema, there is a more convenient way to apply changes in the adapter properties.
 
 Use `ALTER VIRTUAL SCHEMA ... SET ...` to update the properties of an existing Virtual Schema.
 
@@ -200,20 +238,17 @@ ALTER VIRTUAL SCHEMA EVSL_VIRTUAL_SCHEMA
 SET SCHEMA_NAME = '<new schema name>'
 ```
 
-You can for example change the `SCHEMA_NAME` property to point the Virtual Schema to a new source schema or the [table filter](#filtering-tables).
+You can for example change the `SCHEMA_NAME` property to point the Virtual Schema to a new source schema or widen the [table filter](#filtering-tables).
 
-## Updating a Virtual Schema
+## Refreshing a Virtual Schema
 
-All Virtual Schemas cache their metadata. That metadata for example contains all information about structure and data types of the underlying data source. RLS is a Virtual Schema and uses the same caching mechanism.
+All Virtual Schemas cache their metadata. That metadata for example contains all information about structure and data types of the underlying data source. This makes the VS fast, since it does not have to query the metadata from the source with each push down.
 
-To let RLS know that something changed in the metadata, please use the [`ALTER VIRTUAL SCHEMA ... REFRESH`](https://docs.exasol.com/sql/alter_schema.htm) statement.
+The downside is that like any other cache this can get stale. Please use the [`ALTER VIRTUAL SCHEMA ... REFRESH`](https://docs.exasol.com/sql/alter_schema.htm) statement to refresh the metadata when it changed on the source.
 
 ```
 ALTER VIRTUAL SCHEMA <virtul schema name> REFRESH
 ```
-
-Please note that this is also required if you change the special columns that control the RLS protection.
-
 
 ## Using the Virtual Schema
 
@@ -239,5 +274,8 @@ EXPLAIN VIRTUAL SELECT * FROM EVSL_VIRTUAL_SCHEMA.<table>
 
 ## Known Limitations
 
-* `SELECT *` is not yet supported due to an issue between the core database and the Lua Virtual Schemas in push-down requests (SPOT-10626)
-* Source Schema and Virtual Schema must be on the same database.
+### No TLS Certificates
+
+Lua in Exasol does not have filesystem access. Not even to BucketFS. The [Virtual Schema Adapter](#virtual-schema-adapter) uses the [Exasol Lua driver](https://github.com/exasol/exasol-driver-lua/) which in turn accesses the [Exasol Websocket API](https://github.com/exasol/websocket-api/). This is done via a TLS connection.
+
+But since Lua does not have filesystem access, we cannot load certificates, which means that the Lua adapter **cannot verify TLS certificates**. This is a severe limitation that we plan to fix in future versions with dedicated certificate access. Not checking the certificate means you cannot establish the authenticity of the peer of a TLS connection. This makes the connection vulnerable to man-in-the-middle attacks. 
