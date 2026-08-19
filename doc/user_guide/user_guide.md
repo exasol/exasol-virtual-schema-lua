@@ -31,7 +31,7 @@ Check the section ["Installation"](#installation) for details on how to install 
 
 Exasol Virtual Schema for Lua is much faster than the Java Variant. The reason for this is that it does not have the overhead of starting the OS container and runtime environment that Java variant requires. This allows for much lower query latency. Typically, milliseconds instead of seconds.
 
-EVSL requires Exasol 7.1 or later to run, since Virtual Schema support for the Lua language has been introduced with 7.1.
+EVSL requires Exasol 8 or later to run.
 
 ### Use Cases
 
@@ -59,7 +59,7 @@ The output query is also called "push-down query", since it is pushed down to th
 
 What you will need before you begin:
 
-1. Exasol Version 7.1 or higher
+1. Exasol Version 8 or higher
 2. A database schema where you can install the adapter script
 3. The database privilege to install the script
 4. A copy of the adapter script from the [release page](https://github.com/exasol/exasol-virtual-schema-lua/releases) (check for latest release)
