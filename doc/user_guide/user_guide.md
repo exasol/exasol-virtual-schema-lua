@@ -84,18 +84,7 @@ Now you need to install the adapter script (i.e. the plug-in that drives the Vir
 
 ```sql
 CREATE OR REPLACE LUA ADAPTER SCRIPT EVSL_SCHEMA.EVSL_ADAPTER AS
-    table.insert(package.searchers,
-        function (module_name)
-            local loader = package.preload[module_name]
-            if(loader == nil) then
-                error("Module " .. module_name .. " not found in package.preload.")
-            else
-                return loader
-            end
-        end
-    )
-    
-    <copy the whole content of exasol-virtual-schema-dist-<version>.lua here>
+    -- Replace this comment here with the whole content of exasol-virtual-schema-dist-<version>.lua
 /
 ;
 ```
