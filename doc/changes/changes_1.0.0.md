@@ -6,6 +6,8 @@ Code name: TIMESTAMP(9) Support
 
 This release adds nanosecond timestamp metadata support for Exasol 2025 and later.
 
+The Lua module loader trick is now added directly to the installation bundle, so that users don't need to add it anymore themselves.
+
 Breaking change: Exasol 7 is no longer supported
 
 ## Features

@@ -1,3 +1,18 @@
+-- The Lua package searcher below is required to add a missing Lua loader feature to Exasol.
+-- This allows running the amalgamated Lua package (i.e., a stand-alone single-file package)
+table.insert(package.searchers,
+    function (module_name)
+        local loader = package.preload[module_name]
+        if(loader == nil) then
+            error("Module " .. module_name .. " not found in package.preload. "
+                .. " The module is either not present in the installation package or the name is misspelled."
+                .. "\nThis is a bug. Please file a GitHub issue with the full error message and package version.")
+        else
+            return loader
+        end
+    end
+)
+
 --- Main entry point of the Lua Virtual Schema adapter.
 -- It is responsible for creating and wiring up the main adapter objects.
 -- @script entry.lua
