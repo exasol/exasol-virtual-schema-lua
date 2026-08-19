@@ -14,7 +14,6 @@ class RemoteMetadataReadingIT extends AbstractLuaVirtualSchemaIT {
 
     @Test
     void testDetermineColumnTypes() {
-        assumeExasol8OrHigher();
         final Schema sourceSchema = createSchema("SCHEMA_REMOTE_COLUMN_TYPES");
         final Table table = sourceSchema.createTableBuilder("T") //
                 .column("BO", BOOLEAN) //

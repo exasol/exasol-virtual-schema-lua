@@ -3,7 +3,8 @@ name: CI Build
 on:
   push:
     branches: [
-      main
+      main,
+      release/*
     ]
     
   pull_request:
@@ -42,26 +43,42 @@ jobs:
           sudo rm -rf /usr/share/dotnet
       - name: Checkout the repository
         id: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: {
-          fetch-depth: 0
+          fetch-depth: 0,
+          persist-credentials: false
         }
-      - name: Install Lua, LuaRocks and Lua Dependencies
+      - name: Cache downloaded LuaRocks packages
+        id: cache-luarocks
+        uses: actions/cache@v6
+        with: {
+          path: ~/.cache/luarocks,
+          key: '${{ runner.os }}-luarocks-lua-5.4-${{ hashFiles(''*.rockspec'') }}'
+        }
+      - name: Install Lua and LuaRocks
         id: install-lua
         run: |
-          tools/install_luarocks.sh --lua-version=5.4
+          sudo apt-get install lua5.4 liblua5.4-dev luarocks
+          sudo update-alternatives --install /usr/bin/lua lua-interpreter /usr/bin/lua5.4 54
+          sudo update-alternatives --install /usr/bin/luac lua-compiler /usr/bin/luac5.4 54
+          sudo update-alternatives --set lua-interpreter /usr/bin/lua5.4
+          sudo update-alternatives --set lua-compiler /usr/bin/luac5.4
+          luarocks config --scope user lua_version 5.4
+          luarocks config --scope user lua_dir /usr
+          luarocks config --local deploy_bin_dir >> "$GITHUB_PATH"
           luarocks --lua-version=5.4 --local install --only-deps *.rockspec
       - name: Set up JDKs
         id: setup-java
-        uses: actions/setup-java@v4
-        with: {
-          distribution: temurin,
-          java-version: '17',
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: |-
+            17
+            21
           cache: maven
-        }
       - name: Cache SonarCloud packages
         id: cache-sonar
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with: {
           path: ~/.sonar/cache,
           key: '${{ runner.os }}-sonar',
@@ -76,6 +93,7 @@ jobs:
         id: build-pk-verify
         run: |
           mvn --batch-mode clean verify \
+              -DossindexSkip=true \
               -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
               -DtrimStackTrace=false
       - name: Create dummy error report
@@ -95,6 +113,7 @@ jobs:
         if: ${{ env.SONAR_TOKEN != null }}
         run: |
           mvn --batch-mode org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+              -DossindexSkip=true \
               -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
               -DtrimStackTrace=false \
               -Dsonar.token=$SONAR_TOKEN
@@ -104,13 +123,41 @@ jobs:
         }
       - name: Verify Release Artifacts
         id: verify-release-artifacts
-        run: "print_message() {\n    local -r message=$1\n    echo \"$message\"\n    echo \"$message\" >> \"$GITHUB_STEP_SUMMARY\"\n}\n\nprint_message \"### Release Artifacts\"\n\nIFS=$'\\n' artifacts_array=($ARTIFACTS)\nmissing_files=()\nfor file in \"${artifacts_array[@]}\";\ndo  \n    echo \"Checking if file $file exists...\"\n    if ! [[ -f \"$file\" ]]; then\n        print_message \"* ⚠️ \\`$file\\` does not exist ⚠️\"\n        echo \"Content of directory $(dirname \"$file\"):\"\n        ls \"$(dirname \"$file\")\"\n        missing_files+=(\"$file\")\n    else\n        print_message \"* \\`$file\\` ✅\" \n    fi\ndone\nprint_message \"\"\nnumber_of_missing_files=${#missing_files[@]}\nif [[ $number_of_missing_files -gt 0 ]]; then\n    print_message \"⚠️ $number_of_missing_files release artifact(s) missing ⚠️\"\n    exit 1\nfi\n"
+        run: |
+          print_message() {
+              local -r message=$1
+              echo "$message"
+              echo "$message" >> "$GITHUB_STEP_SUMMARY"
+          }
+
+          print_message "### Release Artifacts"
+
+          IFS=$'\n' artifacts_array=($ARTIFACTS)
+          missing_files=()
+          for file in "${artifacts_array[@]}";
+          do
+              echo "Checking if file $file exists..."
+              if ! [[ -f "$file" ]]; then
+                  print_message "* ⚠️ \`$file\` does not exist ⚠️"
+                  echo "Content of directory $(dirname "$file"):"
+                  ls "$(dirname "$file")"
+                  missing_files+=("$file")
+              else
+                  print_message "* \`$file\` ✅"
+              fi
+          done
+          print_message ""
+          number_of_missing_files=${#missing_files[@]}
+          if [[ $number_of_missing_files -gt 0 ]]; then
+              print_message "⚠️ $number_of_missing_files release artifact(s) missing ⚠️"
+              exit 1
+          fi
         env: {
           ARTIFACTS: '${{ steps.build-pk-verify.outputs.release-artifacts }}'
         }
       - name: Upload artifacts
         id: upload-artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with: {
           name: artifacts,
           path: '${{ steps.build-pk-verify.outputs.release-artifacts }}',
@@ -126,7 +173,7 @@ jobs:
                '{"pattern": "^https?://(www.)?eclipse.org"}' \
                '{"pattern": "^https?://projects.eclipse.org"}' \
                ']}' > ./target/broken_links_checker.json
-      - uses: gaurav-nelson/github-action-markdown-link-check@v1
+      - uses: tcort/github-action-markdown-link-check@e7c7a18363c842693fadde5d41a3bd3573a7a225
         id: run-link-check
         with: {
           use-quiet-mode: yes,
@@ -161,10 +208,83 @@ jobs:
         if: '${{ false }}',
         run: echo Skipped
       }
+  ossindex:
+    runs-on: ubuntu-latest
+    defaults:
+      run: {
+        shell: bash
+      }
+    permissions: {
+      contents: read
+    }
+    concurrency: {
+      group: '${{ github.workflow }}-ossindex-${{ github.ref }}',
+      cancel-in-progress: true
+    }
+    steps:
+      - name: Checkout the repository
+        id: checkout
+        uses: actions/checkout@v7
+        with: {
+          persist-credentials: false
+        }
+      - name: Set up JDKs
+        id: setup-java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: |-
+            17
+            21
+          cache: maven
+          server-id: ossindex
+          server-username: OSSINDEX_USERNAME
+          server-password: OSSINDEX_API_TOKEN
+      - name: Run Ossindex
+        id: ossindex
+        run: |
+          mvn --batch-mode test-compile \
+              org.sonatype.ossindex.maven:ossindex-maven-plugin:audit \
+              org.sonatype.ossindex.maven:ossindex-maven-plugin:audit-aggregate \
+              -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+        env: {
+          OSSINDEX_USERNAME: '${{ secrets.OSSINDEX_USERNAME }}',
+          OSSINDEX_API_TOKEN: '${{ secrets.OSSINDEX_API_TOKEN }}'
+        }
+  lint-github-actions:
+    runs-on: ubuntu-latest
+    defaults:
+      run: {
+        shell: bash
+      }
+    permissions: {
+      security-events: write,
+      contents: read,
+      actions: read
+    }
+    concurrency: {
+      group: '${{ github.workflow }}-github-actions-linter-${{ github.ref }}',
+      cancel-in-progress: true
+    }
+    steps:
+      - name: Checkout the repository
+        id: checkout
+        uses: actions/checkout@v7
+        with: {
+          persist-credentials: false
+        }
+      - name: Lint GitHub actions with Zizmore
+        id: lint-github-actions
+        uses: zizmorcore/zizmor-action@192e21d79ab29983730a13d1382995c2307fbcaa
+        with: {
+          advanced-security: false
+        }
   build:
     needs: [
       build-and-test,
-      next-java-compatibility
+      next-java-compatibility,
+      ossindex,
+      lint-github-actions
     ]
     runs-on: ubuntu-latest
     defaults:
@@ -181,21 +301,23 @@ jobs:
     steps:
       - name: Checkout the repository
         id: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with: {
-          fetch-depth: 0
+          fetch-depth: 0,
+          persist-credentials: false
         }
       - name: Set up JDKs
         id: setup-java
-        uses: actions/setup-java@v4
-        with: {
-          distribution: temurin,
-          java-version: '17',
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: |-
+            17
+            21
           cache: maven
-        }
       - name: Check if release is needed
         id: check-release
-        if: ${{ github.ref == 'refs/heads/main' }}
+        if: ${{ github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/heads/release/') }}
         run: |
           if mvn --batch-mode com.exasol:project-keeper-maven-plugin:verify-release --projects .; then
               echo "### ✅ Release preconditions met, start release" >> "$GITHUB_STEP_SUMMARY"
@@ -210,7 +332,7 @@ jobs:
         }
   start_release:
     needs: build
-    if: ${{ github.ref == 'refs/heads/main' && needs.build.outputs.release-required == 'true' }}
+    if: ${{ needs.build.outputs.release-required == 'true' }}
     concurrency: {
       cancel-in-progress: false,
       group: release
