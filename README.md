@@ -23,7 +23,11 @@ Abstract read access from Exasol to Exasol via a Virtual Schema.
 ## Features
 
 * Access a local Exasol schema through a Virtual Schema
-* Preserve `TIMESTAMP(9)` metadata precision on Exasol 9 and later
+* Access a remote Exasol schema (since version 0.4.0)
+* `TIMESTAMP` nano-second precision (since version 1.0.0)
+* Selective source table filter (optional)
+* Excluded push-down capabilities (optional)
+* Remote log via socket listener (optional)
 
 ## Table of Contents
 
