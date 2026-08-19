@@ -18,7 +18,6 @@ class TlsIT extends AbstractLuaVirtualSchemaIT {
     // [[itest -> dsn~tls-connection~0]]
     @Test
     void testTlsWithCertificateCheck() {
-        assumeExasol8OrHigher();
         final Schema sourceSchema = createSchema("SCHEMA_REMOTE_COLUMN_TYPES");
         final Table table = sourceSchema.createTableBuilder("T").column("BO", "BOOLEAN").build();
         final String connectionName = "CONNECTION_TO_LOCALHOST";

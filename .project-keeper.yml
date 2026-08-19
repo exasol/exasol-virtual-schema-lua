@@ -18,10 +18,27 @@ build:
           job: "build-and-test"
           stepId: checkout
           content:
-            name: "Install Lua, LuaRocks and Lua Dependencies"
+            name: "Cache downloaded LuaRocks packages"
+            id: cache-luarocks
+            uses: actions/cache@v6
+            with:
+              path: ~/.cache/luarocks
+              key: ${{ runner.os }}-luarocks-lua-5.4-${{ hashFiles('*.rockspec') }}
+        - action: INSERT_AFTER
+          job: "build-and-test"
+          stepId: cache-luarocks
+          content:
+            name: "Install Lua and LuaRocks"
             id: install-lua
             run: |
-              tools/install_luarocks.sh --lua-version=5.4
+              sudo apt-get install lua5.4 liblua5.4-dev luarocks
+              sudo update-alternatives --install /usr/bin/lua lua-interpreter /usr/bin/lua5.4 54
+              sudo update-alternatives --install /usr/bin/luac lua-compiler /usr/bin/luac5.4 54
+              sudo update-alternatives --set lua-interpreter /usr/bin/lua5.4
+              sudo update-alternatives --set lua-compiler /usr/bin/luac5.4
+              luarocks config --scope user lua_version 5.4
+              luarocks config --scope user lua_dir /usr
+              luarocks config --local deploy_bin_dir >> "$GITHUB_PATH"
               luarocks --lua-version=5.4 --local install --only-deps *.rockspec
         # Create a dummy Exasol error_code_report.json file with required fields:
         - action: INSERT_AFTER

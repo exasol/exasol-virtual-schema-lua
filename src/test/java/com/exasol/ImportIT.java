@@ -21,7 +21,6 @@ class ImportIT extends AbstractLuaVirtualSchemaIT {
 
     @BeforeAll
     static void beforeAll() throws SQLException {
-        assumeExasol8OrHigher();
         AbstractLuaVirtualSchemaIT.beforeAll();
     }
 
