@@ -1,6 +1,6 @@
-# Exasol Virtual Schema Lua 1.0.0, released 2026-08-12
+# Exasol Virtual Schema Lua 1.0.0, released 2026-08-??
 
-Code name:
+Code name: TIMESTAMP(9) Support
 
 ## Summary
 
