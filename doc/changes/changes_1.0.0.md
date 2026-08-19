@@ -9,10 +9,16 @@ This release adds nanosecond timestamp metadata support for Exasol 2025 and late
 The Lua module loader trick is now added directly to the installation bundle, so that users don't need to add it anymore themselves.
 
 Breaking change: Exasol 7 is no longer supported
+We also improved the user guide with information about remote connections and more details on adapter properties.
+
+Note that since Lua has no filesystem access, we cannot load TLS certificates yet, which means we cannot establish the authenticity of the adapter's remote connection yet.
+
+Breaking change: Exasol 7 is no longer supported.
 
 ## Features
 
 * #53: Added `TIMESTAMP(9)` support for Exasol 2025 and later.
+* #70: User guide now describes remote connections, adapter properties and TLS certificate limitations.
 
 ## Dependency Updates
 
