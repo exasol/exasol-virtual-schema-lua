@@ -33,12 +33,12 @@ function RequestDispatcher:_init(adapter, properties_reader)
     cjson.null = properties_reader.null
 end
 
--- [impl -> dsn~dispatching-push-down-requests~0]
--- [impl -> dsn~dispatching-create-virtual-schema-requests~0]
--- [impl -> dsn~dispatching-drop-virtual-schema-requests~0]
--- [impl -> dsn~dispatching-refresh-requests~0]
--- [impl -> dsn~dispatching-get-capabilities-requests~0]
--- [impl -> dsn~dispatching-set-properties-requests~0]
+-- [impl -> dsn~vscl.dispatching-push-down-requests~0]
+-- [impl -> dsn~vscl.dispatching-create-virtual-schema-requests~0]
+-- [impl -> dsn~vscl.dispatching-drop-virtual-schema-requests~0]
+-- [impl -> dsn~vscl.dispatching-refresh-requests~0]
+-- [impl -> dsn~vscl.dispatching-get-capabilities-requests~0]
+-- [impl -> dsn~vscl.dispatching-set-properties-requests~0]
 function RequestDispatcher:_handle_request(request, properties)
     local handlers = {
         pushdown = self._adapter.push_down,
@@ -81,7 +81,7 @@ local function handle_error(message)
     return message
 end
 
--- [impl -> dsn~reading-user-defined-properties~0]
+-- [impl -> dsn~vscl.reading-user-defined-properties~0]
 function RequestDispatcher:_extract_properties(request)
     local raw_properties = (request.schemaMetadataInfo or {}).properties or {}
     return self._properties_reader:new(raw_properties)
@@ -114,8 +114,8 @@ end
 --
 ---@return string response JSON-encoded adapter response
 --
--- [impl -> dsn~translating-json-request-to-lua-tables~0]
--- [impl -> dsn~translating-lua-tables-to-json-responses~0]
+-- [impl -> dsn~vscl.translating-json-request-to-lua-tables~0]
+-- [impl -> dsn~vscl.translating-lua-tables-to-json-responses~0]
 function RequestDispatcher:adapter_call(request_as_json)
     local request = cjson.decode(request_as_json)
     local properties = self:_extract_properties(request)

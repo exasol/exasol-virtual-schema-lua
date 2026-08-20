@@ -190,7 +190,7 @@ end
 --- Merge new properties into a set of existing ones
 ---@param new_properties AdapterProperties set of new properties to merge into the existing ones
 ---@return AdapterProperties merge_product
--- [impl -> dsn~merging-user-defined-properties~0]
+-- [impl -> dsn~vscl.merging-user-defined-properties~0]
 function AdapterProperties:merge(new_properties)
     local merged_list = {}
     for key, value in pairs(new_properties._raw_properties) do

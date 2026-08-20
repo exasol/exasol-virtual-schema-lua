@@ -13,19 +13,19 @@ package exasol.vscl <<external>> {
 package exasol.evscl {
     class ExasolBaseAdapterProperties {
         + validate()
-        '[dsn -> req~schema-name-property~1 >> impl, utest]
+        '[dsn -> req~evscl.schema-name-property~1 >> impl, utest]
         + get_schema_name()
-        '[dsn -> req~table-filter-property~1 >> impl, utest]
+        '[dsn -> req~evscl.table-filter-property~1 >> impl, utest]
         + get_table_filter()
     }
 
     class AbstractMetadataReader <<abstract>> {
         + read(schema_id, include_tables)
-        ' [dsn -> req~include-tables~1 >> impl, utest]
+        ' [dsn -> req~evscl.include-tables~1 >> impl, utest]
         - _is_included_table(table_id, include_tables_lookup)
-        ' [dsn -> req~reading-table-metadata-from-a-schema~1 >> impl, utest]
+        ' [dsn -> req~evscl.reading-table-metadata-from-a-schema~1 >> impl, utest]
         # {abstract} _execute_table_metadata_query(schema_id)
-        ' [dsn -> req~reading-column-metadata-from-a-table~1 >> impl, utest]
+        ' [dsn -> req~evscl.reading-column-metadata-from-a-table~1 >> impl, utest]
         # {abstract} _execute_column_metadata_query(schema_id, table_id)
     }
 
@@ -39,7 +39,7 @@ package exasol.evscl {
     }
 
     class LocalQueryRewriter {
-        ' [dsn -> req~rewriting-a-query-for-local-access~1 >> impl, utest]
+        ' [dsn -> req~evscl.rewriting-a-query-for-local-access~1 >> impl, utest]
         # rewrite(original_query, source_schema, adapter_notes, table_filter)
     }
 

@@ -4,7 +4,7 @@
 -- parallelization easier, reduces complexity and saves you the trouble of cleaning up in the drop-virtual-schema
 -- request.
 --
--- [impl -> dsn~lua-virtual-schema-adapter-abstraction~0]
+-- [impl -> dsn~vscl.lua-virtual-schema-adapter-abstraction~0]
 --
 ---@class AbstractVirtualSchemaAdapter
 local AbstractVirtualSchemaAdapter = {}
@@ -75,7 +75,7 @@ end
 ---@param original_capabilities string[]
 ---@param excluded_capabilities string[]
 ---@return string[]
--- [impl -> dsn~excluding-capabilities~0]
+-- [impl -> dsn~vscl.excluding-capabilities~0]
 local function subtract_capabilities(original_capabilities, excluded_capabilities)
     local filtered_capabilities = {}
     for _, capability in ipairs(original_capabilities) do

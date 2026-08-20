@@ -1,5 +1,5 @@
-' [dsn -> req~getting-the-supported-capabilities~1 >> impl, utest]
-' [dsn -> req~excluding-capabilities~1] handled by base class from external library
+' [dsn -> req~evsl.getting-the-supported-capabilities~1 >> impl, utest]
+' [dsn -> req~evsl.excluding-capabilities~1] handled by base class from external library
 
 @startuml
 !include ../clean.skin

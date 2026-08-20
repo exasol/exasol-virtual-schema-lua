@@ -18,13 +18,13 @@ alt log level set
     deactivate log
 end
 
-'[dsn -> req~remote-logging~1]
+'[dsn -> req~vscl.remote-logging~1]
 alt log host set
     RequestDispatcher -> log : connect(host, port)
     activate log
     deactivate log
 else
-    '[dsn -> req~console-logging~1]
+    '[dsn -> req~vscl.console-logging~1]
     note over RequestDispatcher, log : console logging active 
 end
 

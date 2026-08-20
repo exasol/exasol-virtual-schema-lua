@@ -15,10 +15,10 @@ import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
 
 import java.sql.Timestamp;
 
-// [itest -> dsn~creating-a-local-virtual-schema~0] implicitly tested with each query on a Virtual Schema
+// [itest -> dsn~evsl.creating-a-local-virtual-schema~0] implicitly tested with each query on a Virtual Schema
 @Testcontainers
 class SelectIT extends AbstractLuaVirtualSchemaIT {
-    //  [itest -> dsn~local-push-down~0]
+    //  [itest -> dsn~evsl.local-push-down~0]
     @Test
     void testSelectStarOnUnprotectedTable() {
         final String sourceSchemaName = "SELECT_STAR_SCHEMA";
@@ -34,7 +34,7 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
     // might happen because the core database evaluates constant expressions before performing the push-down query to
     // the Virtual Schema. In such cases the adapter internally fills the select list with a dummy expression that only
     // serves the purpose of providing the right number of rows in the result set.
-    //  [itest -> dsn~local-push-down~0]
+    //  [itest -> dsn~evsl.local-push-down~0]
     @Test
     void testEmptySelectList() {
         final String sourceSchemaName = "EMPTY_SELECT_SCHEMA";
@@ -46,7 +46,7 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
                 table().row("foo").row("foo").matches());
     }
 
-    //  [itest -> dsn~local-push-down~0]
+    //  [itest -> dsn~evsl.local-push-down~0]
     @Test
     void testSelectWithOrderByColumnAndLimit() {
         final String sourceSchemaName = "ORDER_LIMIT_SCHEMA";
@@ -59,7 +59,7 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
                 table().row(1).row(2).matches(TypeMatchMode.NO_JAVA_TYPE_CHECK));
     }
 
-    //  [itest -> dsn~local-push-down~0]
+    //  [itest -> dsn~evsl.local-push-down~0]
     @Test
     void testSelectWithOrderByExpressionAndLimitWithOffset() {
         final String sourceSchemaName = "ORDER_LIMIT_OFFSET_SCHEMA";

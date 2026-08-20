@@ -1,7 +1,7 @@
 @startuml
 !include ../clean.skin
 
-' [dsn -> req~reading-timestamp-precision-from-column-metadata~1 >> impl, utest]
+' [dsn -> req~evscl.reading-timestamp-precision-from-column-metadata~1 >> impl, utest]
 title: Translate Timestamp Column Metadata
 
 start

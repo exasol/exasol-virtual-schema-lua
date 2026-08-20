@@ -21,12 +21,12 @@ describe("adapter_properties", function()
             end
     end)
 
-    -- [utest -> dsn~schema-name-property~0]
+    -- [utest -> dsn~evscl.schema-name-property~0]
     it("gets the SCHEMA_NAME property", function()
         assert.is("a_schema", ExasolAdapterProperties:new({SCHEMA_NAME = "a_schema"}):get_schema_name())
     end)
 
-    -- [utest -> dsn~table-filter-property~0]
+    -- [utest -> dsn~evscl.table-filter-property~0]
     describe("get the TABLE_FILTER property:", function()
         local tests = {
             {

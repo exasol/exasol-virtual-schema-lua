@@ -21,7 +21,7 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
 
 
 
-    // [itest -> dsn~reading-source-metadata~0]
+    // [itest -> dsn~evsl.reading-source-metadata~0]
     @Test
     void testDetermineExasol8ColumnTypes() {
         final Schema sourceSchema = createSchema("SCHEMA_COLUMN_TYPES");
@@ -67,7 +67,7 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
                 "VU", "VARCHAR(12) UTF8"));
     }
 
-    // [itest -> dsn~reading-source-metadata~0]
+    // [itest -> dsn~evsl.reading-source-metadata~0]
     @Test
     void testPreNanoSecondTimestampPrecisions() {
         assumeTimestampPrecisionNotSupported();
@@ -85,7 +85,7 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
                 "TS6", "TIMESTAMP(3)"));
     }
 
-    // [itest -> dsn~reading-source-metadata~0]
+    // [itest -> dsn~evsl.reading-source-metadata~0]
     @Test
     void testTimestampNanosecondPrecision() {
         assumeTimestampPrecisionSupported();
@@ -102,7 +102,7 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
                 "TS9", "TIMESTAMP(9)"));
     }
 
-    // [itest -> dsn~refreshing-a-virtual-schema~0]
+    // [itest -> dsn~evsl.refreshing-a-virtual-schema~0]
     @Test
     void testRefreshMetadata() {
         final Schema sourceSchema = createSchema("SCHEMA_FOR_REFRESH");
@@ -132,7 +132,7 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
         }
     }
 
-    // [itest -> dsn~filtering-tables~0]
+    // [itest -> dsn~evsl.filtering-tables~0]
     @Test
     void testTableFilter() throws SQLException {
         final Schema sourceSchema = createSchema("SCHEMA_FOR_TABLE_FILTER");
@@ -152,7 +152,7 @@ class MetadataReadingIT extends AbstractLuaVirtualSchemaIT {
         }
     }
 
-    // [itest -> dsn~filtering-tables~0]
+    // [itest -> dsn~evsl.filtering-tables~0]
     @Test
     void testSetPropertiesRereadsMetadata() throws SQLException {
         final Schema sourceSchemaA = createSchema("SCHEMA_FOR_SET_SOURCE_A");

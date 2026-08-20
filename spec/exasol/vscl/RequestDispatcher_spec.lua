@@ -31,7 +31,7 @@ describe("RequestDispatcher", function()
         end, "Request Dispatcher requires an adapter to dispatch too")
     end)
 
-    it("converts a request from JSON format to a lua table [utest -> dsn~translating-json-request-to-lua-tables~0]",
+    it("converts a request from JSON format to a lua table [utest -> dsn~vscl.translating-json-request-to-lua-tables~0]",
        function()
         local adapter_mock = stub_adapter()
         local recorded_request
@@ -43,7 +43,7 @@ describe("RequestDispatcher", function()
         assert.are.same({type = "dropVirtualSchema"}, recorded_request)
     end)
 
-    it("converts a response from a Lua table to JSON format [utest -> dsn~translating-lua-tables-to-json-responses~0]",
+    it("converts a response from a Lua table to JSON format [utest -> dsn~vscl.translating-lua-tables-to-json-responses~0]",
        function()
         local adapter_mock = stub_adapter()
         adapter_mock.refresh = function(_, _, _)
@@ -54,7 +54,7 @@ describe("RequestDispatcher", function()
         assert.are.same('{"type":"refresh"}', response)
     end)
 
-    it("reads user-defined properties [utest -> dsn~reading-user-defined-properties~0]", function()
+    it("reads user-defined properties [utest -> dsn~vscl.reading-user-defined-properties~0]", function()
         local adapter_mock = stub_adapter()
         local recorded_properties
         adapter_mock.create_virtual_schema = function(_, _, properties)
@@ -66,7 +66,7 @@ describe("RequestDispatcher", function()
         assert.is.equal("bar", recorded_properties:get("FOO"))
     end)
 
-    it("dispatches property setting [utest -> dsn~dispatching-set-properties-requests~0]", function()
+    it("dispatches property setting [utest -> dsn~vscl.dispatching-set-properties-requests~0]", function()
         local adapter_mock = stub_adapter()
         local recorded_old_properties, recorded_new_properties
         adapter_mock.set_properties = function(_, _, old_properties, new_properties)
@@ -86,38 +86,38 @@ describe("RequestDispatcher", function()
         assert.are.same(AdapterProperties:new({new1 = "nv1", new2 = "nv2"}), recorded_new_properties)
     end)
 
-    it("dispatches get-capabilities request [utest -> dsn~dispatching-get-capabilities-requests~0]", function()
+    it("dispatches get-capabilities request [utest -> dsn~vscl.dispatching-get-capabilities-requests~0]", function()
         local response = dispatcher:adapter_call('{"type" : "getCapabilities"}')
         local expected = {type = "getCapabilities", capabilities = {}}
         assert.is.same_json(expected, response)
     end)
 
-    it("dispatches create-virtual-schema request [utest -> dsn~dispatching-create-virtual-schema-requests~0]",
+    it("dispatches create-virtual-schema request [utest -> dsn~vscl.dispatching-create-virtual-schema-requests~0]",
        function()
         assert.error_contains(function()
             dispatcher:adapter_call('{"type" : "createVirtualSchema"}')
         end, "Attempted to call the abstract method AbstractVirtualSchemaAdapter:create_virtual_schema.")
     end)
 
-    it("dispatches drop-virtual-schema request [utest -> dsn~dispatching-drop-virtual-schema-requests~0]", function()
+    it("dispatches drop-virtual-schema request [utest -> dsn~vscl.dispatching-drop-virtual-schema-requests~0]", function()
         local response = dispatcher:adapter_call('{"type" : "dropVirtualSchema"}')
         local expected = {type = "dropVirtualSchema"}
         assert.is.same_json(expected, response)
     end)
 
-    it("dispatches refresh request [utest -> dsn~dispatching-refresh-requests~0]", function()
+    it("dispatches refresh request [utest -> dsn~vscl.dispatching-refresh-requests~0]", function()
         assert.error_contains(function()
             dispatcher:adapter_call('{"type" : "refresh"}')
         end, "Attempted to call the abstract method AbstractVirtualSchemaAdapter:refresh")
     end)
 
-    it("dispatches set-properties request [utest -> dsn~dispatching-set-properties-requests~0]", function()
+    it("dispatches set-properties request [utest -> dsn~vscl.dispatching-set-properties-requests~0]", function()
         assert.error_contains(function()
             dispatcher:adapter_call('{"type" : "setProperties"}')
         end, "Attempted to call the abstract method AbstractVirtualSchemaAdapter:set_properties")
     end)
 
-    it("dispatches set-properties request [utest -> dsn~dispatching-push-down-requests~0]", function()
+    it("dispatches set-properties request [utest -> dsn~vscl.dispatching-push-down-requests~0]", function()
         assert.error_contains(function()
             dispatcher:adapter_call('{"type" : "pushdown"}')
         end, "Attempted to call the abstract method AbstractVirtualSchemaAdapter:push_down")

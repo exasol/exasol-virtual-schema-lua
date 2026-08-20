@@ -1,4 +1,4 @@
-' [dsn->req~refreshing-a-virtual-schema~1 >> impl, itest]
+' [dsn->req~evsl.refreshing-a-virtual-schema~1 >> impl, itest]
 
 @startuml
 !include ../clean.skin

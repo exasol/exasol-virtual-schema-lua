@@ -1,7 +1,7 @@
 @startuml
 !include ../clean.skin
 
-' [dsn -> req~backward-compatibility-to-the-java-variant~1]
+' [dsn -> req~evsl.backward-compatibility-to-the-java-variant~1]
 
 title "Exasol Virtual Schema User Interface"
 

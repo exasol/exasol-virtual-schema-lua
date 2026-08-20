@@ -47,14 +47,14 @@ end
 
 --- Get the name of the Virtual Schema's source schema.
 -- @return name of the source schema
--- @cover [impl -> dsn~schema-name-property~0]
+-- @cover [impl -> dsn~evscl.schema-name-property~0]
 function ExasolBaseAdapterProperties:get_schema_name()
     return self:get(SCHEMA_NAME_PROPERTY)
 end
 
 --- Get the list of tables that the Virtual Schema should show after applying the table filter.
 -- @return list of tables
--- @cover [impl -> dsn~table-filter-property~0]
+-- @cover [impl -> dsn~evscl.table-filter-property~0]
 function ExasolBaseAdapterProperties:get_table_filter()
     local filtered_tables = self:get(TABLE_FILTER_PROPERTY)
     return text.split(filtered_tables)

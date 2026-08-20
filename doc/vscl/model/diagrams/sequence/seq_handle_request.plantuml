@@ -10,7 +10,7 @@ participant log <<external>>
 participant cjson <<external>>
 activate entry
 
-' [dsn -> req~translating-json-request-to-lua-tables~1 >> impl, utest]
+' [dsn -> req~vscl.translating-json-request-to-lua-tables~1 >> impl, utest]
 entry --> RequestDispatcher : adapter_call (request : JSON string)
 activate RequestDispatcher
 
@@ -19,7 +19,7 @@ activate cjson
 cjson -->> RequestDispatcher : request : table
 deactivate cjson
 
-' [dsn ->  req~reading-user-defined-properties~1 >> impl, utest]
+' [dsn ->  req~vscl.reading-user-defined-properties~1 >> impl, utest]
 create AdapterProperties
 RequestDispatcher -> AdapterProperties : create(request)
 activate AdapterProperties
@@ -35,23 +35,23 @@ deactivate log
 RequestDispatcher -> RequestDispatcher : xpcall
 activate RequestDispatcher
 alt
-    ' [dsn -> req~dispatching-create-virtual-schema-requests~1 >> impl, utest]
+    ' [dsn -> req~vscl.dispatching-create-virtual-schema-requests~1 >> impl, utest]
     RequestDispatcher -> VirtualSchemaAdapter : [[seq_create_virtual_schema.svg create_virtual_schema(request, properties)]]
     activate VirtualSchemaAdapter
 else
-    ' [dsn -> req~dispatching-get-capabilities-requests~1 >> impl, utest]
+    ' [dsn -> req~vscl.dispatching-get-capabilities-requests~1 >> impl, utest]
     RequestDispatcher -> VirtualSchemaAdapter : [[seq_get_capabilities.svg get_capabilities(request, properties)]]
 else
-    ' [dsn -> req~dispatching-set-properties-requests~1 >> impl, utest]
+    ' [dsn -> req~vscl.dispatching-set-properties-requests~1 >> impl, utest]
     RequestDispatcher -> VirtualSchemaAdapter : [[seq_set_properties.svg set_properties(request, properties)]]
 else
-    ' [dsn -> req~dispatching-push-down-requests~1 >> impl, utest]
+    ' [dsn -> req~vscl.dispatching-push-down-requests~1 >> impl, utest]
     RequestDispatcher -> VirtualSchemaAdapter : [[seq_pushdown.svg push_down(request, properties)]]
 else
-    ' [dsn -> req~dispatching-refresh-requests~1 >> impl, utest]
+    ' [dsn -> req~vscl.dispatching-refresh-requests~1 >> impl, utest]
     RequestDispatcher -> VirtualSchemaAdapter : [[seq_refresh.svg refresh(request, properties)]]
 else
-    ' [dsn -> req~dispatching-drop-virtual-schema-requests~1 >> impl, utest]
+    ' [dsn -> req~vscl.dispatching-drop-virtual-schema-requests~1 >> impl, utest]
     RequestDispatcher -> VirtualSchemaAdapter : [[seq_drop_virtual_schema.svg drop_virtual_schema(request, properties)]]
 end
 activate VirtualSchemaAdapter
@@ -71,7 +71,7 @@ RequestDispatcher -> log : disconnect ()
 
 alt success
     
-    ' [dsn -> req~translating-lua-tables-to-json-responses~1 >> impl, utest]
+    ' [dsn -> req~vscl.translating-lua-tables-to-json-responses~1 >> impl, utest]
     RequestDispatcher -->> entry : response : JSON string
 else error
     <<-- RequestDispatcher : throw (error)

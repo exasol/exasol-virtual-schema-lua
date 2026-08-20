@@ -9,7 +9,7 @@ describe("Local query rewriter", function()
         assert.are_same(expected, rewritten_query)
     end
 
-    -- [utest -> dsn~rewriting-a-query-for-local-access~0]
+    -- [utest -> dsn~evscl.rewriting-a-query-for-local-access~0]
     it("rewrites a query with an simple table", function()
         local original_query = {
             type = "select",

@@ -1,5 +1,5 @@
-' [dsn -> req~local-push-down~1 >> impl, itest]
-' [dsn -> req~remote-push-down~1 >> impl, itest]
+' [dsn -> req~evsl.local-push-down~1 >> impl, itest]
+' [dsn -> req~evsl.remote-push-down~1 >> impl, itest]
 
 @startuml
 !include ../clean.skin

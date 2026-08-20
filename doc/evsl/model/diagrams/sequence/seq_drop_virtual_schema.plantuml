@@ -1,4 +1,4 @@
-` [dsn -> req~dropping-a-virtual-schema~1 >> utest] implementation in base library
+` [dsn -> req~evsl.dropping-a-virtual-schema~1 >> utest] implementation in base library
 
 @startuml
 !include ../clean.skin

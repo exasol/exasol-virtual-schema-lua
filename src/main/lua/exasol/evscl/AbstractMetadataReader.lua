@@ -58,7 +58,7 @@ function AbstractMetadataReader:_translate_hash_type(column_id, column_type)
 end
 
 -- Timestamps come in different flavors. With or without precision. With local timezone or without.
--- [impl -> dsn~reading-timestamp-precision-from-column-metadata~0]
+-- [impl -> dsn~evscl.reading-timestamp-precision-from-column-metadata~0]
 function AbstractMetadataReader:_translate_timestamp_type(column_id, column_type)
     local hasLocalTimezone = string.find(column_type, "WITH LOCAL TIME ZONE", 1, true) and true
     local precision = string.match(column_type, "TIMESTAMP%((%d+)%)")
@@ -148,7 +148,7 @@ end
 -- @param _ schema name
 -- @param _ table name
 -- @return result set consisting of columns with name and type
--- @cover [impl -> dsn~reading-column-metadata-from-a-table~0]
+-- @cover [impl -> dsn~evscl.reading-column-metadata-from-a-table~0]
 function AbstractMetadataReader:_execute_column_metadata_query(_, _)
     error("Called abstract function '_execute_colum_metadata_query'.")
 end
@@ -156,7 +156,7 @@ end
 --- Check if a table should be included in the the virtual schema.
 -- @param table_id name of the table to check
 -- @param include_tables_lookup lookup table for names of database tables to include
--- @cover [impl -> dsn~include-tables~0]
+-- @cover [impl -> dsn~evscl.include-tables~0]
 function AbstractMetadataReader:_is_included_table(table_id, include_tables_lookup)
     return include_tables_lookup[table_id]
 end
@@ -205,7 +205,7 @@ end
 --- Execute a query that produces the list of table in the given schema.
 -- @param _ schema name
 -- @return result set with table names
--- @cover [impl -> dsn~reading-table-metadata-from-a-schema~0]
+-- @cover [impl -> dsn~evscl.reading-table-metadata-from-a-schema~0]
 function AbstractMetadataReader:_execute_table_metadata_query(_)
     error("Called abstract function '_execute_table_metadata_query'.")
 end

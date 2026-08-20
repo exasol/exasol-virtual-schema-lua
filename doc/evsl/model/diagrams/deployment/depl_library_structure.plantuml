@@ -16,8 +16,8 @@ package exasol.evscl <<external>> [
 
 package exasol.vscl <<external>> [
     Base library for all virtual schemas
-    ' [impl -> dsn~filtering-tables~0]
-    ' [impl -> dsn~reading-source-metadata~0]
+    ' [impl -> dsn~evsl.filtering-tables~0]
+    ' [impl -> dsn~evsl.reading-source-metadata~0]
 ]
 
 package luasql.exasol <<external>> [

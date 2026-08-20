@@ -51,7 +51,7 @@ In the following subsections central terms are explained in more detail.
 Features are the highest level requirements in this document that describe the main functionality of EVSL.
 
 ### Local Virtual Schema
-`feat~local-virtual-schema~1`
+`feat~evsl.local-virtual-schema~1`
 
 VS Owners can create a projection of a database schema from an Exasol database onto a Virtual Schema on the _same_ database.
 
@@ -62,7 +62,7 @@ This feature mainly exists to be able to test the Exasol Virtual Schema engine i
 Needs: req
 
 ### Remote Virtual Schema
-`feat~remote-virtual-schema~1`
+`feat~evsl.remote-virtual-schema~1`
 
 VS Owners can create a projection of a database schema from a remote Exasol database onto a Virtual Schema.
 
@@ -75,7 +75,7 @@ Needs: req
 ## Functional Requirements
 
 ### Creating a Local Virtual Schema
-`req~creating-a-local-virtual-schema~1`
+`req~evsl.creating-a-local-virtual-schema~1`
 
 VS Owners can create a Virtual Schema that abstracts a database schema on the same Exasol database.
 
@@ -85,12 +85,12 @@ This allows testing the Virtual Schema engine without having to set up a remote 
 
 Covers:
 
-* [feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~evsl.local-virtual-schema~1](#local-virtual-schema)
 
 Needs: dsn
 
 ### Creating a Remote Virtual Schema
-`req~creating-a-remote-virtual-schema~1`
+`req~evsl.creating-a-remote-virtual-schema~1`
 
 VS Owners can create a Virtual Schema that abstracts a database schema on a remote Exasol database.
 
@@ -100,12 +100,12 @@ This allows user on the local Exasol to read from a remote schema as if it were 
 
 Covers:
 
-* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+* [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
 ### Defining the Remote Connection
-`req~defining-the-remote-connection~1`
+`req~evsl.defining-the-remote-connection~1`
 
 VS Owners can specify a [connection object](https://docs.exasol.com/db/latest/sql/create_connection.htm) in the Exasol database that defines the location of and credentials to the data source.  
 
@@ -115,12 +115,12 @@ Connections objects are a secure way to store confidential access credentials in
 
 Covers:
 
-* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+* [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
 ### TLS Connection
-`req~tls-connection~1`
+`req~evsl.tls-connection~1`
 
 EVSL establishes a TLS connection to the remote Exasol database.
 
@@ -130,12 +130,12 @@ TLS provides the necessary privacy for transmitting production data.
 
 Covers:
 
-* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+* [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
 ### TLS Certificate Validation
-`req~tls-certificate-validation~1`
+`req~evsl.tls-certificate-validation~1`
 
 EVSL validates TLS certificate.
 
@@ -148,7 +148,7 @@ Comment:
 [#38](https://github.com/exasol/exasol-virtual-schema-lua/issues/36): This requirement is currently blocked by missing access for Lua to the truststore. Therefore, the `needs` part of this requirement is no yet here. 
 
 ### Reading Source Metadata
-`req~reading-source-metadata~1`
+`req~evsl.reading-source-metadata~1`
 
 EVSL (re-)reads the metadata from the data source whenever one of the following events occurs:
 
@@ -162,25 +162,25 @@ It is obvious that the metadata needs to be read upon creation. This is necessar
 
 Covers:
 
-* [feat~local-virtual-schema~1](#local-virtual-schema)
-* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+* [feat~evsl.local-virtual-schema~1](#local-virtual-schema)
+* [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
 ### Dropping a Virtual Schema
-`req~dropping-a-virtual-schema~1`
+`req~evsl.dropping-a-virtual-schema~1`
 
 VS Owners can drop a Virtual Schema.
 
 Covers:
 
-* [feat~local-virtual-schema~1](#local-virtual-schema)
-* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+* [feat~evsl.local-virtual-schema~1](#local-virtual-schema)
+* [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
 ### Refreshing a Virtual Schema
-`req~refreshing-a-virtual-schema~1`
+`req~evsl.refreshing-a-virtual-schema~1`
 
 VS Owners can refresh a Virtual Schema, causing the metadata of the underlying schema to be re-read.
 
@@ -190,13 +190,13 @@ This allows updating the structure of the underlying schema.
 
 Covers:
 
-* [feat~local-virtual-schema~1](#local-virtual-schema)
-* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+* [feat~evsl.local-virtual-schema~1](#local-virtual-schema)
+* [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
 ### Getting the Supported Capabilities
-`req~getting-the-supported-capabilities~1`
+`req~evsl.getting-the-supported-capabilities~1`
 
 EVSL offers a list of capabilities supported by the adapter on request of the Exasol database.
 
@@ -206,13 +206,13 @@ The Exasol database's query optimizer uses this information when deciding, which
 
 Covers:
 
-* [feat~local-virtual-schema~1](#local-virtual-schema)
-* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+* [feat~evsl.local-virtual-schema~1](#local-virtual-schema)
+* [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
 ### Excluding Capabilities
-`req~excluding-capabilities~1`
+`req~evsl.excluding-capabilities~1`
 
 VS Owners can exclude zero or more Virtual Schema capabilities.
 
@@ -224,13 +224,13 @@ VS Owners can do this in case the resulting query turns out to be more efficient
 
 Covers:
 
-* [feat~local-virtual-schema~1](#local-virtual-schema)
-* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+* [feat~evsl.local-virtual-schema~1](#local-virtual-schema)
+* [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
 ### Filtering Tables
-`req~filtering-tables~1`
+`req~evsl.filtering-tables~1`
 
 VS Owners can specify, which tables of the source schema should be visible through the Virtual Schema.
 
@@ -240,13 +240,13 @@ This serves two purposes. It allows to reduce the number of tables scanned for m
 
 Covers:
 
-* [feat~local-virtual-schema~1](#local-virtual-schema)
-* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+* [feat~evsl.local-virtual-schema~1](#local-virtual-schema)
+* [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
 ### Querying the Local Data Source (Push-down)
-`req~local-push-down~1`
+`req~evsl.local-push-down~1`
 
 EVSL can query the local Exasol database (i.e. the same the Virtual Schema runs on).
 
@@ -257,12 +257,12 @@ Note that the decision about what parts of the query are being pushed down to th
 
 Covers:
 
-* [feat~local-virtual-schema~1](#local-virtual-schema)
+* [feat~evsl.local-virtual-schema~1](#local-virtual-schema)
 
 Needs: dsn
 
 ### Querying the Remote Data Source (Push-down)
-`req~remote-push-down~1`
+`req~evsl.remote-push-down~1`
 
 EVSL can query the remote Exasol database.
 
@@ -273,12 +273,12 @@ Note that the decision about what parts of the query are being pushed down to th
 
 Covers:
 
-* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+* [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
 ### Setting New Properties
-`req~setting-properties~1`
+`req~evsl.setting-properties~1`
 
 VS Owners can change the properties of an existing Virtual Schema.
 
@@ -288,13 +288,13 @@ This is useful if VS Owners want to change the underlying settings (e.g. the tab
 
 Covers:
 
-* [feat~local-virtual-schema~1](#local-virtual-schema)
-* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+* [feat~evsl.local-virtual-schema~1](#local-virtual-schema)
+* [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 
 ### Backward-compatibility to the Java Variant
-`req~backward-compatibility-to-the-java-variant~1`
+`req~evsl.backward-compatibility-to-the-java-variant~1`
 
 The Lua-based Virtual Schema is backward-compatible to the Java variant.
 
@@ -308,8 +308,8 @@ We want users to switch to the Lua-variant, because it is faster and easier to i
 
 Covers:
 
-* [feat~local-virtual-schema~1](#local-virtual-schema)
-* [feat~remote-virtual-schema~1](#remote-virtual-schema)
+* [feat~evsl.local-virtual-schema~1](#local-virtual-schema)
+* [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: dsn
 

@@ -39,7 +39,7 @@ The following list gives you an overview of terms and abbreviations commonly use
 Features are the highest level requirements in this document that describe the main functionality of RLS.
 
 ### Request Handling
-`feat~request-handling~1`
+`feat~vscl.request-handling~1`
 
 VSCL receives and decodes requests that the Virtual Schema Adapter gets from the core database and dispatches them to an adapter object written in Lua. It also encodes the Adapter's response before sending it to the core database.
 
@@ -50,7 +50,7 @@ Handling the Virtual Schema API, decoding of request and encoding of responses a
 Needs: req
 
 ### Logging
-`feat~logging~1`
+`feat~vscl.logging~1`
 
 VSCL can log to the console or a remote log receiver. 
 
@@ -63,7 +63,7 @@ Needs: req
 ## Functional Requirements
 
 ### Lua Virtual Schema Adapter Abstraction
-`req~lua-virtual-schema-adapter-abstraction~1`
+`req~vscl.lua-virtual-schema-adapter-abstraction~1`
 
 VSCJ offers an object-oriented Lua interface for a Virtual Schema adapters.
 
@@ -73,7 +73,7 @@ This is a more convenient starting point for Software Developers who want to imp
 
 Covers:
 
-* [feat~request-handling~1](#request-handling)
+* [feat~vscl.request-handling~1](#request-handling)
 
 Needs: dsn
 
@@ -84,7 +84,7 @@ The Virtual Schema API offered by the Exasol core database uses a request-respon
 VSCL abstracts this, so that Software Developers don't have to do it themselves. Instead, they implement an adapter that must offer a predefined interface.
 
 #### Translating JSON Requests to Lua Tables
-`req~translating-json-request-to-lua-tables~1`
+`req~vscl.translating-json-request-to-lua-tables~1`
 
 VSCL translates the contents of a Virtual Schema request from JSON to a LUA table.
 
@@ -94,12 +94,12 @@ JSON decoding is boilerplate code. What developers need are Lua objects (read "t
 
 Covers:
 
-* [feat~request-handling~1](#request-handling)
+* [feat~vscl.request-handling~1](#request-handling)
 
 Needs: dsn
 
 #### Reading User-defined Properties
-`req~reading-user-defined-properties~1`
+`req~vscl.reading-user-defined-properties~1`
 
 VSCL extracts user-defined Virtual Schema Properties from the Virtual Schema request.
 
@@ -114,7 +114,7 @@ Properties let users change the settings of a Virtual Schema.
 Needs: dsn
 
 #### Merging User-defined Properties
-`req~merging-user-defined-properties~1`
+`req~vscl.merging-user-defined-properties~1`
 
 VSCL supports merging a set of changed properties into a set of existing properties:
 
@@ -136,68 +136,68 @@ The bare Virtual Schema API expects an adapter to handle all incoming request wi
 VSCL examines the content of an incoming request and dispatches it to a dedicated adapter callback function defined in the Lua Virtual Schema Lua Adapter interface.
 
 ##### Dispatching Create-Virtual-Schema Requests
-`req~dispatching-create-virtual-schema-requests~1`
+`req~vscl.dispatching-create-virtual-schema-requests~1`
 
 VSCL dispatches request to create a Virtual Schema to the Virtual Schema adapter.
 
 Covers:
 
-* [feat~request-handling~1](#request-handling)
+* [feat~vscl.request-handling~1](#request-handling)
 
 Needs: dsn
 
 ##### Dispatching Drop-Virtual-Schema Requests
-`req~dispatching-drop-virtual-schema-requests~1`
+`req~vscl.dispatching-drop-virtual-schema-requests~1`
 
 VSCL dispatches request to drop a Virtual Schema to the Virtual Schema adapter.
 
 Covers:
 
-* [feat~request-handling~1](#request-handling)
+* [feat~vscl.request-handling~1](#request-handling)
 
 Needs: dsn
 
 ##### Dispatching Get-Capabilities Requests
-`req~dispatching-get-capabilities-requests~1`
+`req~vscl.dispatching-get-capabilities-requests~1`
 
 VSCL dispatches request to list all supported capabilities of the Virtual Schema to the Virtual Schema adapter.
 
 Covers:
 
-* [feat~request-handling~1](#request-handling)
+* [feat~vscl.request-handling~1](#request-handling)
 
 Needs: dsn
 
 ##### Dispatching Set-Properties Requests
-`req~dispatching-set-properties-requests~1`
+`req~vscl.dispatching-set-properties-requests~1`
 
 VSCL dispatches request to change the Virtual Schema properties to the Virtual Schema adapter with old and new properties as parameters.
 
 Covers:
 
-* [feat~request-handling~1](#request-handling)
+* [feat~vscl.request-handling~1](#request-handling)
 
 Needs: dsn
 
 ##### Dispatching Refresh Requests
-`req~dispatching-refresh-requests~1`
+`req~vscl.dispatching-refresh-requests~1`
 
 VSCL dispatches request to refresh the metadata of a Virtual Schema to the Virtual Schema adapter.
 
 Covers:
 
-* [feat~request-handling~1](#request-handling)
+* [feat~vscl.request-handling~1](#request-handling)
 
 Needs: dsn
 
 ##### Dispatching Push-down Requests
-`req~dispatching-push-down-requests~1`
+`req~vscl.dispatching-push-down-requests~1`
 
 VSCL dispatches request to push a query down to the data source to the Virtual Schema adapter.
 
 Covers:
 
-* [feat~request-handling~1](#request-handling)
+* [feat~vscl.request-handling~1](#request-handling)
 
 Needs: dsn
 
@@ -211,7 +211,7 @@ Since that mechanism is for most adapters identical, VSCL provides a base implem
 Exception are adapters that decide on capabilities dynamically, e.g. depending on the version of the attached data source &mdash; an admittedly rare use case. In those special cases adapters can override the base implementation.
 
 #### Excluding Capabilities
-`req~excluding-capabilities~1`
+`req~vscl.excluding-capabilities~1`
 
 VSCL allows users to exclude individual capabilities from being used by the Exasol database.
 
@@ -221,14 +221,14 @@ This is mainly useful if users know that Exasol can handle some function more ef
 
 Covers:
 
-* [feat~request-handling~1](#request-handling)
+* [feat~vscl.request-handling~1](#request-handling)
 
 Needs: dsn
 
 ### Handling Responses
 
 #### Translating Lua Tables to JSON Responses
-`req~translating-lua-tables-to-json-responses~1`
+`req~vscl.translating-lua-tables-to-json-responses~1`
 
 VSCL translates the contents Virtual Schema response from a LUA table to JSON.
 
@@ -238,12 +238,12 @@ JSON encoding is boilerplate code. Developers formulate the responses as Lua obj
 
 Covers:
 
-* [feat~request-handling~1](#request-handling)
+* [feat~vscl.request-handling~1](#request-handling)
 
 Needs: dsn
 
 #### Render SQL Query
-`req~render-sql-query~1`
+`req~vscl.render-sql-query~1`
 
 VSCL can render a query provides as [abstract syntax tree](https://en.wikipedia.org/wiki/Abstract_syntax_tree) to an textual SQL statement.
 
@@ -253,7 +253,7 @@ While the Virtual Schema API expresses the query to be pushed down in form of an
 
 Covers:
 
-* [feat~request-handling~1](#request-handling)
+* [feat~vscl.request-handling~1](#request-handling)
 
 Needs: dsn
 
@@ -262,7 +262,7 @@ Needs: dsn
 Virtual Schemas run headless. That means that under normal circumstances the result of a Virtual Schema request is the only way users can observe. For monitoring and debugging we therefore need logging.
 
 #### Console Logging
-`req~console-logging~1`
+`req~vscl.console-logging~1`
 
 VSCL can write log messages to the console.
 
@@ -272,12 +272,12 @@ This is useful for unit testing.
 
 Covers:
 
-* [feat~logging~1](#logging)
+* [feat~vscl.logging~1](#logging)
 
 Needs: dsn
 
 #### Remote Logging
-`req~remote-logging~1`
+`req~vscl.remote-logging~1`
 
 VSCL can write log messages to a remote log listener.
 
@@ -287,6 +287,6 @@ In an Exasol cluster, the console is not reachable for Lua UDFs, therefore the l
 
 Covers:
 
-* [feat~logging~1](#logging)
+* [feat~vscl.logging~1](#logging)
 
 Needs: dsn

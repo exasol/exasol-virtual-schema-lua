@@ -1,4 +1,4 @@
-' [dsn -> req~merging-user-defined-properties~1 >> impl, utest]
+' [dsn -> req~vscl.merging-user-defined-properties~1 >> impl, utest]
 
 @startuml
 title "Merging Propreties"

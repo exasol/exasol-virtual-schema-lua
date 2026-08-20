@@ -1,7 +1,7 @@
-' [dsn -> req~reading-source-metadata~1] forwarding already done in local metadata reading UML
-' [dsn -> req~filtering-tables~1] forwarding already done in local metadata reading UML
-' [dsn -> req~defining-the-remote-connection~1 >> impl, utest, itest]
-' [dsn -> req~tls-connection~1 >> impl, itest]
+' [dsn -> req~evsl.reading-source-metadata~1] forwarding already done in local metadata reading UML
+' [dsn -> req~evsl.filtering-tables~1] forwarding already done in local metadata reading UML
+' [dsn -> req~evsl.defining-the-remote-connection~1 >> impl, utest, itest]
+' [dsn -> req~evsl.tls-connection~1 >> impl, itest]
 
 @startuml
 !include ../clean.skin

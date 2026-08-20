@@ -64,21 +64,21 @@ Since features are defined in the actual Virtual Schemas that depend on this lib
 The main work when creating a new virtual schema is to map the structure and data types of the data source to virtual schema metadata. This happens by scanning the data source and then reporting table and column structure back. This section holds requirements that are common for scanning an Exasol data source. 
 
 #### Reading Table Metadata From a Schema
-`req~reading-table-metadata-from-a-schema~1`
+`req~evscl.reading-table-metadata-from-a-schema~1`
 
 EVSCL reads the list of tables contained in the source database schema.
 
 Needs: dsn
 
 #### Reading Column Metadata From a Table
-`req~reading-column-metadata-from-a-table~1`
+`req~evscl.reading-column-metadata-from-a-table~1`
 
 EVSCL reads the list of columns and their attributes from a table in the source database.
 
 Needs: dsn
 
 #### Reading Timestamp Precision From Column Metadata
-`req~reading-timestamp-precision-from-column-metadata~1`
+`req~evscl.reading-timestamp-precision-from-column-metadata~1`
 
 When source column metadata declares a precision for a `TIMESTAMP` or `TIMESTAMP WITH LOCAL TIME ZONE`
 column, EVSCL reports that precision in the virtual schema metadata. For timestamps without an explicit
@@ -87,7 +87,7 @@ precision, EVSCL preserves the existing metadata representation.
 Needs: dsn
 
 #### Include Tables
-`req~include-tables~1`
+`req~evscl.include-tables~1`
 
 EVSCL offers an interface to specify the tables from the source database schema that should be included in the virtual schema. 
 
@@ -98,21 +98,21 @@ Needs: dsn
 Adapter properties allow VS Owners to configure their virtual schemas. In this section we define properties that all virtual schemas share which access an Exasol data source. 
 
 #### Schema Name Property
-`req~schema-name-property~1`
+`req~evscl.schema-name-property~1`
 
 EVSCL provides an API to read the data source's schema name that the virtual schema projects.
 
 Needs: dsn
 
 #### Table Filter Property
-`req~table-filter-property~1`
+`req~evscl.table-filter-property~1`
 
 EVSCL provides and API to read the list of source tables that should be present in the virtual schema projection.
 
 Needs: dsn
 
 #### Validation of Common Exasol Virtual Schema Properties
-`req~evscl~property~validation~1`
+`req~evscl.evscl~property~validation~1`
 
 EVSCL validates the following properties:
 
@@ -127,7 +127,7 @@ Needs: dsn
 At its core a virtual schema adapter is a query rewriter. It gets a data structure representing a push-down query from the code database wrapped in a push-down request. The rewriter then rewrites the logical structure of the push-down query so that it gets the required data.
 
 #### Rewriting a Query for Local Access
-`req~rewriting-a-query-for-local-access~1`
+`req~evscl.rewriting-a-query-for-local-access~1`
 
 EVSCL rewrites a query that is aimed to access local Exasol data into an `SELECT` statement.
 

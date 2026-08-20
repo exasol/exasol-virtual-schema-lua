@@ -24,7 +24,7 @@ end group
 
 create QueryRenderer
 QueryRewriter -> QueryRenderer : create(query)
-    '[dsn -> req~render-sql-query~1]
+    '[dsn -> req~vscl.render-sql-query~1]
     QueryRewriter -> QueryRenderer : render()
     activate QueryRenderer
     QueryRenderer -->> QueryRewriter : query : SQL string

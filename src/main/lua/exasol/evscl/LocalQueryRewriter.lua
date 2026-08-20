@@ -26,7 +26,7 @@ function LocalQueryRewriter:class()
 end
 
 -- Override
--- [impl -> dsn~rewriting-a-query-for-local-access~0]
+-- [impl -> dsn~evscl.rewriting-a-query-for-local-access~0]
 function LocalQueryRewriter:rewrite(original_query, source_schema_id, _, _)
     self:_validate(original_query)
     local query = self:_extend_query_with_source_schema(original_query, source_schema_id)

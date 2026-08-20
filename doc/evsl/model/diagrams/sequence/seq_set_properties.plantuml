@@ -1,4 +1,4 @@
-' [dsn -> req~setting-properties~1 >> impl]
+' [dsn -> req~evsl.setting-properties~1 >> impl]
 
 @startuml
 !include ../clean.skin

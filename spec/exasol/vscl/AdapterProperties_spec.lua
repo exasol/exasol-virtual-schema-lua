@@ -109,7 +109,7 @@ describe("AdapterProperties", function()
         assert.is_true(properties:is_false("switch"))
     end)
 
-    -- [utest -> dsn~merging-user-defined-properties~0]
+    -- [utest -> dsn~vscl.merging-user-defined-properties~0]
     describe("merges old properties with new ones:", function()
         local tests = {
             add_new = {{a = 1, b = 2}, {c = 3}, {a = 1, b = 2, c = 3}},

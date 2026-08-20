@@ -7,7 +7,7 @@ package exasol.vscl {
     class QueryRenderer
     together {
         class RequestDispatcher
-        ' [dsn->req~lua-virtual-schema-adapter-abstraction~1 >> impl]
+        ' [dsn->req~vscl.lua-virtual-schema-adapter-abstraction~1 >> impl]
         abstract class AbstractVirtualSchemaAdapter <<abstract>>
         class AdapterProperties
 
