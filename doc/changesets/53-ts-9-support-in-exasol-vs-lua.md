@@ -22,9 +22,9 @@ Out of scope:
 
 ## Design References
 
-* [System Requirements](../system_requirements.md) — `req~reading-source-metadata~1`
-* [Deployment model](../model/diagrams/deployment/depl_library_structure.plantuml) — `dsn~reading-source-metadata~0`
-* [Developer Guide](../developer_guide/developer_guide.md)
+* [System Requirements](../evsl/system_requirements.md) — `req~reading-source-metadata~1`
+* [Deployment model](../evsl/model/diagrams/deployment/depl_library_structure.plantuml) — `dsn~reading-source-metadata~0`
+* [Developer Guide](../evsl/developer_guide/developer_guide.md)
 * [README](../../README.md)
 
 ## Strategy

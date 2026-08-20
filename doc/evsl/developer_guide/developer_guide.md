@@ -42,7 +42,7 @@ The `luacov` and `luacov-coveralls` libraries take care of measuring and reporti
 
 As most non-trivial pieces of software, `row-level-security-lua` is modularized. While it is possible to install individual modules as Lua scripts in Exasol, this is also a lot of work. And the more modules you install individually, the higher the chances you forget to update one of them. A safer and more convenient way is to bundle everything into one script before the installation using [lua-amalg](https://github.com/siffiejoe/lua-amalg/).
 
-To make this process easier, the [Maven POM file](../../pom.xml) contains an execution that automates this step. Still it is necessary to add new modules by hand in the list of modules to be bundled in the POM.
+To make this process easier, the [Maven POM file](../../../pom.xml) contains an execution that automates this step. Still it is necessary to add new modules by hand in the list of modules to be bundled in the POM.
 
 Note that the entry point `entry.lua` is a regular Lua script that must be added to the bundle using the `--script` switch and its relative path. The remaining bundle elements are Lua modules and must be listed in dot-notation.
 
@@ -107,7 +107,7 @@ Now you can right-click any unit-test class and `Run...` or use hot keys `[CTRL]
 
 ### Running the Unit Tests From Eclipse IDE
 
-We recommend you install the [Lua Development Tools (LDT)](https://www.eclipse.org/ldt/) when working on this project using the Eclipse IDE. If you add the Lua nature to the project, you can set the paths `src/main/lua` and `src/test/lua` as source paths. This way you can directly run the unit test as Lua application (`[CTRL] + [F11]`) without further configuration.
+We recommend you install the [Lua Development Tools (LDT)](https://www.eclipse.org/ldt/) when working on this project using the Eclipse IDE. If you add the Lua nature to the project, you can set the paths `../../../src/main/lua` and `src/test/lua` as source paths. This way you can directly run the unit test as Lua application (`[CTRL] + [F11]`) without further configuration.
 
 ## Enable Debug Output
 

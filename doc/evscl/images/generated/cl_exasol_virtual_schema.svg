@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="664px" preserveAspectRatio="none" style="width:862px;height:664px;" version="1.1" viewBox="0 0 862 664" width="862px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="Calibri" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="407" x="233.5" y="18.708">Exasol Virtual Schema Common Lua Structure</text><!--MD5=[fa170e022030717e9c447455a1e8cbfe]
+cluster exasol.vscl--><polygon fill="#FFFFFF" points="130,48.9531,227,48.9531,234,75.25,288,75.25,288,176.9531,130,176.9531,130,48.9531" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="130" x2="234" y1="75.25" y2="75.25"/><text fill="#000000" font-family="Calibri" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="87" x="136" y="65.9482">exasol.vscl</text><text fill="#000000" font-family="Calibri" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="74" x="176" y="92.2451">«external»</text><!--MD5=[f750d69c62974a9d32e8b224360532f9]
+cluster exasol.evscl--><polygon fill="#FFFFFF" points="22,200.9531,129,200.9531,136,227.25,840,227.25,840,652.9531,22,652.9531,22,200.9531" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="22" x2="136" y1="227.25" y2="227.25"/><text fill="#000000" font-family="Calibri" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="97" x="28" y="217.9482">exasol.evscl</text><!--MD5=[d9aee70760ed4e31aa88b37814979bd0]
+class AdapterProperties--><rect fill="#FEFECE" height="52.7734" id="AdapterProperties" style="stroke: #A80036; stroke-width: 1.5;" width="125" x="146.5" y="107.9531"/><text fill="#000000" font-family="Calibri" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="115" x="151.5" y="126.0918">AdapterProperties</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="147.5" x2="270.5" y1="135.9219" y2="135.9219"/><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="61" x="154.5" y="152.1323">+validate()</text><!--MD5=[ca5a10e3593d708887487ed7d85d0437]
+class ExasolBaseAdapterProperties--><rect fill="#FEFECE" height="86.3828" id="ExasolBaseAdapterProperties" style="stroke: #A80036; stroke-width: 1.5;" width="196" x="111" y="239.9531"/><text fill="#000000" font-family="Calibri" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="186" x="116" y="258.0918">ExasolBaseAdapterProperties</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="112" x2="306" y1="267.9219" y2="267.9219"/><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="61" x="119" y="284.1323">+validate()</text><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="124" x="119" y="300.937">+get_schema_name()</text><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="101" x="119" y="317.7417">+get_table_filter()</text><!--MD5=[cf9dce4286f4157ddb902d9f68a79d2b]
+class AbstractMetadataReader--><rect fill="#FEFECE" height="121.1563" id="AbstractMetadataReader" style="stroke: #A80036; stroke-width: 1.5;" width="342" x="38" y="385.9531"/><text fill="#000000" font-family="Calibri" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="66" x="176" y="404.0918">«abstract»</text><text fill="#000000" font-family="Calibri" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="158" x="130" y="422.0605">AbstractMetadataReader</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="39" x2="379" y1="431.8906" y2="431.8906"/><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="193" x="46" y="448.1011">+read(schema_id, include_tables)</text><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="291" x="46" y="464.9058">-_is_included_table(table_id, include_tables_lookup)</text><text fill="#000000" font-family="Calibri" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="261" x="46" y="481.7104">#_execute_table_metadata_query(schema_id)</text><text fill="#000000" font-family="Calibri" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="326" x="46" y="498.5151">#_execute_column_metadata_query(schema_id, table_id)</text><!--MD5=[4c2e5dbf98b39ffc95bda5dc35dbd233]
+class LocalMetadataReader--><rect fill="#FEFECE" height="69.5781" id="LocalMetadataReader" style="stroke: #A80036; stroke-width: 1.5;" width="341" x="38.5" y="566.9531"/><text fill="#000000" font-family="Calibri" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="137" x="140.5" y="585.0918">LocalMetadataReader</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="39.5" x2="378.5" y1="594.9219" y2="594.9219"/><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="325" x="46.5" y="611.1323">#_execute_column_metadata_query(schema_id, table_id)</text><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="260" x="46.5" y="627.937">#_execute_table_metadata_query(schema_id)</text><!--MD5=[ea513d11d581af654248788fd3d74b62]
+class AbstractQueryRewriter--><rect fill="#FEFECE" height="70.7422" id="AbstractQueryRewriter" style="stroke: #A80036; stroke-width: 1.5;" width="407" x="415.5" y="410.9531"/><text fill="#000000" font-family="Calibri" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="66" x="586" y="429.0918">«abstract»</text><text fill="#000000" font-family="Calibri" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="140" x="549" y="447.0605">AbstractQueryRewriter</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="416.5" x2="821.5" y1="456.8906" y2="456.8906"/><text fill="#000000" font-family="Calibri" font-size="11" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="391" x="423.5" y="473.1011">+rewrite(original_query, source_schema, adapter_notes, table_filter)</text><!--MD5=[05ad86e9af707622b3466ba7f42d06d8]
+class LocalQueryRewriter--><rect fill="#FEFECE" height="52.7734" id="LocalQueryRewriter" style="stroke: #A80036; stroke-width: 1.5;" width="409" x="414.5" y="575.4531"/><text fill="#000000" font-family="Calibri" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="119" x="559.5" y="593.5918">LocalQueryRewriter</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="415.5" x2="822.5" y1="603.4219" y2="603.4219"/><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="393" x="422.5" y="619.6323">#rewrite(original_query, source_schema, adapter_notes, table_filter)</text><!--MD5=[ba2df0acd6f8c8ed8cbccf5238fda9cc]
+reverse link AbstractMetadataReader to LocalMetadataReader--><path d="M209,527.4531 C209,541.3131 209,555.0431 209,566.8131 " fill="none" id="AbstractMetadataReader&lt;-LocalMetadataReader" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="202,527.2431,209,507.2431,216,527.2431,202,527.2431" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[4fb1cd27a6d438478975558aed52f7e4]
+reverse link AbstractQueryRewriter to LocalQueryRewriter--><path d="M619,502.5531 C619,527.3931 619,555.5431 619,575.3431 " fill="none" id="AbstractQueryRewriter&lt;-LocalQueryRewriter" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="612,502.2831,619,482.2831,626,502.2831,612,502.2831" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[67e4e79b50d86db39e5e66acfb2325cd]
+link ExasolBaseAdapterProperties to AbstractMetadataReader--><!--MD5=[530f920f7b8a1e7b77c2b2eb641cbf3b]
+link AbstractMetadataReader to AbstractQueryRewriter--><!--MD5=[8abd8b71eae4f10fe4712f0cd14c1176]
+reverse link AdapterProperties to ExasolBaseAdapterProperties--><path d="M209,180.9931 C209,199.7731 209,221.4031 209,239.8231 " fill="none" id="AdapterProperties&lt;-ExasolBaseAdapterProperties" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="202,180.9731,209,160.9731,216,180.9731,202,180.9731" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[a900ab0360fd696226731c7d0d5b82d4]
+@startuml
+!pragma layout smetana
+hide empty methods
+hide empty attributes
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+!pragma horizontalLineBetweenDifferentPackageAllowed
+
+skinparam defaultFontName Calibri
+
+skinparam padding 2
+
+title: Exasol Virtual Schema Common Lua Structure
+
+package exasol.vscl <<external>> {
+    class AdapterProperties {
+        + validate()
+    }
+}
+
+package exasol.evscl {
+    class ExasolBaseAdapterProperties {
+        + validate()
+        + get_schema_name()
+        + get_table_filter()
+    }
+
+    class AbstractMetadataReader <<abstract>> {
+        + read(schema_id, include_tables)
+        - _is_included_table(table_id, include_tables_lookup)
+        # {abstract} _execute_table_metadata_query(schema_id)
+        # {abstract} _execute_column_metadata_query(schema_id, table_id)
+    }
+
+    class LocalMetadataReader {
+        # _execute_column_metadata_query(schema_id, table_id)
+        # _execute_table_metadata_query(schema_id)
+    }
+
+    class AbstractQueryRewriter <<abstract>> {
+        + {abstract} rewrite(original_query, source_schema, adapter_notes, table_filter)
+    }
+
+    class LocalQueryRewriter {
+        # rewrite(original_query, source_schema, adapter_notes, table_filter)
+    }
+
+    LocalMetadataReader -u-|> AbstractMetadataReader
+    LocalQueryRewriter -u-|> AbstractQueryRewriter
+
+    ExasolBaseAdapterProperties -[hidden]d- AbstractMetadataReader
+    AbstractMetadataReader -[hidden]r- AbstractQueryRewriter
+}
+
+ExasolBaseAdapterProperties -u-|> AdapterProperties
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 11:22:07 CET 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.18+10-post-Ubuntu-0ubuntu5
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

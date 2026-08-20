@@ -1,0 +1,25 @@
+' [dsn -> req~merging-user-defined-properties~1 >> impl, utest]
+
+@startuml
+title "Merging Propreties"
+
+start
+
+while (next new property)
+    if (new value) then (null)
+    else (not null)
+        :Add property with new value
+        to merge product;
+    endif
+endwhile
+
+while (next old property)
+    if (key matches new property) then (found\nmatch)
+    else (no match)
+        :Add property with old value
+        to merge product;
+    endif
+endwhile
+
+stop
+@enduml

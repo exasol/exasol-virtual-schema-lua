@@ -1,0 +1,37 @@
+@startuml
+!include ../clean.skin
+
+title: Query Push-down Example
+
+Participant RequestDispatcher
+Participant VirtualSchemaAdapter <<external>>
+Participant QueryRewriter <<external>>
+Participant QueryRenderer
+
+activate RequestDispatcher
+RequestDispatcher -> VirtualSchemaAdapter : push_down(request, properties)
+activate VirtualSchemaAdapter
+VirtualSchemaAdapter -> VirtualSchemaAdapter : extract adapter notes(request)
+activate VirtualSchemaAdapter
+deactivate VirtualSchemaAdapter
+group Example for rewriting Queries to an RDBMS data source
+VirtualSchemaAdapter -> QueryRewriter : rewrite(query, schema\nadapter notes, involved table[])
+activate QueryRewriter
+
+group Query rewriting
+    note over QueryRewriter: Here you rewrite the query to an **""IMPORT""** or\n**""SELECT FROM VALUES""** statement.
+end group
+
+create QueryRenderer
+QueryRewriter -> QueryRenderer : create(query)
+    '[dsn -> req~render-sql-query~1]
+    QueryRewriter -> QueryRenderer : render()
+    activate QueryRenderer
+    QueryRenderer -->> QueryRewriter : query : SQL string
+    deactivate QueryRenderer
+    QueryRewriter --> VirtualSchemaAdapter : query : SQL string
+    deactivate QueryRewriter
+end group
+VirtualSchemaAdapter -->> RequestDispatcher : wrapped response
+deactivate VirtualSchemaAdapter 
+@enduml

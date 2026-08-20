@@ -33,14 +33,14 @@ Abstract read access from Exasol to Exasol via a Virtual Schema.
 
 ### Information for Users
 
-* [User Guide](doc/user_guide/user_guide.md)
+* [User Guide](doc/evsl/user_guide/user_guide.md)
 * [Changelog](doc/changes/changelog.md)
 
 ### Information for Contributors
 
 Requirement, design documents and coverage tags are written in [OpenFastTrace](https://github.com/itsallcode/openfasttrace) format.
 
-* [Developer Guide](doc/developer_guide/developer_guide.md)
+* [Developer Guide](doc/evsl/developer_guide/developer_guide.md)
 
 ### Runtime Dependencies
 

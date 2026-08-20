@@ -176,7 +176,7 @@ GRANT SELECT ON EVSL_VIRTUAL_SCHEMA TO JOHN_DOE;
 
 Which SQL constructs are pushed-down to Exasol's Virtual Schema is decided by the optimizer based on the original query and on the capabilities reported by the [Virtual Schema adapter](#virtual-schema-adapter).
 
-The Exasol Virtual Schema supports the capabilities listed in the file [`adapter_capabilities.lua`](../../src/main/lua/exasol/evsl/adapter_capabilities.lua).
+The Exasol Virtual Schema supports the capabilities listed in the file [`adapter_capabilities.lua`](../../../src/main/lua/exasol/evsl/adapter_capabilities.lua).
 
 Please note that excluded capabilities are not the only reason why a construct might not be pushed down. Given the nature of the queries pushed to the Virtual Schema, the `LIMIT`-clause for example will rarely — if ever — be pushed down with a local setup even though the adapter can handle that. The Virtual Schema creates `SELECT` statements and not `IMPORT` statements.
 

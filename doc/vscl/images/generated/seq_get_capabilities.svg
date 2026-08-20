@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="267px" preserveAspectRatio="none" style="width:787px;height:267px;" version="1.1" viewBox="0 0 787 267" width="787px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="Calibri" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="139" x="324" y="28.708">Get Capabilities</text><rect fill="#FFFFFF" height="143.3984" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="79" y="103.5469"/><rect fill="#FFFFFF" height="109.2656" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="343" y="128.6797"/><rect fill="#FFFFFF" height="28" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="348" y="169.8125"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="84" x2="84" y1="93.5469" y2="255.9453"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="348" x2="348" y1="93.5469" y2="255.9453"/><rect fill="#FEFECE" height="34.2969" style="stroke: #A80036; stroke-width: 1.5;" width="152" x="8" y="58.25"/><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="134" x="17" y="80.2451">RequestDispatcher</text><rect fill="#FEFECE" height="50.5938" style="stroke: #A80036; stroke-width: 1.5;" width="170" x="263" y="41.9531"/><text fill="#000000" font-family="Calibri" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="74" x="311" y="63.9482">«external»</text><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="152" x="272" y="80.2451">VirtualSchemaAdapter</text><rect fill="#FFFFFF" height="143.3984" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="79" y="103.5469"/><rect fill="#FFFFFF" height="109.2656" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="343" y="128.6797"/><rect fill="#FFFFFF" height="28" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="348" y="169.8125"/><polygon fill="#A80036" points="331,124.6797,341,128.6797,331,132.6797" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="89" x2="337" y1="128.6797" y2="128.6797"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="231" x="98" y="121.6138">get_capabilities(request, properties)</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="358" x2="400" y1="161.8125" y2="161.8125"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="400" x2="400" y1="161.8125" y2="174.8125"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="359" x2="400" y1="174.8125" y2="174.8125"/><polygon fill="#A80036" points="369,170.8125,359,174.8125,369,178.8125" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="408" x="367" y="154.7466">subtract_capabilities(original_capabilities, excluded_capabilities)</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="89" x2="99" y1="237.9453" y2="233.9453"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="89" x2="99" y1="237.9453" y2="241.9453"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="89" x2="347" y1="237.9453" y2="237.9453"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="70" x="108" y="230.8794">capability[]</text><!--MD5=[c2e80087b2e18a09af5927bab7b49156]
+@startuml
+hide empty methods
+hide empty attributes
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+!pragma horizontalLineBetweenDifferentPackageAllowed
+
+skinparam defaultFontName Calibri
+
+skinparam padding 2
+
+title: Get Capabilities
+
+Participant RequestDispatcher
+Participant VirtualSchemaAdapter <<external>>
+
+activate RequestDispatcher
+RequestDispatcher -> VirtualSchemaAdapter : get_capabilities(request, properties)
+activate VirtualSchemaAdapter
+VirtualSchemaAdapter -> VirtualSchemaAdapter : subtract_capabilities(original_capabilities, excluded_capabilities)
+activate VirtualSchemaAdapter
+deactivate VirtualSchemaAdapter
+VirtualSchemaAdapter - ->> RequestDispatcher : capability[]
+deactivate VirtualSchemaAdapter 
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 11:22:07 CET 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.18+10-post-Ubuntu-0ubuntu5
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
