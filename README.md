@@ -29,18 +29,50 @@ Abstract read access from Exasol to Exasol via a Virtual Schema.
 * Excluded push-down capabilities (optional)
 * Remote log via socket listener (optional)
 
+## Repository Layout
+
+The repository contains the runnable Exasol-to-Exasol adapter (`evsl`) and two reusable Lua libraries: the generic Virtual Schema core (`vscl`) and shared Exasol-specific functionality (`evscl`). Each module has matching documentation, implementation, and unit-test directories.
+
+```text
+exasol-virtual-schema-lua/
+├── doc/
+│   ├── evsl/             # Adapter requirements, guides, and models
+│   ├── evscl/            # Shared Exasol-library requirements and models
+│   └── vscl/             # Virtual Schema core-library requirements and models
+├── src/main/lua/exasol/
+│   ├── evsl/             # Runnable Exasol-to-Exasol Virtual Schema adapter
+│   ├── evscl/            # Shared Exasol access and metadata support
+│   └── vscl/             # Generic Virtual Schema request and query handling
+├── src/test/java         # Integration tests for the Adapter (and underlying libraries)
+└── spec/exasol/
+    ├── evsl/             # Adapter unit tests
+    ├── evscl/            # Shared Exasol-library unit tests
+    └── vscl/             # Core-library unit tests
+```
+
 ## Table of Contents
 
-### Information for Users
+### EVSL — Exasol Virtual Schema Lua
 
 * [User Guide](doc/evsl/user_guide/user_guide.md)
-* [Changelog](doc/changes/changelog.md)
+* [Developer Guide](doc/evsl/developer_guide/developer_guide.md)
+* [System Requirements](doc/evsl/system_requirements.md)
 
-### Information for Contributors
+### EVSCL — Exasol Virtual Schema Common Library
+
+* [System Requirements](doc/evscl/system_requirements.md)
+
+### VSCL — Virtual Schema Common Library
+
+* [User Guide](doc/vscl/user_guide/user_guide.md)
+* [Developer Guide](doc/vscl/developer_guide/developer_guide.md)
+* [System Requirements](doc/vscl/system_requirements.md)
+
+### Common Parts
 
 Requirement, design documents and coverage tags are written in [OpenFastTrace](https://github.com/itsallcode/openfasttrace) format.
 
-* [Developer Guide](doc/evsl/developer_guide/developer_guide.md)
+* [Changelog](doc/changes/changelog.md)
 
 ### Runtime Dependencies
 
@@ -77,7 +109,7 @@ Unit tests are written in Lua.
 
 #### Integration Test Dependencies
 
-The integration tests require `exasol-testcontainers` to provide an Exasol instance. They are written in Java and require version 11 or later.
+The integration tests require `exasol-testcontainers` to provide an Exasol instance. They are written in Java and require version 17 or later.
 
 See also: Java [Dependencies](dependencies.md).
 
