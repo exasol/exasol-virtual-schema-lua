@@ -51,4 +51,14 @@ class ScalarFunctionsIT extends AbstractLuaVirtualSchemaIT {
                 table().row(-16).matches(NO_JAVA_TYPE_CHECK));
     }
 
+    @Test
+    void testCase() {
+        final Schema sourceSchema = createSchema("CASE_SCHEMA");
+        sourceSchema.createTable("T", "PERCENTAGE", "VARCHAR(10)").insert(10).insert(80).insert(100);
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("CASE_USER", virtualSchema);
+        assertQueryWithUser("SELECT CASE WHEN PERCENTAGE > 70 THEN 'yellow'"
+                + " WHEN PERCENTAGE = 100 THEN 'green' ELSE 'red' END FROM " + virtualSchema.getName() + ".T", user,
+                table().row("red", "yellow", "green").matches());
+    }
 }
