@@ -445,9 +445,33 @@ describe("ScalarFunctionRenderer", function()
 
         it_asserts([[CASE "t"."grade" WHEN 1 THEN 'GOOD' WHEN 2 THEN 'FAIR' WHEN 3 THEN 'POOR' ELSE 'INVALID' END]],
                    run_complex_function("CASE", {
-            basis = {columnNr = 1, name = "grade", tableName = "t", type = "column"},
+            basis = {columnNr = 0, name = "grade", tableName = "t", type = "column"},
             results = {
                 literal.string("GOOD"), literal.string("FAIR"), literal.string("POOR"), literal.string("INVALID")
+            }
+        }, 1, 2, 3))
+
+        it_asserts([[CASE WHEN ("t"."percentage" >= 80) THEN 'good enough' ELSE 'not enough' END]],
+                   run_complex_function("CASE", {
+            arguments = {
+                            {
+                                left =
+                                {
+                                    columnNr = 0,
+                                    name = "percentage",
+                                    tableName = "t",
+                                    type = "column"
+                                },
+                                right =
+                                {
+                                    type = "literal_exactnumeric",
+                                    value = "80"
+                                },
+                                type = "predicate_greaterequal"
+                            }
+            },
+            results = {
+                literal.string("good enough"), literal.string("not enough")
             }
         }, 1, 2, 3))
 

@@ -52,13 +52,26 @@ class ScalarFunctionsIT extends AbstractLuaVirtualSchemaIT {
     }
 
     @Test
-    void testCase() {
-        final Schema sourceSchema = createSchema("CASE_SCHEMA");
-        sourceSchema.createTable("T", "PERCENTAGE", "VARCHAR(10)").insert(10).insert(80).insert(100);
+    void testCaseWithLookup() {
+        final Schema sourceSchema = createSchema("CASE_WITH_LOOKUP_SCHEMA");
+        sourceSchema.createTable("T", "STAR_RATING", "DECIMAL(1,0)").insert(1).insert(2).insert(3).insert(0);
         final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
-        final User user = createUserWithVirtualSchemaAccess("CASE_USER", virtualSchema);
-        assertQueryWithUser("SELECT CASE WHEN PERCENTAGE > 70 THEN 'yellow'"
-                + " WHEN PERCENTAGE = 100 THEN 'green' ELSE 'red' END FROM " + virtualSchema.getName() + ".T", user,
-                table().row("red", "yellow", "green").matches());
+        final User user = createUserWithVirtualSchemaAccess("CASE_WITH_LOOKUP_USER", virtualSchema);
+        assertQueryWithUser(
+                "SELECT CASE STAR_RATING WHEN 1 THEN 'poor' WHEN 2 THEN 'ok' WHEN 3 THEN 'good' ELSE 'none' END FROM "
+                        + virtualSchema.getName() + ".T", user,
+                table().row("poor").row("ok").row("good").row("none").matches());
+    }
+
+
+    @Test
+    void testCaseWithExpression() {
+        final Schema sourceSchema = createSchema("CASE_WITH_EXPRESSION_SCHEMA");
+        sourceSchema.createTable("T", "PERCENTAGE", "DECIMAL(3,0)").insert(10).insert(80).insert(100);
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("CASE_WITH_EXPRESSION_USER", virtualSchema);
+        assertQueryWithUser("SELECT CASE WHEN PERCENTAGE < 70 THEN 'red'"
+                + " WHEN PERCENTAGE = 100 THEN 'green' ELSE 'yellow' END FROM " + virtualSchema.getName() + ".T", user,
+                table().row("red").row("yellow").row("green").matches());
     }
 }
