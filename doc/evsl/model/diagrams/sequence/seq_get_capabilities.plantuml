@@ -1,0 +1,20 @@
+' [dsn -> req~evsl.getting-the-supported-capabilities~1 >> impl, utest]
+' [dsn -> req~evsl.excluding-capabilities~1] handled by base class from external library
+
+@startuml
+!include ../clean.skin
+
+title: Get Capabilities
+
+participant RequestDispatcher
+participant ExasolAdapter
+
+activate RequestDispatcher
+RequestDispatcher -> ExasolAdapter : get capabilities (request)
+activate ExasolAdapter
+ExasolAdapter -> ExasolAdapter : subtract excluded capabilities()
+activate ExasolAdapter
+deactivate ExasolAdapter
+ExasolAdapter -->> RequestDispatcher : capability[]
+deactivate ExasolAdapter
+@enduml

@@ -21,8 +21,9 @@ description = {
     maintainer = 'Exasol <opensource@exasol.com>'
 }
 
+-- Note that since the source tree is completely available in this repository, we do not need to declare dependencies
+-- to the base libraries.
 dependencies = {
-    "exasol-virtual-schema-common-lua = 1.1.1",
     "luasql-exasol = 0.2.0"
 }
 

@@ -1,0 +1,33 @@
+@startuml
+!include ../clean.skin
+
+title: Lua Virtual Schema Deployment Overview
+
+node ExasolDataNode {
+    component exasql {
+        component Engine
+        component Compiler
+        component "Lua Interpreter" as interpreter
+        Engine -l-> Compiler : invoke
+        Compiler -d-> interpreter : call for Lua\nVirtual Schema\nfragments
+    }
+
+    artifact "<vs-name>-dist.lua" as dist
+    component "Virtual Schema Adapter" as vs_adapter
+    
+    interpreter -> dist : load
+    interpreter -d-> vs_adapter : execute
+    dist -> vs_adapter : define
+    
+}
+
+database "Source Schema" as source
+database "Virtual Schema" as virtual_schema
+
+Engine - source
+Engine - virtual_schema
+
+source -[hidden]d- virtual_schema
+
+url of vs_adapter is [[../class/cl_rls_virtual_schema.svg]]
+@enduml

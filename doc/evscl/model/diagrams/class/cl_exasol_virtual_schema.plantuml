@@ -1,0 +1,55 @@
+@startuml
+!pragma layout smetana
+!include ../clean.skin
+
+title: Exasol Virtual Schema Common Lua Structure
+
+package exasol.vscl <<external>> {
+    class AdapterProperties {
+        + validate()
+    }
+}
+
+package exasol.evscl {
+    class ExasolBaseAdapterProperties {
+        + validate()
+        '[dsn -> req~evscl.schema-name-property~1 >> impl, utest]
+        + get_schema_name()
+        '[dsn -> req~evscl.table-filter-property~1 >> impl, utest]
+        + get_table_filter()
+    }
+
+    class AbstractMetadataReader <<abstract>> {
+        + read(schema_id, include_tables)
+        ' [dsn -> req~evscl.include-tables~1 >> impl, utest]
+        - _is_included_table(table_id, include_tables_lookup)
+        ' [dsn -> req~evscl.reading-table-metadata-from-a-schema~1 >> impl, utest]
+        # {abstract} _execute_table_metadata_query(schema_id)
+        ' [dsn -> req~evscl.reading-column-metadata-from-a-table~1 >> impl, utest]
+        # {abstract} _execute_column_metadata_query(schema_id, table_id)
+    }
+
+    class LocalMetadataReader {
+        # _execute_column_metadata_query(schema_id, table_id)
+        # _execute_table_metadata_query(schema_id)
+    }
+
+    class AbstractQueryRewriter <<abstract>> {
+        + {abstract} rewrite(original_query, source_schema, adapter_notes, table_filter)
+    }
+
+    class LocalQueryRewriter {
+        ' [dsn -> req~evscl.rewriting-a-query-for-local-access~1 >> impl, utest]
+        # rewrite(original_query, source_schema, adapter_notes, table_filter)
+    }
+
+    LocalMetadataReader -u-|> AbstractMetadataReader
+    LocalQueryRewriter -u-|> AbstractQueryRewriter
+
+    ' Layout improvements:
+    ExasolBaseAdapterProperties -[hidden]d- AbstractMetadataReader
+    AbstractMetadataReader -[hidden]r- AbstractQueryRewriter
+}
+
+ExasolBaseAdapterProperties -u-|> AdapterProperties
+@enduml

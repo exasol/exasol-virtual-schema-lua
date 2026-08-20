@@ -1,0 +1,14 @@
+@startuml
+!include ../clean.skin
+
+title: Drop Virtual Schema
+
+Participant RequestDispatcher
+Participant VirtualSchemaAdapter <<external>>
+
+activate RequestDispatcher
+RequestDispatcher -> VirtualSchemaAdapter : drop_virtual_schema(request, properties)
+activate VirtualSchemaAdapter
+VirtualSchemaAdapter -->> RequestDispatcher
+deactivate VirtualSchemaAdapter 
+@enduml

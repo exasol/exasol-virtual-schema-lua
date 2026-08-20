@@ -1,0 +1,38 @@
+@startuml
+!include ../clean.skin
+
+title: Virtual Schema Adapter Entrypoint for Request Handling
+
+participant "Exasol Compiler" as compiler <<external>>
+participant entry <<external>>
+participant RequestDispatcher
+participant VirtualSchemaAdapter <<external>>
+
+activate compiler
+compiler -> entry : adapter_call(request : JSON string)
+activate entry
+create VirtualSchemaAdapter
+entry -> VirtualSchemaAdapter : create
+note left
+    Create a concrete class from
+    the ""AbstractVsAdapter"" class
+end note
+create RequestDispatcher
+entry -> RequestDispatcher : create(adapter, property reader)
+note right
+    The property reader decides which class is
+    used for parsing the properties.
+
+    Default is ""AdpaterProperties"".
+end note
+
+deactivate RequestDispatcher
+entry -> RequestDispatcher : adapter_call (request : JSON stiring)
+activate RequestDispatcher
+ref over RequestDispatcher, VirtualSchemaAdapter : **[[seq_handle_request.svg handle request]]**
+RequestDispatcher -->> entry : response : JSON string
+deactivate RequestDispatcher
+entry --> compiler : response : JSON string
+deactivate entry
+
+@enduml

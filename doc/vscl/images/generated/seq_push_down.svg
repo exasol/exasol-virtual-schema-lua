@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="590px" preserveAspectRatio="none" style="width:819px;height:590px;" version="1.1" viewBox="0 0 819 590" width="819px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="Calibri" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="240" x="290.5" y="28.708">Query Push-down Example</text><rect fill="#FFFFFF" height="466.037" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="79" y="103.5469"/><rect fill="#FFFFFF" height="431.9042" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="315" y="128.6797"/><rect fill="#FFFFFF" height="28" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="320" y="169.8125"/><rect fill="#FFFFFF" height="239.2402" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="549" y="281.2109"/><rect fill="#FFFFFF" height="33.1328" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="731" y="454.1855"/><rect fill="#FFFFFF" height="308.6386" style="stroke: #000000; stroke-width: 2.0;" width="583" x="225" y="219.8125"/><rect fill="#FFFFFF" height="80.5448" style="stroke: #000000; stroke-width: 2.0;" width="321" x="393" y="296.2109"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="84" x2="84" y1="93.5469" y2="578.5839"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="320" x2="320" y1="93.5469" y2="578.5839"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="554" x2="554" y1="93.5469" y2="578.5839"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="736" x2="736" y1="416.4042" y2="578.5839"/><rect fill="#FEFECE" height="34.2969" style="stroke: #A80036; stroke-width: 1.5;" width="152" x="8" y="58.25"/><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="134" x="17" y="80.2451">RequestDispatcher</text><rect fill="#FEFECE" height="50.5938" style="stroke: #A80036; stroke-width: 1.5;" width="170" x="235" y="41.9531"/><text fill="#000000" font-family="Calibri" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="74" x="283" y="63.9482">«external»</text><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="152" x="244" y="80.2451">VirtualSchemaAdapter</text><rect fill="#FEFECE" height="50.5938" style="stroke: #A80036; stroke-width: 1.5;" width="116" x="496" y="41.9531"/><text fill="#000000" font-family="Calibri" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="74" x="517" y="63.9482">«external»</text><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="98" x="505" y="80.2451">QueryRewriter</text><rect fill="#FFFFFF" height="466.037" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="79" y="103.5469"/><rect fill="#FFFFFF" height="431.9042" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="315" y="128.6797"/><rect fill="#FFFFFF" height="28" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="320" y="169.8125"/><rect fill="#FFFFFF" height="239.2402" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="549" y="281.2109"/><rect fill="#FFFFFF" height="33.1328" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="731" y="454.1855"/><polygon fill="#A80036" points="303,124.6797,313,128.6797,303,132.6797" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="89" x2="309" y1="128.6797" y2="128.6797"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="203" x="98" y="121.6138">push_down(request, properties)</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="330" x2="372" y1="161.8125" y2="161.8125"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="372" x2="372" y1="161.8125" y2="174.8125"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="331" x2="372" y1="174.8125" y2="174.8125"/><polygon fill="#A80036" points="341,170.8125,331,174.8125,341,178.8125" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="198" x="339" y="154.7466">extract adapter notes(request)</text><path d="M225,219.8125 L689,219.8125 L689,230.8125 L679,240.8125 L225,240.8125 L225,219.8125 " fill="#EEEEEE" style="stroke: #000000; stroke-width: 1.0;"/><rect fill="none" height="308.6386" style="stroke: #000000; stroke-width: 2.0;" width="583" x="225" y="219.8125"/><text fill="#000000" font-family="Calibri" font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="415" x="242" y="234.8794">Example for rewriting Queries to an RDBMS data source</text><polygon fill="#A80036" points="537,277.2109,547,281.2109,537,285.2109" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="325" x2="543" y1="281.2109" y2="281.2109"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="143" x="334" y="259.0122">rewrite(query, schema</text><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="201" x="334" y="274.145">adapter notes, involved table[])</text><path d="M393,296.2109 L556,296.2109 L556,307.2109 L546,317.2109 L393,317.2109 L393,296.2109 " fill="#EEEEEE" style="stroke: #000000; stroke-width: 1.0;"/><rect fill="none" height="80.5448" style="stroke: #000000; stroke-width: 2.0;" width="321" x="393" y="296.2109"/><text fill="#000000" font-family="Calibri" font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="114" x="410" y="311.2778">Query rewriting</text><path d="M403,322.3438 L403,371.3438 L704,371.3438 L704,332.3438 L694,322.3438 L403,322.3438 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M694,322.3438 L694,332.3438 L704,332.3438 L694,322.3438 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="207" x="411" y="343.9838">Here you rewrite the query to an</text><text fill="#000000" font-family="monospace" font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="48" x="622" y="343.2408">IMPORT</text><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="13" x="674" y="343.9838">or</text><text fill="#000000" font-family="monospace" font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="144" x="411" y="360.9468">SELECT FROM VALUES</text><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="71" x="559" y="361.6899">statement.</text><polygon fill="#A80036" points="662,404.8886,672,408.8886,662,412.8886" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="559" x2="668" y1="408.8886" y2="408.8886"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="87" x="568" y="401.8227">create(query)</text><rect fill="#FEFECE" height="34.2969" style="stroke: #A80036; stroke-width: 1.5;" width="124" x="674" y="383.7558"/><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="106" x="683" y="405.7509">QueryRenderer</text><polygon fill="#A80036" points="719,450.1855,729,454.1855,719,458.1855" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="559" x2="725" y1="454.1855" y2="454.1855"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="52" x="568" y="447.1196">render()</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="559" x2="569" y1="487.3183" y2="483.3183"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="559" x2="569" y1="487.3183" y2="491.3183"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="559" x2="735" y1="487.3183" y2="487.3183"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="114" x="578" y="480.2524">query : SQL string</text><polygon fill="#A80036" points="336,516.4511,326,520.4511,336,524.4511" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="330" x2="553" y1="520.4511" y2="520.4511"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="114" x="344" y="513.3852">query : SQL string</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="89" x2="99" y1="560.5839" y2="556.5839"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="89" x2="99" y1="560.5839" y2="564.5839"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="89" x2="319" y1="560.5839" y2="560.5839"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="117" x="108" y="553.518">wrapped response</text><!--MD5=[a57b4a3d6e29059c3946cacc0e3f338d]
+@startuml
+hide empty methods
+hide empty attributes
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+!pragma horizontalLineBetweenDifferentPackageAllowed
+
+skinparam defaultFontName Calibri
+
+skinparam padding 2
+
+title: Query Push-down Example
+
+Participant RequestDispatcher
+Participant VirtualSchemaAdapter <<external>>
+Participant QueryRewriter <<external>>
+Participant QueryRenderer
+
+activate RequestDispatcher
+RequestDispatcher -> VirtualSchemaAdapter : push_down(request, properties)
+activate VirtualSchemaAdapter
+VirtualSchemaAdapter -> VirtualSchemaAdapter : extract adapter notes(request)
+activate VirtualSchemaAdapter
+deactivate VirtualSchemaAdapter
+group Example for rewriting Queries to an RDBMS data source
+VirtualSchemaAdapter -> QueryRewriter : rewrite(query, schema\nadapter notes, involved table[])
+activate QueryRewriter
+
+group Query rewriting
+    note over QueryRewriter: Here you rewrite the query to an **""IMPORT""** or\n**""SELECT FROM VALUES""** statement.
+end group
+
+create QueryRenderer
+QueryRewriter -> QueryRenderer : create(query)
+    QueryRewriter -> QueryRenderer : render()
+    activate QueryRenderer
+    QueryRenderer - ->> QueryRewriter : query : SQL string
+    deactivate QueryRenderer
+    QueryRewriter - -> VirtualSchemaAdapter : query : SQL string
+    deactivate QueryRewriter
+end group
+VirtualSchemaAdapter - ->> RequestDispatcher : wrapped response
+deactivate VirtualSchemaAdapter 
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 11:22:07 CET 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.18+10-post-Ubuntu-0ubuntu5
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

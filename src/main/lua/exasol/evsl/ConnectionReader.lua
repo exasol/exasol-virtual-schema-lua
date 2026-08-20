@@ -52,7 +52,7 @@ end
 --- Read the details for the connection object with the given ID
 -- @param connection_id name of the connection to be read
 -- @return table with connection details: `host`, `port`, `user`, `password`
--- [[impl -> dsn~defining-the-remote-connection~0]]
+-- [[impl -> dsn~evsl.defining-the-remote-connection~0]]
 function ConnectionReader:read(connection_id)
     local connection_details = self._exasol_context.get_connection(connection_id)
     local host, port, fingerprint = split_connection_address(connection_details.address)

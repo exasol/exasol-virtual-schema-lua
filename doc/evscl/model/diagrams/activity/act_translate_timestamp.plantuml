@@ -1,0 +1,20 @@
+@startuml
+!include ../clean.skin
+
+' [dsn -> req~evscl.reading-timestamp-precision-from-column-metadata~1 >> impl, utest]
+title: Translate Timestamp Column Metadata
+
+start
+:Read the timestamp column type from catalog metadata;
+if (Does the type declare an explicit precision?) then (yes)
+    :Parse the numeric precision;
+endif
+if (Is it WITH LOCAL TIME ZONE?) then (yes)
+    :Create TIMESTAMP metadata with
+    withLocalTimeZone = true and optional precision;
+else (no)
+    :Create TIMESTAMP metadata with optional precision;
+endif
+:Return the column metadata;
+stop
+@enduml

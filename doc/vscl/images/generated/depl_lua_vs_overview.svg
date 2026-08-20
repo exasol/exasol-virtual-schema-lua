@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="511px" preserveAspectRatio="none" style="width:722px;height:511px;" version="1.1" viewBox="0 0 722 511" width="722px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="Calibri" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="378" x="175.5" y="18.708">Lua Virtual Schema Deployment Overview</text><!--MD5=[15a972986f957cb21a7e21e402ca6997]
+cluster ExasolDataNode--><polygon fill="#FFFFFF" points="22,58.9531,32,48.9531,561,48.9531,561,489.9531,551,499.9531,22,499.9531,22,58.9531" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="551" x2="560" y1="58.9531" y2="49.9531"/><line style="stroke: #000000; stroke-width: 1.5;" x1="22" x2="551" y1="58.9531" y2="58.9531"/><line style="stroke: #000000; stroke-width: 1.5;" x1="551" x2="551" y1="58.9531" y2="499.9531"/><text fill="#000000" font-family="Calibri" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="126" x="224.5" y="76.9482">ExasolDataNode</text><!--MD5=[c8667ec5d9876bec002d67a10c988cb2]
+cluster exasql--><rect fill="#FFFFFF" height="266" style="stroke: #000000; stroke-width: 1.5;" width="311" x="226" y="100.9531"/><rect fill="#FFFFFF" height="10" style="stroke: #000000; stroke-width: 1.5;" width="15" x="517" y="105.9531"/><rect fill="#FFFFFF" height="2" style="stroke: #000000; stroke-width: 1.5;" width="4" x="515" y="107.9531"/><rect fill="#FFFFFF" height="2" style="stroke: #000000; stroke-width: 1.5;" width="4" x="515" y="111.9531"/><text fill="#000000" font-family="Calibri" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="51" x="356" y="128.9482">exasql</text><!--MD5=[dc700f271cd8a9a91557e391985c69c3]
+entity dist--><rect fill="#FEFECE" height="43.2969" style="stroke: #000000; stroke-width: 1.5;" width="171" x="38.5" y="304.4531"/><polygon fill="#FEFECE" points="192.5,309.4531,192.5,323.4531,204.5,323.4531,204.5,315.4531,198.5,309.4531,192.5,309.4531" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="198.5" x2="198.5" y1="309.4531" y2="315.4531"/><line style="stroke: #000000; stroke-width: 1.5;" x1="204.5" x2="198.5" y1="315.4531" y2="315.4531"/><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="137" x="50.5" y="332.4482">&lt;vs-name&gt;-dist.lua</text><!--MD5=[7a6fad409d497267a5e33cf6d272be1e]
+entity vs_adapter--><a href="../class/cl_rls_virtual_schema.svg" target="_top" title="../class/cl_rls_virtual_schema.svg" xlink:actuate="onRequest" xlink:href="../class/cl_rls_virtual_schema.svg" xlink:show="new" xlink:title="../class/cl_rls_virtual_schema.svg" xlink:type="simple"><rect fill="#FEFECE" height="50.2969" style="stroke: #A80036; stroke-width: 1.5;" width="204" x="107" y="433.9531"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 1.5;" width="15" x="291" y="438.9531"/><rect fill="#FEFECE" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="289" y="440.9531"/><rect fill="#FEFECE" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="289" y="444.9531"/><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="160" x="124" y="468.9482">Virtual Schema Adapter</text></a><!--MD5=[89b32fd22c7afa88e0ae1984250e1822]
+entity Engine--><rect fill="#FEFECE" height="50.2969" style="stroke: #A80036; stroke-width: 1.5;" width="92" x="429" y="139.9531"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 1.5;" width="15" x="501" y="144.9531"/><rect fill="#FEFECE" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="499" y="146.9531"/><rect fill="#FEFECE" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="499" y="150.9531"/><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="48" x="446" y="174.9482">Engine</text><!--MD5=[c01552aeb07e95759ece564214fd0bdc]
+entity Compiler--><rect fill="#FEFECE" height="50.2969" style="stroke: #A80036; stroke-width: 1.5;" width="105" x="242.5" y="139.9531"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 1.5;" width="15" x="327.5" y="144.9531"/><rect fill="#FEFECE" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="325.5" y="146.9531"/><rect fill="#FEFECE" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="325.5" y="150.9531"/><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="61" x="259.5" y="174.9482">Compiler</text><!--MD5=[f45e20c2557919017c7b7de51da56797]
+entity interpreter--><rect fill="#FEFECE" height="50.2969" style="stroke: #A80036; stroke-width: 1.5;" width="145" x="277.5" y="300.9531"/><rect fill="#FEFECE" height="10" style="stroke: #A80036; stroke-width: 1.5;" width="15" x="402.5" y="305.9531"/><rect fill="#FEFECE" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="400.5" y="307.9531"/><rect fill="#FEFECE" height="2" style="stroke: #A80036; stroke-width: 1.5;" width="4" x="400.5" y="311.9531"/><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="101" x="294.5" y="335.9482">Lua Interpreter</text><!--MD5=[c249f364d83a401275c0ae35335e5f45]
+entity source--><path d="M577.5,150.4531 C577.5,140.4531 644,140.4531 644,140.4531 C644,140.4531 710.5,140.4531 710.5,150.4531 L710.5,179.75 C710.5,189.75 644,189.75 644,189.75 C644,189.75 577.5,189.75 577.5,179.75 L577.5,150.4531 " fill="#FEFECE" style="stroke: #000000; stroke-width: 1.5;"/><path d="M577.5,150.4531 C577.5,160.4531 644,160.4531 644,160.4531 C644,160.4531 710.5,160.4531 710.5,150.4531 " fill="none" style="stroke: #000000; stroke-width: 1.5;"/><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="109" x="589.5" y="179.4482">Source Schema</text><!--MD5=[036b4b31ff7bf9daef0267b37ab75c28]
+entity virtual_schema--><path d="M579,311.4531 C579,301.4531 642,301.4531 642,301.4531 C642,301.4531 705,301.4531 705,311.4531 L705,340.75 C705,350.75 642,350.75 642,350.75 C642,350.75 579,350.75 579,340.75 L579,311.4531 " fill="#FEFECE" style="stroke: #000000; stroke-width: 1.5;"/><path d="M579,311.4531 C579,321.4531 642,321.4531 642,321.4531 C642,321.4531 705,321.4531 705,311.4531 " fill="none" style="stroke: #000000; stroke-width: 1.5;"/><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="102" x="591" y="340.4482">Virtual Schema</text><!--MD5=[c005867cfe938879e6577f50f9fc9b06]
+reverse link Compiler to Engine--><path d="M352.74,164.9531 C377.33,164.9531 405.64,164.9531 428.81,164.9531 " fill="none" id="Compiler&lt;-Engine" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="347.55,164.9531,356.55,168.9531,352.55,164.9531,356.55,160.9531,347.55,164.9531" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="41" x="367.75" y="156.02">invoke</text><!--MD5=[807c610a5b997de0cfc0b6afe7609459]
+link Compiler to interpreter--><path d="M303.35,190.1031 C313.15,218.4331 329.4,265.3831 339.9,295.7431 " fill="none" id="Compiler-&gt;interpreter" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="341.66,300.8431,342.5112,291.0311,340.0318,296.1157,334.9473,293.6362,341.66,300.8431" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="69" x="348.5" y="235.02">call for Lua</text><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="98" x="334" y="250.1528">Virtual Schema</text><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="66" x="350" y="265.2856">fragments</text><!--MD5=[d611568eb686439b422fd76b992d80fe]
+link interpreter to dist--><path d="M277.2,325.9531 C257.39,325.9531 235.68,325.9531 215,325.9531 " fill="none" id="interpreter-&gt;dist" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="209.76,325.9531,218.76,329.9531,214.76,325.9531,218.76,321.9531,209.76,325.9531" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="27" x="230" y="317.02">load</text><!--MD5=[3ece5b27107bf9c077d0379babc7daf3]
+link interpreter to vs_adapter--><path d="M324.14,350.9831 C300.14,373.2731 264.42,406.4631 239.14,429.9531 " fill="none" id="interpreter-&gt;vs_adapter" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="235.18,433.6331,244.495,430.4347,238.8419,430.2287,239.0479,424.5756,235.18,433.6331" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="51" x="291" y="398.02">execute</text><!--MD5=[234d8edcc35900c205e7733a43902f8c]
+link dist to vs_adapter--><path d="M137.47,347.7131 C151.75,369.7131 174.4,404.6231 190.38,429.2631 " fill="none" id="dist-&gt;vs_adapter" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="193.28,433.7331,191.7312,424.0068,190.5561,429.5403,185.0226,428.3651,193.28,433.7331" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="39" x="175" y="398.02">define</text><!--MD5=[968b51ebb7253fa87c10653f826819d3]
+link Engine to source--><path d="M521.21,164.9531 C539.92,164.9531 558.62,164.9531 577.33,164.9531 " fill="none" id="Engine-source" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[bd216e420cdf294566630ecc56284e89]
+link Engine to virtual_schema--><path d="M500.36,190.1031 C532.03,220.2431 585.83,271.4731 617.22,301.3531 " fill="none" id="Engine-virtual_schema" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[257a91c46950175f3b652a2c1e1bf64e]
+link source to virtual_schema--><!--MD5=[6644a9872561e7092026a9c835584113]
+@startuml
+hide empty methods
+hide empty attributes
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+!pragma horizontalLineBetweenDifferentPackageAllowed
+
+skinparam defaultFontName Calibri
+
+skinparam padding 2
+
+title: Lua Virtual Schema Deployment Overview
+
+node ExasolDataNode {
+    component exasql {
+        component Engine
+        component Compiler
+        component "Lua Interpreter" as interpreter
+        Engine -l-> Compiler : invoke
+        Compiler -d-> interpreter : call for Lua\nVirtual Schema\nfragments
+    }
+
+    artifact "<vs-name>-dist.lua" as dist
+    component "Virtual Schema Adapter" as vs_adapter
+    
+    interpreter -> dist : load
+    interpreter -d-> vs_adapter : execute
+    dist -> vs_adapter : define
+    
+}
+
+database "Source Schema" as source
+database "Virtual Schema" as virtual_schema
+
+Engine - source
+Engine - virtual_schema
+
+source -[hidden]d- virtual_schema
+
+url of vs_adapter is [[../class/cl_rls_virtual_schema.svg]]
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 11:22:07 CET 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.18+10-post-Ubuntu-0ubuntu5
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
