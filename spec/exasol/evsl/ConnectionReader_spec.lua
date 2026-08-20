@@ -5,7 +5,7 @@ local mockagne = require("mockagne")
 
 local ConnectionReader = require("exasol.evsl.ConnectionReader")
 
--- [[utest -> dsn~defining-the-remote-connection~0]]
+-- [[utest -> dsn~evsl.defining-the-remote-connection~0]]
 describe("ConnectionReader", function()
     local exa_mock
     local reader

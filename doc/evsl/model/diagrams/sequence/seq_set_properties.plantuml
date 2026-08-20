@@ -1,0 +1,27 @@
+' [dsn -> req~evsl.setting-properties~1 >> impl]
+
+@startuml
+!include ../clean.skin
+
+title: Set Properties
+
+participant RequestDispatcher
+participant ExasolAdapter
+participant MetadataReader
+
+activate RequestDispatcher
+RequestDispatcher -> ExasolAdapter : set properties (request)
+activate ExasolAdapter
+ExasolAdapter -> MetadataReader : read (schema)
+note right
+    Changing properties most of the time requires
+    rereading the source scheme. For example if
+    the schema name or table filter were modified.
+end note
+activate MetadataReader
+ref over MetadataReader : **[[seq_read_table_metadata.svg read table metadata]]**
+MetadataReader -->> ExasolAdapter : schema metadata
+deactivate MetadataReader
+ExasolAdapter -->> RequestDispatcher : schema metadata, adapter notes
+deactivate ExasolAdapter
+@enduml

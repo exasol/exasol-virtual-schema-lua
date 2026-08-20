@@ -47,8 +47,8 @@ function ExasolAdapter:create_virtual_schema(request, properties)
     return {type = "createVirtualSchema", schemaMetadata = metadata}
 end
 
--- @cover [impl -> dsn~creating-a-local-virtual-schema~0]
--- @cover [impl -> dsn~creating-a-remote-virtual-schema~0]
+-- @cover [impl -> dsn~evsl.creating-a-local-virtual-schema~0]
+-- @cover [impl -> dsn~evsl.creating-a-remote-virtual-schema~0]
 function ExasolAdapter:_handle_schema_scanning_request(_, properties)
     local schema_id = properties:get_schema_name()
     local table_filter = properties:get_table_filter()
@@ -69,7 +69,7 @@ end
 -- @param request virtual schema request
 -- @param properties user-defined properties
 -- @return response containing the metadata for the virtual schema like table and column structure
--- @cover [impl -> dsn~refreshing-a-virtual-schema~0]
+-- @cover [impl -> dsn~evsl.refreshing-a-virtual-schema~0]
 function ExasolAdapter:refresh(request, properties)
     properties:validate()
     return {type = "refresh", schemaMetadata = self:_handle_schema_scanning_request(request, properties)}
@@ -82,7 +82,7 @@ end
 -- @param old_properties old user-defined properties
 -- @param new_properties new user-defined properties
 -- @return response containing the metadata for the virtual schema like table and column structure
--- @cover [impl -> dsn~setting-properties~0]
+-- @cover [impl -> dsn~evsl.setting-properties~0]
 function ExasolAdapter:set_properties(request, old_properties, new_properties)
     log.debug("Old properties " .. tostring(old_properties))
     log.debug("New properties " .. tostring(new_properties))
@@ -96,8 +96,8 @@ end
 -- @param request virtual schema request
 -- @param properties user-defined properties
 -- @return response containing the list of reported capabilities
--- @cover [impl -> dsn~local-push-down~0]
--- @cover [impl -> dsn~remote-push-down~0]
+-- @cover [impl -> dsn~evsl.local-push-down~0]
+-- @cover [impl -> dsn~evsl.remote-push-down~0]
 function ExasolAdapter:push_down(request, properties)
     properties:validate()
     local adapter_cache = request.schemaMetadataInfo.adapterNotes
@@ -108,7 +108,7 @@ function ExasolAdapter:push_down(request, properties)
     return {type = "pushdown", sql = rewritten_query}
 end
 
--- [impl -> dsn~getting-the-supported-capabilities~0]
+-- [impl -> dsn~evsl.getting-the-supported-capabilities~0]
 function ExasolAdapter:_define_capabilities()
     return adapter_capabilities
 end

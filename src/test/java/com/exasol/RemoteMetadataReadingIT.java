@@ -6,7 +6,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import com.exasol.dbbuilder.dialects.*;
 import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
 
-// [[itest -> dsn~defining-the-remote-connection~0]]
+// [[itest -> dsn~evsl.defining-the-remote-connection~0]]
 @Testcontainers
 class RemoteMetadataReadingIT extends AbstractLuaVirtualSchemaIT {
     public static final String BOOLEAN = "BOOLEAN";

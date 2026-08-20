@@ -1,0 +1,31 @@
+@startuml
+!include ../clean.skin
+
+title Initialize Logging
+
+participant RequestDispatcher
+participant log <<external>>
+
+activate RequestDispatcher
+
+RequestDispatcher -> log : set_client_name(adapter_name_and_version)
+activate log
+deactivate log
+
+alt log level set
+    RequestDispatcher -> log : set_log_level(level)
+    activate log
+    deactivate log
+end
+
+'[dsn -> req~vscl.remote-logging~1]
+alt log host set
+    RequestDispatcher -> log : connect(host, port)
+    activate log
+    deactivate log
+else
+    '[dsn -> req~vscl.console-logging~1]
+    note over RequestDispatcher, log : console logging active 
+end
+
+@enduml

@@ -37,7 +37,7 @@ describe("ExasolAdapter", function()
     end)
 
     it("answers a request to create a local Virtual Schema with the metadata of the source schema"
-            .. " [utest -> dsn~creating-a-local-virtual-schema~0]", function()
+            .. " [utest -> dsn~evsl.creating-a-local-virtual-schema~0]", function()
         local schema_metadata = {
             tables = {
                 {type = "table", name = "T1", columns = {{name = "C1", dataType = {type = "BOOLEAN"}}}}
@@ -54,11 +54,11 @@ describe("ExasolAdapter", function()
     end)
 
     it("confirms a request to drop the Virtual Schema with an empty response"
-            .. "[utest -> dsn~dropping-a-virtual-schema~0]", function()
+            .. "[utest -> dsn~evsl.dropping-a-virtual-schema~0]", function()
         assert.are.same({type = "dropVirtualSchema"}, adapter:drop_virtual_schema())
     end)
 
-    it("reports the supported capabilities [utest -> dsn~getting-the-supported-capabilities~0]", function()
+    it("reports the supported capabilities [utest -> dsn~evsl.getting-the-supported-capabilities~0]", function()
         local request = {}
         local expected = {type = "getCapabilities", capabilities = adapter_capabilities}
         local actual = adapter:get_capabilities(request, properties_stub)
@@ -73,7 +73,7 @@ describe("ExasolAdapter", function()
     end)
 
     it("Uses a remote metadata reader when a connection parameter is specified"
-            .. " [utest -> dsn~creating-a-remote-virtual-schema~0]", function()
+            .. " [utest -> dsn~evsl.creating-a-remote-virtual-schema~0]", function()
         local schema_metadata = {
             tables = {
                 {type = "table", name = "T2", columns = {{name = "C2", dataType = {type = "BOOLEAN"}}}}

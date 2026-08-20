@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="460px" preserveAspectRatio="none" style="width:1030px;height:460px;" version="1.1" viewBox="0 0 1030 460" width="1030px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="Calibri" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="501" x="265.25" y="28.708">Virtual Schema Adapter Entrypoint for Request Handling</text><rect fill="#FFFFFF" height="335.4951" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="66.5" y="103.5469"/><rect fill="#FFFFFF" height="301.3623" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="320.5" y="128.6797"/><rect fill="#FFFFFF" height="86.3984" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="638.5" y="310.5107"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="71" x2="71" y1="93.5469" y2="448.042"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="325.5" x2="325.5" y1="93.5469" y2="448.042"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="643.5" x2="643.5" y1="251.8257" y2="448.042"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="814.5" x2="814.5" y1="177.4766" y2="448.042"/><rect fill="#FEFECE" height="50.5938" style="stroke: #A80036; stroke-width: 1.5;" width="127" x="8" y="41.9531"/><text fill="#000000" font-family="Calibri" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="74" x="34.5" y="63.9482">«external»</text><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="109" x="17" y="80.2451">Exasol Compiler</text><rect fill="#FEFECE" height="50.5938" style="stroke: #A80036; stroke-width: 1.5;" width="92" x="279.5" y="41.9531"/><text fill="#000000" font-family="Calibri" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="74" x="288.5" y="63.9482">«external»</text><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="35" x="308" y="80.2451">entry</text><rect fill="#FFFFFF" height="335.4951" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="66.5" y="103.5469"/><rect fill="#FFFFFF" height="301.3623" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="320.5" y="128.6797"/><rect fill="#FFFFFF" height="86.3984" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="638.5" y="310.5107"/><polygon fill="#A80036" points="308.5,124.6797,318.5,128.6797,308.5,132.6797" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="76.5" x2="314.5" y1="128.6797" y2="128.6797"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="221" x="85.5" y="121.6138">adapter_call(request : JSON string)</text><polygon fill="#A80036" points="717.5,157.8125,727.5,161.8125,717.5,165.8125" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="330.5" x2="723.5" y1="161.8125" y2="161.8125"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="41" x="339.5" y="154.7466">create</text><rect fill="#FEFECE" height="50.5938" style="stroke: #A80036; stroke-width: 1.5;" width="170" x="729.5" y="136.6797"/><text fill="#000000" font-family="Calibri" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="74" x="777.5" y="158.6748">«external»</text><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="152" x="738.5" y="174.9717">VirtualSchemaAdapter</text><path d="M93,144.0571 L93,190.0571 L315,190.0571 L315,154.0571 L305,144.0571 L93,144.0571 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M305,144.0571 L305,154.0571 L315,154.0571 L305,144.0571 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="185" x="101" y="163.124">Create a concrete class from</text><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="21" x="101" y="180.8301">the</text><text fill="#000000" font-family="monospace" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="136" x="126" y="180.087">AbstractVsAdapter</text><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="32" x="266" y="180.8301">class</text><polygon fill="#A80036" points="555.5,219.4063,565.5,223.4063,555.5,227.4063" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="330.5" x2="561.5" y1="223.4063" y2="223.4063"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="209" x="339.5" y="216.3403">create(adapter, property reader)</text><rect fill="#FEFECE" height="34.2969" style="stroke: #A80036; stroke-width: 1.5;" width="152" x="567.5" y="219.1772"/><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="134" x="576.5" y="241.1723">RequestDispatcher</text><path d="M724,203.2734 L724,280.2734 L1018,280.2734 L1018,213.2734 L1008,203.2734 L724,203.2734 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M1008,203.2734 L1008,213.2734 L1018,213.2734 L1008,203.2734 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="269" x="732" y="222.3403">The property reader decides which class is</text><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="201" x="732" y="237.4731">used for parsing the properties.</text><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="0" x="736" y="252.606"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="60" x="732" y="270.312">Default is</text><text fill="#000000" font-family="monospace" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="136" x="796" y="269.5689">AdpaterProperties</text><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="4" x="932" y="270.312">.</text><polygon fill="#A80036" points="626.5,306.5107,636.5,310.5107,626.5,314.5107" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="330.5" x2="632.5" y1="310.5107" y2="310.5107"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="228" x="339.5" y="303.4448">adapter_call (request : JSON stiring)</text><rect fill="#FFFFFF" height="48.2656" style="stroke: #000000; stroke-width: 2.0;" width="338" x="564.5" y="318.5107"/><polygon fill="#EEEEEE" points="564.5,318.5107,634.5,318.5107,634.5,329.5107,624.5,339.5107,564.5,339.5107,564.5,318.5107" style="stroke: #000000; stroke-width: 2.0;"/><text fill="#000000" font-family="Calibri" font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="21" x="579.5" y="334.5776">ref</text><a href="seq_handle_request.svg" target="_top" title="seq_handle_request.svg" xlink:actuate="onRequest" xlink:href="seq_handle_request.svg" xlink:show="new" xlink:title="seq_handle_request.svg" xlink:type="simple"><text fill="#0000FF" font-family="Calibri" font-size="13" font-weight="bold" lengthAdjust="spacingAndGlyphs" text-decoration="underline" textLength="112" x="677.5" y="357.5776">handle request</text></a><line style="stroke: #A80036; stroke-width: 1.0;" x1="330.5" x2="340.5" y1="396.9091" y2="392.9091"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="330.5" x2="340.5" y1="396.9091" y2="400.9091"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="330.5" x2="642.5" y1="396.9091" y2="396.9091"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="143" x="349.5" y="389.8432">response : JSON string</text><polygon fill="#A80036" points="87.5,426.042,77.5,430.042,87.5,434.042" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="81.5" x2="324.5" y1="430.042" y2="430.042"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="143" x="95.5" y="422.976">response : JSON string</text><!--MD5=[57eda4b61976f25b0e1f379895fe98d3]
+@startuml
+hide empty methods
+hide empty attributes
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+!pragma horizontalLineBetweenDifferentPackageAllowed
+
+skinparam defaultFontName Calibri
+
+skinparam padding 2
+
+title: Virtual Schema Adapter Entrypoint for Request Handling
+
+participant "Exasol Compiler" as compiler <<external>>
+participant entry <<external>>
+participant RequestDispatcher
+participant VirtualSchemaAdapter <<external>>
+
+activate compiler
+compiler -> entry : adapter_call(request : JSON string)
+activate entry
+create VirtualSchemaAdapter
+entry -> VirtualSchemaAdapter : create
+note left
+    Create a concrete class from
+    the ""AbstractVsAdapter"" class
+end note
+create RequestDispatcher
+entry -> RequestDispatcher : create(adapter, property reader)
+note right
+    The property reader decides which class is
+    used for parsing the properties.
+
+    Default is ""AdpaterProperties"".
+end note
+
+deactivate RequestDispatcher
+entry -> RequestDispatcher : adapter_call (request : JSON stiring)
+activate RequestDispatcher
+ref over RequestDispatcher, VirtualSchemaAdapter : **[[seq_handle_request.svg handle request]]**
+RequestDispatcher - ->> entry : response : JSON string
+deactivate RequestDispatcher
+entry - -> compiler : response : JSON string
+deactivate entry
+
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 11:22:07 CET 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.18+10-post-Ubuntu-0ubuntu5
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

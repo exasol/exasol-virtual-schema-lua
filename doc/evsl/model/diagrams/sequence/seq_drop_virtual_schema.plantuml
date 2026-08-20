@@ -1,0 +1,16 @@
+` [dsn -> req~evsl.dropping-a-virtual-schema~1 >> utest] implementation in base library
+
+@startuml
+!include ../clean.skin
+
+title: Drop Virtual Schema
+
+participant RequestDispatcher
+participant ExasolAdapter
+
+activate RequestDispatcher
+RequestDispatcher -> ExasolAdapter : drop virtual schema (request)
+activate ExasolAdapter
+ExasolAdapter -->> RequestDispatcher
+deactivate ExasolAdapter 
+@enduml

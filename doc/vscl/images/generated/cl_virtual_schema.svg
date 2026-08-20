@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="699px" preserveAspectRatio="none" style="width:1094px;height:699px;" version="1.1" viewBox="0 0 1094 699" width="1094px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="Calibri" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="520" x="293" y="18.708">Virtual Schema Base Library and Concrete Implementation</text><!--MD5=[1b1104b3dc1ba9404db1e76638f01c35]
+cluster exasolvs--><polygon fill="#FFFFFF" points="226,302.9531,305,302.9531,312,329.25,1072,329.25,1072,687.9531,226,687.9531,226,302.9531" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="226" x2="312" y1="329.25" y2="329.25"/><text fill="#000000" font-family="Calibri" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="69" x="232" y="319.9482">exasolvs</text><!--MD5=[19ea7c2aa2a2f7b640604a721a3f2a5b]
+cluster example_vs--><polygon fill="#FFFFFF" points="22,48.9531,123,48.9531,130,75.25,764,75.25,764,167.9531,22,167.9531,22,48.9531" style="stroke: #000000; stroke-width: 1.5;"/><line style="stroke: #000000; stroke-width: 1.5;" x1="22" x2="130" y1="75.25" y2="75.25"/><text fill="#000000" font-family="Calibri" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="91" x="28" y="65.9482">example_vs</text><text fill="#000000" font-family="Calibri" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="74" x="360" y="92.2451">«external»</text><!--MD5=[8b9b29ab96a473c36271c3bbaa01dc69]
+class QueryRenderer--><rect fill="#FEFECE" height="27.9688" id="QueryRenderer" style="stroke: #A80036; stroke-width: 1.5;" width="104" x="242" y="394.9531"/><text fill="#000000" font-family="Calibri" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="94" x="247" y="413.0918">QueryRenderer</text><!--MD5=[125951a31a11eabdb10469312f61dab1]
+class RequestDispatcher--><a href="../sequence/seq_handle_request.svg" target="_top" title="../sequence/seq_handle_request.svg" xlink:actuate="onRequest" xlink:href="../sequence/seq_handle_request.svg" xlink:show="new" xlink:title="../sequence/seq_handle_request.svg" xlink:type="simple"><rect fill="#FEFECE" height="27.9688" id="RequestDispatcher" style="stroke: #A80036; stroke-width: 1.5;" width="130" x="378" y="556.4531"/><text fill="#000000" font-family="Calibri" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="120" x="383" y="574.5918">RequestDispatcher</text></a><!--MD5=[4d7dfd6e8e3fdba64110d59169e0b824]
+class AbstractVirtualSchemaAdapter--><rect fill="#FEFECE" height="45.9375" id="AbstractVirtualSchemaAdapter" style="stroke: #A80036; stroke-width: 1.5;" width="202" x="381" y="385.9531"/><text fill="#000000" font-family="Calibri" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="66" x="449" y="404.0918">«abstract»</text><text fill="#000000" font-family="Calibri" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="192" x="386" y="422.0605">AbstractVirtualSchemaAdapter</text><!--MD5=[d9aee70760ed4e31aa88b37814979bd0]
+class AdapterProperties--><rect fill="#FEFECE" height="27.9688" id="AdapterProperties" style="stroke: #A80036; stroke-width: 1.5;" width="125" x="618.5" y="394.9531"/><text fill="#000000" font-family="Calibri" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="115" x="623.5" y="413.0918">AdapterProperties</text><!--MD5=[5c5f137819e61af1d255172a7cc10d7e]
+class adapter--><rect fill="#FEFECE" height="154.7656" id="adapter" style="stroke: #A80036; stroke-width: 1.5;" width="460" x="572" y="492.9531"/><text fill="#000000" font-family="Calibri" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="70" x="767" y="511.0918">«interface»</text><text fill="#000000" font-family="Calibri" font-size="12" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="50" x="777" y="529.0605">adapter</text><line style="stroke: #A80036; stroke-width: 1.5;" x1="573" x2="1031" y1="538.8906" y2="538.8906"/><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="444" x="580" y="555.1011">+create_virtual_schema(request, properties) : CreateVirtualSchemaResponse</text><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="423" x="580" y="571.9058">+drop_virtual_schema(request, properties) : DropVirtualSchemaResponse</text><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="370" x="580" y="588.7104">+get_capabilities(request, properties) : GetCapabilitiesResponse</text><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="357" x="580" y="605.5151">+set_properties(request, properties) : SetPropertiesResponse</text><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="282" x="580" y="622.3198">+refresh(request, properties) : RefreshResponse</text><text fill="#000000" font-family="Calibri" font-size="11" lengthAdjust="spacingAndGlyphs" textLength="319" x="580" y="639.1245">+push_down(request, properties) : PushDownResponse</text><path d="M778.5,386.9531 L778.5,431.2188 L909.5,431.2188 L909.5,396.9531 L899.5,386.9531 L778.5,386.9531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M899.5,386.9531 L899.5,396.9531 L909.5,396.9531 L899.5,386.9531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="83" x="786.5" y="406.02">Lua interface</text><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="106" x="786.5" y="421.1528">implicitly defined</text><!--MD5=[17fdf1625663ae1a707ad7064a5e93f5]
+class entry--><a href="../sequence/seq_entry.svg" target="_top" title="../sequence/seq_entry.svg" xlink:actuate="onRequest" xlink:href="../sequence/seq_entry.svg" xlink:show="new" xlink:title="../sequence/seq_entry.svg" xlink:type="simple"><rect fill="#FEFECE" height="27.9688" id="entry" style="stroke: #A80036; stroke-width: 1.5;" width="42" x="273" y="115.9531"/><text fill="#000000" font-family="Calibri" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="32" x="278" y="134.0918">entry</text></a><path d="M38.5,107.9531 L38.5,152.2188 L237.5,152.2188 L237.5,117.9531 L227.5,107.9531 L38.5,107.9531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><path d="M227.5,107.9531 L227.5,117.9531 L237.5,117.9531 L227.5,107.9531 " fill="#FBFB77" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="164" x="46.5" y="127.02">The entry module creates</text><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="170" x="46.5" y="142.1528">all objects and wires them.</text><!--MD5=[a23b05d7d4d05ecb25c8ce38b7b982fc]
+class VirtualSchemaAdapter--><rect fill="#FEFECE" height="27.9688" id="VirtualSchemaAdapter" style="stroke: #A80036; stroke-width: 1.5;" width="150" x="397" y="115.9531"/><text fill="#000000" font-family="Calibri" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="140" x="402" y="134.0918">VirtualSchemaAdapter</text><!--MD5=[68c7bde51400ab37c08954d82e3b58ef]
+class VirtualSchemaProperties--><rect fill="#FEFECE" height="27.9688" id="VirtualSchemaProperties" style="stroke: #A80036; stroke-width: 1.5;" width="165" x="582.5" y="115.9531"/><text fill="#000000" font-family="Calibri" font-size="12" lengthAdjust="spacingAndGlyphs" textLength="155" x="587.5" y="134.0918">VirtualSchemaProperties</text><!--MD5=[ef6beaef7f172ca85797d86aea2ce5eb]
+link GMN59 to adapter--><path d="M838.42,431.1331 C834.21,447.1531 828.14,470.1931 822.16,492.8831 " fill="none" id="GMN59-adapter" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><!--MD5=[179bcd2b3600d06d0965899cbb0095fc]
+reverse link adapter to RequestDispatcher--><path d="M566.61,570.4531 C545.48,570.4531 525.5,570.4531 508.01,570.4531 " fill="none" id="adapter&lt;-RequestDispatcher" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="#A80036" points="571.71,570.4531,562.71,566.4531,566.71,570.4531,562.71,574.4531,571.71,570.4531" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="23" x="528.5" y="561.52">use</text><!--MD5=[77cb85471298697bf5ce98a46d37dfa9]
+link AbstractVirtualSchemaAdapter to adapter--><path d="M526.16,431.9631 C553.9,445.7931 591.65,464.6131 630.32,483.8831 " fill="none" id="AbstractVirtualSchemaAdapter-&gt;adapter" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><polygon fill="none" points="633.65,477.7231,648.42,492.9031,627.4,490.2531,633.65,477.7231" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[3fb413fe17b9440ab3e16066c7dc0886]
+reverse link AdapterProperties to adapter--><path d="M694.13,427.2631 C706.25,443.2331 725.12,468.1131 743.72,492.6331 " fill="none" id="AdapterProperties&lt;-adapter" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="690.9,423.0031,693.1384,432.5942,693.916,426.9911,699.5191,427.7687,690.9,423.0031" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[6bb191e895b07b3a26bd2ad5b5933c32]
+link GMN69 to entry--><path d="M237.63,129.9531 C249.38,129.9531 261.12,129.9531 272.86,129.9531 " fill="none" id="GMN69-entry" style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 7.0,7.0;"/><!--MD5=[fd3f434c5357a4bf18fc79ddb8069d2d]
+link entry to VirtualSchemaAdapter--><path d="M315.12,129.9531 C334.19,129.9531 363.5,129.9531 391.65,129.9531 " fill="none" id="entry-&gt;VirtualSchemaAdapter" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="396.89,129.9531,387.89,125.9531,391.89,129.9531,387.89,133.9531,396.89,129.9531" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="41" x="335.5" y="121.02">create</text><!--MD5=[3a1d18074a9e57c16532b78413c3c146]
+link entry to QueryRenderer--><path d="M294,144.3131 C294,189.6631 294,337.7431 294,389.7231 " fill="none" id="entry-&gt;QueryRenderer" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="294,394.7231,298,385.7231,294,389.7231,290,385.7231,294,394.7231" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="41" x="297" y="230.02">create</text><!--MD5=[89881738b55fe875e06d5c6c4eebc96f]
+link entry to RequestDispatcher--><path d="M284.85,144.1831 C255.78,187.9931 170.6,331.2731 226,431.9531 C261.72,496.8731 342.47,535.4431 394.76,554.5231 " fill="none" id="entry-&gt;RequestDispatcher" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="399.73,556.3031,392.6205,549.4873,395.0265,554.607,389.9068,557.0129,399.73,556.3031" style="stroke: #A80036; stroke-width: 1.0;"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="41" x="226" y="281.02">create</text><!--MD5=[a9762b79d6d82aac09f3e9573df52e16]
+link VirtualSchemaAdapter to AbstractVirtualSchemaAdapter--><path d="M472.48,144.3131 C473.91,183.8531 478.16,301.5031 480.47,365.4431 " fill="none" id="VirtualSchemaAdapter-&gt;AbstractVirtualSchemaAdapter" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="487.47,365.3631,481.19,385.6031,473.48,365.8731,487.47,365.3631" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[2a95cf71b68262eedeafaede9027c28d]
+link VirtualSchemaAdapter to QueryRenderer--><path d="M462.94,143.9931 C443.84,171.5631 398.23,237.9531 362,294.9531 C340.78,328.3231 317.24,368.1031 304.17,390.4531 " fill="none" id="VirtualSchemaAdapter-&gt;QueryRenderer" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="#A80036" points="301.55,394.9431,309.5518,389.201,304.0782,390.6294,302.6499,385.1559,301.55,394.9431" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[9e4b805763750f46ff8d0a9f43ce870d]
+link VirtualSchemaProperties to AdapterProperties--><path d="M665.77,144.3131 C668.17,185.8131 675.54,313.3531 679.07,374.5331 " fill="none" id="VirtualSchemaProperties-&gt;AdapterProperties" style="stroke: #A80036; stroke-width: 1.0;"/><polygon fill="none" points="686.07,374.3531,680.24,394.7231,672.09,375.1631,686.07,374.3531" style="stroke: #A80036; stroke-width: 1.0;"/><!--MD5=[c1edfbcf31d5cd876bf481e8a9882b8e]
+@startuml
+hide empty methods
+hide empty attributes
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+!pragma horizontalLineBetweenDifferentPackageAllowed
+
+skinparam defaultFontName Calibri
+
+skinparam padding 2
+
+title: Virtual Schema Base Library and Concrete Implementation
+
+package exasolvs {
+    class QueryRenderer
+    together {
+        class RequestDispatcher
+        abstract class AbstractVirtualSchemaAdapter <<abstract>>
+        class AdapterProperties
+
+        interface "adapter" <<interface>> {
+            + create_virtual_schema(request, properties) : CreateVirtualSchemaResponse
+            + drop_virtual_schema(request, properties) : DropVirtualSchemaResponse
+            + get_capabilities(request, properties) : GetCapabilitiesResponse
+            + set_properties(request, properties) : SetPropertiesResponse
+            + refresh(request, properties) : RefreshResponse
+            + push_down(request, properties) : PushDownResponse
+        }
+        note top of adapter
+            Lua interface
+            implicitly defined
+        end note
+
+    }
+    
+    RequestDispatcher .l.> adapter : use
+    AbstractVirtualSchemaAdapter .d.|> adapter
+    adapter -u-> AdapterProperties
+}
+
+package example_vs <<external>> {
+    class entry
+    note left of entry
+         The entry module creates
+         all objects and wires them. 
+    end note
+    class VirtualSchemaAdapter
+    class VirtualSchemaProperties
+
+    entry -> VirtualSchemaAdapter : create
+}
+
+entry - -> QueryRenderer : create
+entry - -> RequestDispatcher : create
+VirtualSchemaAdapter -d- -|> AbstractVirtualSchemaAdapter
+VirtualSchemaAdapter -d-> QueryRenderer
+VirtualSchemaProperties -d-|> AdapterProperties
+
+url of entry is [[../sequence/seq_entry.svg]]
+url of RequestDispatcher is [[../sequence/seq_handle_request.svg]]
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 11:22:07 CET 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.18+10-post-Ubuntu-0ubuntu5
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>

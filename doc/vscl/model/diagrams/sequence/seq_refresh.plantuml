@@ -1,0 +1,14 @@
+@startuml
+!include ../clean.skin
+
+title: Refresh Virtual Schema
+
+Participant RequestDispatcher
+Participant VirtualSchemaAdapter <<external>>
+
+activate RequestDispatcher
+RequestDispatcher -> VirtualSchemaAdapter : refresh(request, properties)
+activate VirtualSchemaAdapter
+VirtualSchemaAdapter -->> RequestDispatcher : schema metadata, adapter notes
+deactivate VirtualSchemaAdapter
+@enduml

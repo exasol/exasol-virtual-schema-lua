@@ -1,0 +1,22 @@
+' [dsn->req~evsl.refreshing-a-virtual-schema~1 >> impl, itest]
+
+@startuml
+!include ../clean.skin
+
+title: Refresh Virtual Schema
+
+participant RequestDispatcher
+participant ExasolAdapter
+participant MetadataReader
+
+activate RequestDispatcher
+RequestDispatcher -> ExasolAdapter : refresh (request, table[])
+activate ExasolAdapter
+ExasolAdapter -> MetadataReader : read (schema)
+activate MetadataReader
+ref over MetadataReader : **[[seq_read_table_metadata.svg read table metadata]]**
+MetadataReader -->> ExasolAdapter : schema metadata
+deactivate MetadataReader
+ExasolAdapter -->> RequestDispatcher : schema metadata, adapter notes
+deactivate ExasolAdapter
+@enduml

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="191px" preserveAspectRatio="none" style="width:434px;height:191px;" version="1.1" viewBox="0 0 434 191" width="434px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="Calibri" font-size="18" lengthAdjust="spacingAndGlyphs" textLength="207" x="112" y="28.708">Refresh Virtual Schema</text><rect fill="#FFFFFF" height="67.2656" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="79" y="103.5469"/><rect fill="#FFFFFF" height="33.1328" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="333" y="128.6797"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="84" x2="84" y1="93.5469" y2="179.8125"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 5.0,5.0;" x1="338" x2="338" y1="93.5469" y2="179.8125"/><rect fill="#FEFECE" height="34.2969" style="stroke: #A80036; stroke-width: 1.5;" width="152" x="8" y="58.25"/><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="134" x="17" y="80.2451">RequestDispatcher</text><rect fill="#FEFECE" height="50.5938" style="stroke: #A80036; stroke-width: 1.5;" width="170" x="253" y="41.9531"/><text fill="#000000" font-family="Calibri" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="74" x="301" y="63.9482">«external»</text><text fill="#000000" font-family="Calibri" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="152" x="262" y="80.2451">VirtualSchemaAdapter</text><rect fill="#FFFFFF" height="67.2656" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="79" y="103.5469"/><rect fill="#FFFFFF" height="33.1328" style="stroke: #A80036; stroke-width: 1.0;" width="10" x="333" y="128.6797"/><polygon fill="#A80036" points="321,124.6797,331,128.6797,321,132.6797" style="stroke: #A80036; stroke-width: 1.0;"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="89" x2="327" y1="128.6797" y2="128.6797"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="177" x="98" y="121.6138">refresh(request, properties)</text><line style="stroke: #A80036; stroke-width: 1.0;" x1="89" x2="99" y1="161.8125" y2="157.8125"/><line style="stroke: #A80036; stroke-width: 1.0;" x1="89" x2="99" y1="161.8125" y2="165.8125"/><line style="stroke: #A80036; stroke-width: 1.0; stroke-dasharray: 2.0,2.0;" x1="89" x2="337" y1="161.8125" y2="161.8125"/><text fill="#000000" font-family="Calibri" font-size="13" lengthAdjust="spacingAndGlyphs" textLength="216" x="108" y="154.7466">schema metadata, adapter notes</text><!--MD5=[043953280e2f2ca271451574e12839f3]
+@startuml
+hide empty methods
+hide empty attributes
+skinparam style strictuml
+skinparam classAttributeIconSize 0
+!pragma horizontalLineBetweenDifferentPackageAllowed
+
+skinparam defaultFontName Calibri
+
+skinparam padding 2
+
+title: Refresh Virtual Schema
+
+Participant RequestDispatcher
+Participant VirtualSchemaAdapter <<external>>
+
+activate RequestDispatcher
+RequestDispatcher -> VirtualSchemaAdapter : refresh(request, properties)
+activate VirtualSchemaAdapter
+VirtualSchemaAdapter - ->> RequestDispatcher : schema metadata, adapter notes
+deactivate VirtualSchemaAdapter
+@enduml
+
+PlantUML version 1.2020.02(Sun Mar 01 11:22:07 CET 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.18+10-post-Ubuntu-0ubuntu5
+Operating System: Linux
+Default Encoding: UTF-8
+Language: en
+Country: US
+--></g></svg>
