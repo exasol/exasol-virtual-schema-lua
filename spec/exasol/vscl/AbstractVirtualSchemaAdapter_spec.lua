@@ -16,7 +16,8 @@ describe("Stubbed AbstractVirtualSchemaAdapter", function()
                         {type = "getCapabilities", capabilities = {"cap1", "cap2"}})
     end)
 
-    it("reports all capabilities except the ones the user excluded [utest -> dsn~vscl.excluding-capabilities~0]", function()
+    it("reports all capabilities except the ones the user excluded [utest -> dsn~vscl.excluding-capabilities~0]",
+    function()
         local properties = AdapterProperties:new({EXCLUDED_CAPABILITIES = "cap1, cap3"})
         local stub = adapter_stub.create({
             _define_capabilities = function()

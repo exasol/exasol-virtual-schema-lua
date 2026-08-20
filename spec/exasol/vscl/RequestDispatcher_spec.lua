@@ -31,7 +31,7 @@ describe("RequestDispatcher", function()
         end, "Request Dispatcher requires an adapter to dispatch too")
     end)
 
-    it("converts a request from JSON format to a lua table [utest -> dsn~vscl.translating-json-request-to-lua-tables~0]",
+    it("converts a request from JSON to a Lua table [utest -> dsn~vscl.translating-json-request-to-lua-tables~0]",
        function()
         local adapter_mock = stub_adapter()
         local recorded_request
@@ -43,7 +43,7 @@ describe("RequestDispatcher", function()
         assert.are.same({type = "dropVirtualSchema"}, recorded_request)
     end)
 
-    it("converts a response from a Lua table to JSON format [utest -> dsn~vscl.translating-lua-tables-to-json-responses~0]",
+    it("converts a response from a Lua table to JSON [utest -> dsn~vscl.translating-lua-tables-to-json-responses~0]",
        function()
         local adapter_mock = stub_adapter()
         adapter_mock.refresh = function(_, _, _)
@@ -99,7 +99,8 @@ describe("RequestDispatcher", function()
         end, "Attempted to call the abstract method AbstractVirtualSchemaAdapter:create_virtual_schema.")
     end)
 
-    it("dispatches drop-virtual-schema request [utest -> dsn~vscl.dispatching-drop-virtual-schema-requests~0]", function()
+    it("dispatches drop-virtual-schema request [utest -> dsn~vscl.dispatching-drop-virtual-schema-requests~0]",
+    function()
         local response = dispatcher:adapter_call('{"type" : "dropVirtualSchema"}')
         local expected = {type = "dropVirtualSchema"}
         assert.is.same_json(expected, response)
