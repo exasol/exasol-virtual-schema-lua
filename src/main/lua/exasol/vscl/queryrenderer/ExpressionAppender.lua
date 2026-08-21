@@ -227,6 +227,7 @@ end
 --- Append an expression to a query.
 ---@param expression Expression to append
 function ExpressionAppender:append_expression(expression)
+    assert(expression ~= nil, "ExpressionAppender:append_expression requires a non-nil expression.")
     local type = expression.type
     if type == "column" then
         self:_append_column_reference(expression)
