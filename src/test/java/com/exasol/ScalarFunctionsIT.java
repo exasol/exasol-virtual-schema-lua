@@ -2,6 +2,8 @@ package com.exasol;
 
 import static com.exasol.matcher.ResultSetStructureMatcher.table;
 import static com.exasol.matcher.TypeMatchMode.NO_JAVA_TYPE_CHECK;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -51,4 +53,43 @@ class ScalarFunctionsIT extends AbstractLuaVirtualSchemaIT {
                 table().row(-16).matches(NO_JAVA_TYPE_CHECK));
     }
 
+    @Test
+    void testCaseWithLookup() {
+        final Schema sourceSchema = createSchema("CASE_WITH_LOOKUP_SCHEMA");
+        sourceSchema.createTable("T", "STAR_RATING", "DECIMAL(1,0)").insert(1).insert(2).insert(3).insert(0);
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("CASE_WITH_LOOKUP_USER", virtualSchema);
+        assertQueryWithUser(
+                "SELECT CASE STAR_RATING WHEN 1 THEN 'poor' WHEN 2 THEN 'ok' WHEN 3 THEN 'good' ELSE 'none' END FROM "
+                        + virtualSchema.getName() + ".T", user,
+                table().row("poor").row("ok").row("good").row("none").matches());
+    }
+
+
+    @Test
+    void testCaseWithExpression() {
+        final Schema sourceSchema = createSchema("CASE_WITH_EXPRESSION_SCHEMA");
+        sourceSchema.createTable("T", "PERCENTAGE", "DECIMAL(3,0)").insert(10).insert(80).insert(100);
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("CASE_WITH_EXPRESSION_USER", virtualSchema);
+        assertQueryWithUser("SELECT CASE WHEN PERCENTAGE < 70 THEN 'red'"
+                + " WHEN PERCENTAGE = 100 THEN 'green' ELSE 'yellow' END FROM " + virtualSchema.getName() + ".T", user,
+                table().row("red").row("yellow").row("green").matches());
+    }
+
+    @Test
+    // Note that the Exasol engine does not really push COALESCE down. It's translated to a CASE WHEN.
+    // This is by design. There is not even an adapter capability for COALESCE in the Virtual Schema API.
+    void testCoalesce() {
+        final Schema sourceSchema = createSchema("COALESCE_SCHEMA");
+        sourceSchema.createTable("T", "A", "CHAR(1)").insert((Object) null);
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("COALESCE_USER", virtualSchema);
+        final String tableName = virtualSchema.getName() + ".T";
+        assertAll(
+                () -> assertQueryWithUser("SELECT COALESCE(A, 'x') FROM " + tableName, user,
+                        table().row("x").matches()),
+                () -> assertPushDown("SELECT COALESCE(A, 'x') FROM " + tableName, user,
+                        containsString("CASE WHEN")));
+    }
 }

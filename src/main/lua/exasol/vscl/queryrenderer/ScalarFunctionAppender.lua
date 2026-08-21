@@ -297,10 +297,14 @@ end
 
 -- Other functions
 function ScalarFunctionAppender:_case(f)
-    local arguments = f.arguments
-    local results = f.results
-    self:_append("CASE ")
-    self:_append_expression(f.basis)
+    local arguments = assert(f.arguments, "ScalarFunctionAppender:_case needs at least one WHEN argument.")
+    local results = assert(f.results, "ScalarFunctionAppender:_case needs at least one THEN argument.")
+    self:_append("CASE")
+    local basis = f.basis
+    if(basis ~= nil) then
+        self:_append(" ")
+        self:_append_expression(f.basis)
+    end
     for i = 1, #arguments do
         local argument = arguments[i]
         local result = results[i]
