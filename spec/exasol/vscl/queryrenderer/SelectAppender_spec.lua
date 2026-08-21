@@ -6,10 +6,12 @@ local SelectAppender = require("exasol.vscl.queryrenderer.SelectAppender")
 ---@param original_query any
 ---@param appender_config AppenderConfig?
 local function assert_yields(expected, original_query, appender_config)
+    ---@diagnostic disable-next-line: undefined-field
     assert.append_yields(SelectAppender, expected, original_query, appender_config)
 end
 
 local function assert_select_error(expected, original_query)
+    ---@diagnostic disable-next-line: undefined-field
     assert.append_error(SelectAppender, expected, original_query)
 end
 
@@ -251,6 +253,41 @@ describe("SelectAppender", function()
         end
     end)
 
+    it("renders nested JOIN clauses", function()
+        local original_query = {
+            type = "select",
+            selectList = {
+                {type = "column", name = "ID", tableName = "A", columnNr = 0},
+                {type = "column", name = "ID", tableName = "B", columnNr = 0},
+                {type = "column", name = "ID", tableName = "C", columnNr = 0}
+            },
+            from = {
+                type = "join",
+                join_type = "inner",
+                left = {
+                    type = "join",
+                    join_type = "inner",
+                    left = {type = "table", name = "A"},
+                    right = {type = "table", name = "B"},
+                    condition = {
+                        type = "predicate_equal",
+                        left = {type = "column", name = "A1", tableName = "A", columnNr = 1},
+                        right = {type = "column", name = "B1", tableName = "B", columnNr = 1}
+                    }
+                },
+                right = {type = "table", name = "C"},
+                condition = {
+                    type = "predicate_equal",
+                    left = {type = "column", name = "B2", tableName = "B", columnNr = 2},
+                    right = {type = "column", name = "C1", tableName = "C", columnNr = 1}
+                }
+            }
+        }
+        assert_yields('SELECT "A"."ID", "B"."ID", "C"."ID" FROM "A" INNER JOIN "B"'
+                              .. ' ON ("A"."A1" = "B"."B1") INNER JOIN "C"'
+                              .. ' ON ("B"."B2" = "C"."C1")', original_query)
+    end)
+
     describe("renders a LIMIT clause", function()
         it("without OFFSET", function()
             local original_query = {type = "select", from = {type = "table", name = "T1"}, limit = {numElements = 10}}
@@ -375,13 +412,13 @@ describe("SelectAppender", function()
         assert_yields('SELECT COUNT(*), "TICKETS"."TYPE" FROM "TICKETS" GROUP BY \'0\'', original_query)
     end)
 
-    it("raises an error if the WHERE clause type is unknown", function()
+    it("raises an error if the FROM item type is unknown", function()
         local original_query = {
             type = "select",
             selectList = {{type = "literal_bool", value = false}},
             from = {type = "unknown"}
         }
-        assert_select_error("unknown SQL FROM clause type", original_query)
+        assert_select_error("Unknown FROM item type", original_query)
     end)
 
     it("raises an error if the JOIN type is unknown", function()

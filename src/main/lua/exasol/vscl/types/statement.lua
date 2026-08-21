@@ -2,20 +2,19 @@
 local M = {}
 
 ---@class SelectSqlStatement
----@field type "select"|"sub_select"
+---@field type "select" | "sub_select"
 ---@field selectList SelectList[]?
 ---@field from FromClause
 ---@field filter PredicateExpression?
 ---@field groupBy Expression[]?
----@field aggregationType ("single_group"|string)?
+---@field aggregationType ("single_group" | string)?
 ---@field having any?
 ---@field orderBy OrderByClause[]?
 ---@field limit any?
 ---@field selectListDataTypes ExasolTypeDefinition[]
 M.SelectSqlStatement = {}
 
----@alias FromClause TableExpression|JoinExpression
-
+---@alias FromClause TableExpression | JoinExpression
 M.FromClause = {}
 
 ---@class OrderByClause
@@ -28,6 +27,11 @@ M.OrderByClause = {}
 ---@field numElements integer
 ---@field offset integer?
 M.LimitClause = {}
+
+---@class FromItem
+---@field type "table" | "join"
+---@field name string
+M.FromItem = {}
 
 ---@class TableExpression
 ---@field type "table"

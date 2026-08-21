@@ -71,18 +71,37 @@ function SelectAppender:_append_table(table)
     self:_append_identifier(table_name)
 end
 
+---@param item FromItem
+function SelectAppender:_append_from_item(item)
+    assert(item, "SelectAppender:_append_from_item need a non-nil 'item' parameter")
+    local type = assert(item.type, "SelectAppender:_append_from_item need a non-nil 'item.type' parameter")
+    if type == "table" then
+        self:_append_table(item)
+    elseif type == "join" then
+        self:_append_join(item)
+    else
+        ExaError:new("E-VSCL-9", "Unknown FROM item type {{type}}. Should be one of 'table' or 'join'.",
+            {type = {value = item.type, description = "FROM item type that was not recognized"}})
+                :add_ticket_mitigation():raise()
+    end
+end
+
 ---@param join JoinExpression
 function SelectAppender:_append_join(join)
     assert(join, "SelectAppender:_append_join needs a non-nil 'join' parameter.")
-    local join_type_keyword = JOIN_TYPES[join.join_type]
+        local join_type_keyword = JOIN_TYPES[join.join_type]
     if join_type_keyword then
-        self:_append_table(join.left)
+        local left = assert(join.left, "SelectAppender:_append_join needs a non-nil 'join.left' parameter.")
+        local right = assert(join.right, "SelectAppender:_append_join needs a non-nil 'join.right' parameter.")
+        local condition = assert(join.condition,
+                "SelectAppender:_append_join needs a non-nil 'join.condition' parameter.")
+        self:_append_from_item(left)
         self:_append(' ')
         self:_append(join_type_keyword)
         self:_append(' JOIN ')
-        self:_append_table(join.right)
+        self:_append_from_item(right)
         self:_append(' ON ')
-        self:_append_expression(join.condition)
+        self:_append_expression(condition)
     else
         ExaError:new("E-VSCL-6", "Unable to render unknown join type {{type}}.",
                      {type = {value = join.join_type, description = "type of join that was not recognized"}})
@@ -92,19 +111,11 @@ end
 
 ---@param from FromClause
 function SelectAppender:_append_from(from)
-    assert(from, "SelectAppender:_append_from needs a non-nil 'from' parameter.");
+    -- Note that in SQL there are situations where a missing FROM clause is valid.
+    -- `SELECT 1` being the most popular example.
     if from then
         self:_append(' FROM ')
-        local type = from.type
-        if type == "table" then
-            self:_append_table(from)
-        elseif type == "join" then
-            self:_append_join(from)
-        else
-            ExaError:new("E-VSCL-5", "Unable to render unknown SQL FROM clause type {{type}}.",
-                         {type = {value = type, description = "type of the FROM clause that was not recognized"}})
-                    :add_ticket_mitigation():raise()
-        end
+        self:_append_from_item(from)
     end
 end
 
