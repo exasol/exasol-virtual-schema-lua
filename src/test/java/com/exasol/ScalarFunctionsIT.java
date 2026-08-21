@@ -2,6 +2,8 @@ package com.exasol;
 
 import static com.exasol.matcher.ResultSetStructureMatcher.table;
 import static com.exasol.matcher.TypeMatchMode.NO_JAVA_TYPE_CHECK;
+import static org.hamcrest.Matchers.containsString;
+import static org.junit.jupiter.api.Assertions.assertAll;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -73,5 +75,21 @@ class ScalarFunctionsIT extends AbstractLuaVirtualSchemaIT {
         assertQueryWithUser("SELECT CASE WHEN PERCENTAGE < 70 THEN 'red'"
                 + " WHEN PERCENTAGE = 100 THEN 'green' ELSE 'yellow' END FROM " + virtualSchema.getName() + ".T", user,
                 table().row("red").row("yellow").row("green").matches());
+    }
+
+    @Test
+    // Note that the Exasol engine does not really push COALESCE down. It's translated to a CASE WHEN.
+    // This is by design. There is not even an adapter capability for COALESCE in the Virtual Schema API.
+    void testCoalesce() {
+        final Schema sourceSchema = createSchema("COALESCE_SCHEMA");
+        sourceSchema.createTable("T", "A", "CHAR(1)").insert((Object) null);
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("COALESCE_USER", virtualSchema);
+        final String tableName = virtualSchema.getName() + ".T";
+        assertAll(
+                () -> assertQueryWithUser("SELECT COALESCE(A, 'x') FROM " + tableName, user,
+                        table().row("x").matches()),
+                () -> assertPushDown("SELECT COALESCE(A, 'x') FROM " + tableName, user,
+                        containsString("CASE WHEN")));
     }
 }
