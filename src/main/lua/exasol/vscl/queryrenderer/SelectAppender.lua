@@ -74,16 +74,20 @@ end
 ---@param item FromItem
 function SelectAppender:_append_from_item(item)
     assert(item, "SelectAppender:_append_from_item need a non-nil 'item' parameter")
-    local type = assert(item.type, "SelectAppender:_append_from_item need a non-nil 'item.type' parameter")
-    if type == "table" then
+    if item.type == "table" then
         self:_append_table(item)
-    elseif type == "join" then
+    elseif item.type == "join" then
         self:_append_join(item)
-    else
-        ExaError:new("E-VSCL-9", "Unknown FROM item type {{type}}. Should be one of 'table' or 'join'.",
-            {type = {value = item.type, description = "FROM item type that was not recognized"}})
-                :add_ticket_mitigation():raise()
-    end
+else
+    ExaError:new("E-VSCL-9", "Unknown FROM item type {{type}}. Should be one of 'table' or 'join'.",
+        {
+            type = {
+                ---@diagnostic disable-next-line: undefined-field
+                value = item.type,
+                description = "FROM item type that was not recognized"
+            }
+        }):add_ticket_mitigation():raise()
+end
 end
 
 ---@param join JoinExpression
@@ -109,7 +113,7 @@ function SelectAppender:_append_join(join)
     end
 end
 
----@param from FromClause
+---@param from FromClause?
 function SelectAppender:_append_from(from)
     -- Note that in SQL there are situations where a missing FROM clause is valid.
     -- `SELECT 1` being the most popular example.

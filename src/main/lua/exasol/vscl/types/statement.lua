@@ -4,7 +4,7 @@ local M = {}
 ---@class SelectSqlStatement
 ---@field type "select" | "sub_select"
 ---@field selectList SelectList[]?
----@field from FromClause
+---@field from FromClause?
 ---@field filter PredicateExpression?
 ---@field groupBy Expression[]?
 ---@field aggregationType ("single_group" | string)?
@@ -14,7 +14,7 @@ local M = {}
 ---@field selectListDataTypes ExasolTypeDefinition[]
 M.SelectSqlStatement = {}
 
----@alias FromClause TableExpression | JoinExpression
+---@alias FromClause FromItem
 M.FromClause = {}
 
 ---@class OrderByClause
@@ -28,9 +28,7 @@ M.OrderByClause = {}
 ---@field offset integer?
 M.LimitClause = {}
 
----@class FromItem
----@field type "table" | "join"
----@field name string
+---@alias FromItem TableExpression | JoinExpression
 M.FromItem = {}
 
 ---@class TableExpression
@@ -43,8 +41,8 @@ M.TableExpression = {}
 ---@class JoinExpression
 ---@field type "join"
 ---@field join_type "inner" | "left_outer" | "right_outer" | "full_outer"
----@field left TableExpression
----@field right TableExpression
+---@field left FromItem
+---@field right FromItem
 ---@field condition Expression
 M.JoinExpression = {}
 

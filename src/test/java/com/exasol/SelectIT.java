@@ -182,6 +182,10 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
                 + " INNER JOIN " + vsName + ".B ON A1 = B1"
                 + " INNER JOIN " + vsName + ".C ON B2 = C1",
                 user,
-                table().row().matches());
+                table()
+                        .row("ID_A1", "ID_B1", "ID_C1")
+                        .row("ID_A1", "ID_B2", "ID_C2")
+                        .row("ID_A2", "ID_B3", "ID_C3")
+                        .matches());
     }
 }

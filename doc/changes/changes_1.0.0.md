@@ -25,8 +25,12 @@ Breaking change: Exasol 7 is no longer supported.
 
 # Bugfixes
 
-* #79: Allow `CASE WHEN` without lookup basis to support expression-base distinction. 
-* #80: Nested joins
+* #71: Nested joins
+* #79: Allow `CASE WHEN` without lookup basis to support expression-base distinction.
+
+## Refactoring
+
+* #80: Attach dist package and rockspec as CI artifacts and to releases
 
 ## Dependency Updates
 
