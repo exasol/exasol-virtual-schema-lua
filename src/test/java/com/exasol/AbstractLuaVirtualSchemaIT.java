@@ -69,6 +69,7 @@ abstract class AbstractLuaVirtualSchemaIT {
                 .adapterScript(adapterScript)
                 .sourceSchema(sourceSchema)
                 .addProperties(properties)
+                .addProperties(getLoggingPropertiesFromEnvironment())
                 .build();
     }
 
@@ -78,6 +79,18 @@ abstract class AbstractLuaVirtualSchemaIT {
 
     protected VirtualSchema createRemoteVirtualSchema(final Schema sourceSchema, final String connectionName) {
         return createVirtualSchema(sourceSchema, Map.of("CONNECTION_NAME", connectionName));
+    }
+
+    protected Map<String, String> getLoggingPropertiesFromEnvironment() {
+        final String debugAddress = System.getenv("DEBUG_ADDRESS");
+        final String logLevel = System.getenv("LOG_LEVEL");
+        if(debugAddress == null && logLevel == null) {
+            return Map.of();
+        } else if(debugAddress != null) {
+            return Map.of("DEBUG_ADDRESS", debugAddress, "LOG_LEVEL", "TRACE");
+        } else {
+            return Map.of("DEBUG_ADDRESS", "localhost:3000", "LOG_LEVEL", logLevel);
+        }
     }
 
     protected AdapterScript createAdapterScript(final String prefix) throws IOException {
