@@ -249,6 +249,16 @@ jobs:
           ARTIFACTS: '${{ steps.artifact-checksum.outputs.artifacts }}',
           BRANCH_NAME: '${{ github.ref_name }}'
         }
+      - name: Upload Lua distribution release artifacts
+        id: upload-lua-distribution-release-artifacts
+        if: ${{ ! inputs.skip-github-release }}
+        run: |
+          gh release upload "$TAG" target/exasol-virtual-schema-dist-*.lua
+          gh release upload "$TAG" exasol-virtual-schema-lua-*.rockspec
+        env: {
+          GH_TOKEN: '${{ github.token }}',
+          TAG: '${{ steps.verify-release.outputs.release-tag }}'
+        }
       - name: Report failure Status to Slack channel
         id: report-failure-status-slack
         if: ${{ always() }}
