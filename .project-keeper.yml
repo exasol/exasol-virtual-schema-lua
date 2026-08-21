@@ -60,6 +60,20 @@ build:
             name: "Check shell scripts"
             id: shell-check
             run: tools/shellcheck.sh
+        - action: INSERT_AFTER
+          job: "build-and-test"
+          stepId: upload-artifacts
+          content:
+            name: "Upload Lua distribution artifacts"
+            id: upload-lua-distribution-artifacts
+            uses: actions/upload-artifact@v7
+            with:
+              name: lua-distribution-artifacts
+              path: |
+                target/exasol-virtual-schema-dist-*.lua
+                exasol-virtual-schema-lua-*.rockspec
+              if-no-files-found: error
+              retention-days: 5
         # We don't need to test "Java next" compatibility in a Lua project:
         - action: REPLACE
           job: "next-java-compatibility"
@@ -105,3 +119,17 @@ build:
                   "errorReportVersion" : "1.0",
                   "errorCodes": []
               }' > target/error_code_report.json
+        - action: INSERT_AFTER
+          job: "release"
+          stepId: create-github-release
+          content:
+            name: "Upload Lua distribution release artifacts"
+            id: upload-lua-distribution-release-artifacts
+            if: ${{ ! inputs.skip-github-release }}
+            run: |
+              gh release upload "$TAG" \
+                  target/exasol-virtual-schema-dist-*.lua \
+                  exasol-virtual-schema-lua-*.rockspec
+            env:
+              GH_TOKEN: ${{ github.token }}
+              TAG: ${{ steps.verify-release.outputs.release-tag }}

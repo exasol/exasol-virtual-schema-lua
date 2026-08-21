@@ -163,6 +163,16 @@ jobs:
           path: '${{ steps.build-pk-verify.outputs.release-artifacts }}',
           retention-days: 5
         }
+      - name: Upload Lua distribution artifacts
+        id: upload-lua-distribution-artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: lua-distribution-artifacts
+          path: |
+            target/exasol-virtual-schema-dist-*.lua
+            exasol-virtual-schema-lua-*.rockspec
+          if-no-files-found: error
+          retention-days: 5
       - name: Configure link check
         id: configure-link-check
         run: |
