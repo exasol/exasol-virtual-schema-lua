@@ -58,6 +58,7 @@ end
 
 ---@param table TableExpression
 function SelectAppender:_append_table(table)
+    assert(table, "SelectAppender:_append_table needs a  non-nil 'table' parameter.)")
     if table.schema then
         if table.catalog then
             self:_append_identifier(table.catalog)
@@ -66,11 +67,13 @@ function SelectAppender:_append_table(table)
         self:_append_identifier(table.schema)
         self:_append('.')
     end
-    self:_append_identifier(table.name)
+    local table_name = assert(table.name, "SelectAppender:_append_table needs a non-nil 'table.name' parameter.")
+    self:_append_identifier(table_name)
 end
 
 ---@param join JoinExpression
 function SelectAppender:_append_join(join)
+    assert(join, "SelectAppender:_append_join needs a non-nil 'join' parameter.")
     local join_type_keyword = JOIN_TYPES[join.join_type]
     if join_type_keyword then
         self:_append_table(join.left)
@@ -89,6 +92,7 @@ end
 
 ---@param from FromClause
 function SelectAppender:_append_from(from)
+    assert(from, "SelectAppender:_append_from needs a non-nil 'from' parameter.");
     if from then
         self:_append(' FROM ')
         local type = from.type
