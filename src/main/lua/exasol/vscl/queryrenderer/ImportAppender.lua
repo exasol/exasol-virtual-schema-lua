@@ -68,7 +68,7 @@ function ImportAppender:_append_into_clause(into)
 end
 
 ---@param source_type string?
-function ImportAppender:_append_from_clause(source_type)
+function ImportAppender:_append_import_from_clause(source_type)
     self:_append(" FROM ")
     self:_append(source_type or "EXA")
 end
@@ -78,7 +78,7 @@ end
 function ImportAppender:append_import(import_query)
     self:_append("IMPORT")
     self:_append_into_clause(import_query.into)
-    self:_append_from_clause(import_query.source_type)
+    self:_append_import_from_clause(import_query.source_type)
     self:_append_connection(import_query.connection)
     self:_append_statement(import_query.statement)
 end

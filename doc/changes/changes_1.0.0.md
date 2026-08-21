@@ -1,4 +1,4 @@
-# Exasol Virtual Schema Lua 1.0.0, released 2026-08-??
+# Exasol Virtual Schema Lua 1.0.0, released 2026-08-21
 
 Code name: TIMESTAMP(9) Support
 
@@ -18,7 +18,19 @@ Breaking change: Exasol 7 is no longer supported.
 
 * #53: Added `TIMESTAMP(9)` support for Exasol 2025 and later.
 * #68: Improved Lua module loading
+
+## Documentation
+
 * #70: User guide now describes remote connections, adapter properties and TLS certificate limitations.
+
+# Bugfixes
+
+* #71: Nested joins
+* #79: Allow `CASE WHEN` without lookup basis to support expression-base distinction.
+
+## Refactoring
+
+* #80: Attach dist package and rockspec as CI artifacts and to releases
 
 ## Dependency Updates
 

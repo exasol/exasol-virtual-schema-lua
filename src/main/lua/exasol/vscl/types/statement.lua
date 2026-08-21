@@ -2,20 +2,19 @@
 local M = {}
 
 ---@class SelectSqlStatement
----@field type "select"|"sub_select"
+---@field type "select" | "sub_select"
 ---@field selectList SelectList[]?
----@field from FromClause
+---@field from FromClause?
 ---@field filter PredicateExpression?
 ---@field groupBy Expression[]?
----@field aggregationType ("single_group"|string)?
+---@field aggregationType ("single_group" | string)?
 ---@field having any?
 ---@field orderBy OrderByClause[]?
 ---@field limit any?
 ---@field selectListDataTypes ExasolTypeDefinition[]
 M.SelectSqlStatement = {}
 
----@alias FromClause TableExpression|JoinExpression
-
+---@alias FromClause FromItem
 M.FromClause = {}
 
 ---@class OrderByClause
@@ -29,6 +28,9 @@ M.OrderByClause = {}
 ---@field offset integer?
 M.LimitClause = {}
 
+---@alias FromItem TableExpression | JoinExpression
+M.FromItem = {}
+
 ---@class TableExpression
 ---@field type "table"
 ---@field catalog string? Optional catalog. Not used in Exasol useful for other databases that use catalogs.
@@ -39,8 +41,8 @@ M.TableExpression = {}
 ---@class JoinExpression
 ---@field type "join"
 ---@field join_type "inner" | "left_outer" | "right_outer" | "full_outer"
----@field left TableExpression
----@field right TableExpression
+---@field left FromItem
+---@field right FromItem
 ---@field condition Expression
 M.JoinExpression = {}
 

@@ -165,4 +165,27 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
                 table().row(timestamp, Matchers.anything(), timestamp9)
                         .matches(TypeMatchMode.NO_JAVA_TYPE_CHECK));
     }
+
+    @Test
+    void testThreeTableJoin() {
+        final Schema sourceSchema = factory.createSchema("THREE_TABLE_JOIN_SCHEMA");
+        sourceSchema.createTable("A", "ID", "CHAR(5)", "A1", "INTEGER")
+                .insert("ID_A1", 1).insert("ID_A2", 2).insert("ID_A3", 3);
+        sourceSchema.createTable("B", "ID", "CHAR(5)", "B1", "INTEGER", "B2", "INTEGER")
+                .insert("ID_B1", 1, 1).insert("ID_B2", 1, 2).insert("ID_B3", 2, 3);
+        sourceSchema.createTable("C", "ID", "CHAR(5)", "C1", "INTEGER")
+                .insert("ID_C1", 1).insert("ID_C2", 2).insert("ID_C3", 3);
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("THREE_TABLE_JOIN_USER", virtualSchema);
+        final String vsName = virtualSchema.getName();
+        assertQueryWithUser("SELECT A.ID, B.ID, C.ID FROM " + vsName + ".A"
+                + " INNER JOIN " + vsName + ".B ON A1 = B1"
+                + " INNER JOIN " + vsName + ".C ON B2 = C1",
+                user,
+                table()
+                        .row("ID_A1", "ID_B1", "ID_C1")
+                        .row("ID_A1", "ID_B2", "ID_C2")
+                        .row("ID_A2", "ID_B3", "ID_C3")
+                        .matches());
+    }
 }
