@@ -253,9 +253,8 @@ jobs:
         id: upload-lua-distribution-release-artifacts
         if: ${{ ! inputs.skip-github-release }}
         run: |
-          gh release upload "$TAG" \
-              target/exasol-virtual-schema-dist-*.lua \
-              exasol-virtual-schema-lua-*.rockspec
+          gh release upload "$TAG" target/exasol-virtual-schema-dist-*.lua
+          gh release upload "$TAG" exasol-virtual-schema-lua-*.rockspec
         env: {
           GH_TOKEN: '${{ github.token }}',
           TAG: '${{ steps.verify-release.outputs.release-tag }}'
