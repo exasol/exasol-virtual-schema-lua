@@ -4,9 +4,6 @@ import static com.exasol.matcher.ResultSetStructureMatcher.table;
 import static com.exasol.matcher.TypeMatchMode.NO_JAVA_TYPE_CHECK;
 import static org.hamcrest.Matchers.equalTo;
 
-import java.sql.SQLException;
-
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
@@ -18,26 +15,21 @@ import com.exasol.dbbuilder.dialects.exasol.VirtualSchema;
 // [itest -> dsn~evsl.creating-a-remote-virtual-schema~0] implicitly tested with each query on a Virtual Schema
 @Testcontainers
 class ImportIT extends AbstractLuaVirtualSchemaIT {
-
-    @BeforeAll
-    static void beforeAll() throws SQLException {
-        AbstractLuaVirtualSchemaIT.beforeAll();
-    }
-
     // [itest -> dsn~evsl.remote-push-down~0]
     @Test
     void testSelectStarOnUnprotectedTable() {
         final String sourceSchemaName = "SELECT_STAR_SCHEMA";
         final Schema sourceSchema = createSchema(sourceSchemaName);
         sourceSchema.createTable("T", "C1", "BOOLEAN").insert(true).insert(false);
-        final ConnectionDefinition connection = factory.createConnectionDefinition("SELECT_STAR_CONNECTION",
-                getAddressWithDynamicTlsFingerprint(), "sys", "exasol");
-        final VirtualSchema virtualSchema = createRemoteVirtualSchema(sourceSchema, connection.getName());
-        final User user = createUserWithVirtualSchemaAccess("SELECT_STAR_VS_USER", virtualSchema);
-        final String sql = "SELECT * FROM " + getVirtualSchemaName(sourceSchemaName) + ".T";
-        assertQueryWithUser(sql, user, table().row(true).row(false).matches());
-        assertPushDown(sql, user, equalTo("IMPORT INTO (c1 BOOLEAN) FROM EXA AT \"SELECT_STAR_CONNECTION\" STATEMENT '"
-                + "SELECT * FROM \"SELECT_STAR_SCHEMA\".\"T\"'"));
+        try(final ConnectionDefinition connection = factory.createConnectionDefinition("SELECT_STAR_CONNECTION",
+                getAddressWithDynamicTlsFingerprint(), "sys", "exasol")) {
+            final VirtualSchema virtualSchema = createRemoteVirtualSchema(sourceSchema, connection.getName());
+            final User user = createUserWithVirtualSchemaAccess("SELECT_STAR_VS_USER", virtualSchema);
+            final String sql = "SELECT * FROM " + getVirtualSchemaName(sourceSchemaName) + ".T";
+            assertQueryWithUser(sql, user, table().row(true).row(false).matches());
+            assertPushDown(sql, user, equalTo("IMPORT INTO (c1 BOOLEAN) FROM EXA AT \"SELECT_STAR_CONNECTION\""
+                    + " STATEMENT 'SELECT * FROM \"SELECT_STAR_SCHEMA\".\"T\"'"));
+        }
     }
 
     private static String getAddressWithDynamicTlsFingerprint() {
@@ -57,12 +49,32 @@ class ImportIT extends AbstractLuaVirtualSchemaIT {
         final String sourceSchemaName = "EMPTY_SELECT_SCHEMA";
         final Schema sourceSchema = createSchema(sourceSchemaName);
         sourceSchema.createTable("T", "C1", "BOOLEAN").insert(true).insert(false);
-        final ConnectionDefinition connection = factory.createConnectionDefinition("EMPTY_SELECT_CONNECTION",
-                getAddressWithDynamicTlsFingerprint(), "sys", "exasol");
-        final VirtualSchema virtualSchema = createRemoteVirtualSchema(sourceSchema, connection.getName());
-        final User user = createUserWithVirtualSchemaAccess("EMPTY_SELECT_USER", virtualSchema);
-        assertQueryWithUser("SELECT 'foo' FROM " + getVirtualSchemaName(sourceSchemaName) + ".T", user,
-                table().row("foo").row("foo").matches());
+        try(final ConnectionDefinition connection = factory.createConnectionDefinition("EMPTY_SELECT_CONNECTION",
+                getAddressWithDynamicTlsFingerprint(), "sys", "exasol"))
+        {
+            final VirtualSchema virtualSchema = createRemoteVirtualSchema(sourceSchema, connection.getName());
+            final User user = createUserWithVirtualSchemaAccess("EMPTY_SELECT_USER", virtualSchema);
+            assertQueryWithUser("SELECT 'foo' FROM " + getVirtualSchemaName(sourceSchemaName) + ".T", user,
+                    table().row("foo").row("foo").matches());
+        }
+    }
+
+    // [itest -> dsn~evsl.casting-a-typed-null-literal-for-remote-import~0]
+    @Test
+    void testTypedNullLiteralInTopLevelSelectList() {
+        final String sourceSchemaName = "TYPED_NULL_SCHEMA";
+        final Schema sourceSchema = createSchema(sourceSchemaName);
+        sourceSchema.createTable("T", "C1", "INTEGER").insert(1);
+        try(final ConnectionDefinition connection = factory.createConnectionDefinition("TYPED_NULL_CONNECTION",
+                getAddressWithDynamicTlsFingerprint(), "sys", "exasol")) {
+            final VirtualSchema virtualSchema = createRemoteVirtualSchema(sourceSchema, connection.getName());
+            final User user = createUserWithVirtualSchemaAccess("TYPED_NULL_USER", virtualSchema);
+            final String sql = "SELECT CAST(NULL AS DECIMAL(18,0)) AS X FROM " + getVirtualSchemaName(sourceSchemaName)
+                    + ".T";
+            assertQueryWithUser(sql, user, table().row((Object) null).matches(NO_JAVA_TYPE_CHECK));
+            assertPushDown(sql, user, equalTo("IMPORT INTO (c1 DECIMAL(18,0)) FROM EXA AT \"TYPED_NULL_CONNECTION\" "
+                    + "STATEMENT 'SELECT CAST(null AS DECIMAL(18,0)) FROM \"TYPED_NULL_SCHEMA\".\"T\"'"));
+        }
     }
 
     // [itest -> dsn~evsl.remote-push-down~0]
@@ -71,12 +83,13 @@ class ImportIT extends AbstractLuaVirtualSchemaIT {
         final String sourceSchemaName = "ORDER_LIMIT_SCHEMA";
         final Schema sourceSchema = createSchema(sourceSchemaName);
         sourceSchema.createTable("T", "NR", "INTEGER").insert(1).insert(2).insert(3);
-        final ConnectionDefinition connection = factory.createConnectionDefinition("ORDER_LIMIT_CONNECTION",
-                getAddressWithDynamicTlsFingerprint(), "sys", "exasol");
-        final VirtualSchema virtualSchema = createRemoteVirtualSchema(sourceSchema, connection.getName());
-        final User user = createUserWithVirtualSchemaAccess("ORDER_LIMIT_USER", virtualSchema);
-        assertQueryWithUser("SELECT NR FROM " + getVirtualSchemaName(sourceSchemaName) + ".T ORDER BY NR LIMIT 2", user,
-                table().row(1).row(2).matches(NO_JAVA_TYPE_CHECK));
+        try(final ConnectionDefinition connection = factory.createConnectionDefinition("ORDER_LIMIT_CONNECTION",
+                getAddressWithDynamicTlsFingerprint(), "sys", "exasol")) {
+            final VirtualSchema virtualSchema = createRemoteVirtualSchema(sourceSchema, connection.getName());
+            final User user = createUserWithVirtualSchemaAccess("ORDER_LIMIT_USER", virtualSchema);
+            assertQueryWithUser("SELECT NR FROM " + getVirtualSchemaName(sourceSchemaName) + ".T ORDER BY NR LIMIT 2", user,
+                    table().row(1).row(2).matches(NO_JAVA_TYPE_CHECK));
+        }
     }
 
     // [itest -> dsn~evsl.remote-push-down~0]
@@ -85,11 +98,13 @@ class ImportIT extends AbstractLuaVirtualSchemaIT {
         final String sourceSchemaName = "ORDER_LIMIT_OFFSET_SCHEMA";
         final Schema sourceSchema = createSchema(sourceSchemaName);
         sourceSchema.createTable("T", "TXT", "VARCHAR(10)").insert("a").insert("bb").insert("ccc").insert("dddd");
-        final ConnectionDefinition connection = factory.createConnectionDefinition("ORDER_LIMIT_OFFSET_CONNECTION",
-                getAddressWithDynamicTlsFingerprint(), "sys", "exasol");
-        final VirtualSchema virtualSchema = createRemoteVirtualSchema(sourceSchema, connection.getName());
-        final User user = createUserWithVirtualSchemaAccess("ORDER_LIMIT_OFFSET_USER", virtualSchema);
-        assertQueryWithUser("SELECT TXT FROM " + getVirtualSchemaName(sourceSchemaName)
-                + ".T ORDER BY LENGTH(TXT) LIMIT 2 OFFSET 1", user, table().row("bb").row("ccc").matches());
+        try(final ConnectionDefinition connection = factory.createConnectionDefinition("ORDER_LIMIT_OFFSET_CONNECTION",
+                getAddressWithDynamicTlsFingerprint(), "sys", "exasol")) {
+
+            final VirtualSchema virtualSchema = createRemoteVirtualSchema(sourceSchema, connection.getName());
+            final User user = createUserWithVirtualSchemaAccess("ORDER_LIMIT_OFFSET_USER", virtualSchema);
+            assertQueryWithUser("SELECT TXT FROM " + getVirtualSchemaName(sourceSchemaName)
+                    + ".T ORDER BY LENGTH(TXT) LIMIT 2 OFFSET 1", user, table().row("bb").row("ccc").matches());
+        }
     }
 }

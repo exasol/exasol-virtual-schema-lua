@@ -263,6 +263,25 @@ EXPLAIN VIRTUAL SELECT * FROM EVSL_VIRTUAL_SCHEMA.<table>
 
 ## Known Limitations
 
+### Typed `NULL` Literals in Remote Select Lists
+
+When querying a remote virtual schema, a typed `NULL` literal works only as a direct entry in the top-level select list.
+
+Input SQL:
+
+```sql
+SELECT CAST(NULL AS DECIMAL(18,0)) AS X
+FROM EVSL_VIRTUAL_SCHEMA.T;
+```
+
+Generated remote SQL:
+
+```sql
+IMPORT INTO (c1 DECIMAL(18,0)) FROM EXA AT "CONNECTION_NAME" STATEMENT 'SELECT CAST(null AS DECIMAL(18,0)) FROM "SOURCE_SCHEMA"."T"'
+```
+
+This does not apply to `NULL` values inside predicates, functions, `CASE` expressions, or subqueries. EVSL receives result types only for top-level select-list entries, so it cannot safely cast nested `NULL` values.
+
 ### No TLS Certificates
 
 Lua in Exasol does not have filesystem access. Not even to BucketFS. The [Virtual Schema Adapter](#virtual-schema-adapter) uses the [Exasol Lua driver](https://github.com/exasol/exasol-driver-lua/) which in turn accesses the [Exasol Websocket API](https://github.com/exasol/websocket-api/). This is done via a TLS connection.

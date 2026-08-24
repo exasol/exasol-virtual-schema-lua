@@ -40,4 +40,16 @@ describe("Remote Query rewriter", function()
                 [[IMPORT INTO (c1 BOOLEAN, c2 VARCHAR(400)) FROM EXA AT "TEST_CONNECTION" ]]
                         .. [[STATEMENT 'SELECT "T1"."C1", "T1"."C2" FROM "S"."T1"']])
     end)
+
+    it("casts top-level NULL literals to their select-list result type"
+        .. " [utest -> dsn~evsl.casting-a-typed-null-literal-for-remote-import~0]", function()
+        local original_query = {
+            type = "select",
+            selectList = {{type = "literal_null"}},
+            selectListDataTypes = {{type = "DECIMAL", precision = 18, scale = 0}},
+            from = {type = "table", name = "T1"}
+        }
+        assert_rewrite(original_query, "S", [[IMPORT INTO (c1 DECIMAL(18,0)) FROM EXA AT "TEST_CONNECTION" ]]
+                        .. [[STATEMENT 'SELECT CAST(null AS DECIMAL(18,0)) FROM "S"."T1"']])
+    end)
 end)
