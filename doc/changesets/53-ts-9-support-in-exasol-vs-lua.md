@@ -1,5 +1,7 @@
 # GH-53 TS(9) Support in Exasol VS Lua
 
+<!-- markdown-link-check-disable -->
+
 ## Goal
 
 Preserve nanosecond timestamp precision when EVSL reads Exasol source metadata, proven by version-specific integration tests.

@@ -19,7 +19,7 @@ function RemoteQueryRewriter:new(connection_id)
 end
 
 function RemoteQueryRewriter:_init(connection_id)
-    AbstractQueryRewriter:_init(self)
+    AbstractQueryRewriter:_init()
     self._connection_id = connection_id
 end
 
@@ -29,9 +29,34 @@ function RemoteQueryRewriter:class()
     return RemoteQueryRewriter
 end
 
+--- Cast literal NULL to the expected type on top level.
+--
+-- The IMPORT statement does not accept untyped null on top level, so we add a CAST around NULL using the information
+-- from the select list data type structure.
+--
+-- @param query input query
+-- @param select_list_data_types type the Exasol database expects to see in the rewritten push-down query
+-- [impl -> dsn~evsl.casting-a-typed-null-literal-for-remote-import~0]
+local function cast_top_level_null_literals(query, select_list_data_types)
+    if query.selectList and select_list_data_types then
+        for index, expression in ipairs(query.selectList) do
+            local data_type = select_list_data_types[index]
+            if expression.type == "literal_null" and data_type then
+                query.selectList[index] = {
+                    type = "function_scalar_cast",
+                    name = "CAST",
+                    arguments = {expression},
+                    dataType = data_type
+                }
+            end
+        end
+    end
+end
+
 function RemoteQueryRewriter:_create_import(original_query, source_schema_id)
     local remote_query = self:_extend_query_with_source_schema(original_query, source_schema_id)
     self:_expand_select_list(remote_query)
+    cast_top_level_null_literals(remote_query, original_query.selectListDataTypes)
     local import_query = ImportQueryBuilder:new()
             :connection(self._connection_id)
             :column_types(original_query.selectListDataTypes)

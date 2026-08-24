@@ -277,6 +277,21 @@ Covers:
 
 Needs: dsn
 
+### Typed `NULL` Literals in Remote Select Lists
+`req~evsl.remote-typed-null-literals~1`
+
+EVSL supports a typed `NULL` literal as a top-level select-list entry when querying a remote Exasol data source.
+
+Rationale:
+
+The ExaLoader that executes the remote `IMPORT` cannot transform an untyped `NULL` into the result type declared by the import. The Virtual Schema API provides the declared result type for each top-level select-list entry, allowing EVSL to preserve it in the query executed on the remote source.
+
+Covers:
+
+* [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
+
+Needs: scn
+
 ### Setting New Properties
 `req~evsl.setting-properties~1`
 
@@ -310,6 +325,21 @@ Covers:
 
 * [feat~evsl.local-virtual-schema~1](#local-virtual-schema)
 * [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
+
+Needs: dsn
+
+## Scenarios
+
+### Casting a Typed `NULL` Literal for Remote Import
+`scn~evsl.casting-a-typed-null-literal-for-remote-import~1`
+
+**GIVEN** a remote EVSL virtual schema and a source table with at least one row
+**WHEN** a VS Consumer selects a typed `NULL` literal as a top-level select-list entry
+**THEN** EVSL queries the remote source with that literal cast to the result type supplied by the Virtual Schema API and returns a null result of that type.
+
+Covers:
+
+* [req~evsl.remote-typed-null-literals~1](#typed-null-literals-in-remote-select-lists)
 
 Needs: dsn
 
