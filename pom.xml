@@ -91,7 +91,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>project-keeper-maven-plugin</artifactId>
-                <version>5.7.5</version>
+                <version>5.7.6</version>
                 <executions>
                     <execution>
                         <goals>
@@ -103,7 +103,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>3.6.3</version>
+                <version>3.6.4</version>
                 <executions>
                     <execution>
                         <id>unit-test</id>
@@ -120,7 +120,7 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <!-- Bundle the main script (dispatcher) and the modules into a single lua package 
+                        <!-- Bundle the main script (dispatcher) and the modules into a single lua package
                             that can be deployed as Lua adapter script. -->
                         <id>bundle</id>
                         <phase>package</phase>
@@ -153,7 +153,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
-                <version>3.6.1</version>
+                <version>3.6.2</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -205,7 +205,7 @@
             <plugin>
                 <groupId>com.exasol</groupId>
                 <artifactId>error-code-crawler-maven-plugin</artifactId>
-                <version>2.1.1</version>
+                <version>2.1.2</version>
                 <executions>
                     <execution>
                         <id>verify</id>
