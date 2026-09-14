@@ -46,7 +46,7 @@
 | [Apache Maven Site Plugin][51]                          | [Apache-2.0][21]                            |
 
 [0]: https://www.exasol.com/
-[1]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/26.2.8/exasol-jdbc-26.2.8-license.txt
+[1]: https://repo1.maven.org/maven2/com/exasol/exasol-jdbc/26.2.9/exasol-jdbc-26.2.9-license.txt
 [2]: https://github.com/exasol/exasol-testcontainers/
 [3]: https://github.com/exasol/exasol-testcontainers/blob/main/LICENSE
 [4]: https://java.testcontainers.org
