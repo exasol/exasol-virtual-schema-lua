@@ -133,7 +133,7 @@ function SelectAppender:_append_expression(expression)
     self:_expression_appender():append_expression(expression)
 end
 
----@param filter Expression
+---@param filter Expression?
 -- [impl -> dsn~vscl.rendering-boolean-filter-expressions~0]
 function SelectAppender:_append_filter(filter)
     if filter then
