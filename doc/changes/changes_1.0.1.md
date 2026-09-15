@@ -25,6 +25,8 @@ A security flaw has been discovered in mwiede jsch up to 2.28.5. Affected is the
 ## Bug Fixes
 
 * #83: Fixed remote queries with typed `NULL` literals in top-level select lists.
+* #85: Fixed local queries with top-level literals whose declared result type differs from the literal's inferred type.
+
 ## Dependency Updates
 
 ### Test Dependency Updates

@@ -1,6 +1,6 @@
 ' [dsn -> req~evsl.local-push-down~1 >> impl, itest]
 ' [dsn -> req~evsl.remote-push-down~1 >> impl, itest]
-' [dsn -> scn~evsl.casting-a-typed-null-literal-for-remote-import~1 >> impl, utest, itest]
+' [dsn -> scn~evsl.preserving-top-level-literal-types~1 >> impl, utest, itest]
 
 @startuml
 !include ../clean.skin
@@ -37,7 +37,7 @@ alt connection provided
     activate ImportQueryBuilder
     ImportQueryBuilder -->> RemoteQueryRewriter : instance
     deactivate ImportQueryBuilder
-    loop for each top-level ""NULL""
+    loop for each top-level literal
         RemoteQueryRewriter -> RemoteQueryRewriter : cast to result column type
         activate RemoteQueryRewriter
         deactivate RemoteQueryRewriter
@@ -71,6 +71,11 @@ else no connection provided
     ExasolAdapter -> LocalQueryRewriter : rewrite (query, schema adapter notes, involved table[])
     activate LocalQueryRewriter
     ref over LocalQueryRewriter : **[[../activity/act_rewrite.svg rewrite query]]**
+    loop for each top-level literal
+        LocalQueryRewriter -> LocalQueryRewriter : cast to result column type
+        activate LocalQueryRewriter
+        deactivate LocalQueryRewriter
+    end
     create QueryRenderer
     LocalQueryRewriter -> QueryRenderer : new (query)
     activate QueryRenderer
