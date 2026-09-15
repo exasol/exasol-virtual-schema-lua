@@ -39,11 +39,24 @@ abstract class AbstractLuaVirtualSchemaIT {
     private static ExasolSchema scriptSchema;
 
     @BeforeAll
-    static void beforeAll() throws NoDriverFoundException, SQLException {
+    static void beforeAll() throws NoDriverFoundException, SQLException, InterruptedException, IOException {
+        buildAdapterPackage();
         EXASOL.purgeDatabase();
         connection = EXASOL.createConnection("");
         factory = new ExasolObjectFactory(connection);
         scriptSchema = factory.createSchema("L");
+    }
+
+    private static void buildAdapterPackage() throws InterruptedException, IOException {
+        final Path projectDirectory = Path.of("").toAbsolutePath();
+        final Process process = new ProcessBuilder(projectDirectory.resolve("tools/bundle.sh").toString(),
+                projectDirectory.toString())
+                        .directory(projectDirectory.toFile())
+                        .inheritIO()
+                        .start();
+        if (process.waitFor() != 0) {
+            throw new IllegalStateException("Unable to build the Lua adapter package.");
+        }
     }
 
     /**
