@@ -29,11 +29,11 @@ abstract class AbstractLuaVirtualSchemaIT {
     private static final String VERSION = MavenProjectVersionGetter.getCurrentProjectVersion();
     private static final Path VS_PACKAGE_PATH = Path.of("target/exasol-virtual-schema-dist-" + VERSION + ".lua");
     @Container
-    protected static final ExasolContainer<? extends ExasolContainer<?>> EXASOL =
-            new ExasolContainer<>()
-                    .withRequiredServices()
-                    .withExposedPorts(8563)
-                    .withReuse(true);
+    @SuppressWarnings("resource") // Will be closed by @Container annotation
+    protected static final ExasolContainer<? extends ExasolContainer<?>> EXASOL = new ExasolContainer<>()
+            .withRequiredServices()
+            .withExposedPorts(8563)
+            .withReuse(true);
     protected static Connection connection;
     protected static ExasolObjectFactory factory;
     private static ExasolSchema scriptSchema;
@@ -52,7 +52,7 @@ abstract class AbstractLuaVirtualSchemaIT {
      * Note: if you want to enable debug output, you can set <a href=
      * "https://github.com/exasol/test-db-builder-java/blob/main/doc/user_guide/user_guide.md#debug-output">system
      * properties defined by test-db-builder-java</a>.
-     * 
+     *
      * @param sourceSchema the source schema for the new virtual schema
      * @param properties   the properties for the new virtual schema
      * @return the newly created virtual schema
@@ -84,9 +84,9 @@ abstract class AbstractLuaVirtualSchemaIT {
     protected Map<String, String> getLoggingPropertiesFromEnvironment() {
         final String debugAddress = System.getenv("DEBUG_ADDRESS");
         final String logLevel = System.getenv("LOG_LEVEL");
-        if(debugAddress == null && logLevel == null) {
+        if (debugAddress == null && logLevel == null) {
             return Map.of();
-        } else if(debugAddress != null) {
+        } else if (debugAddress != null) {
             return Map.of("DEBUG_ADDRESS", debugAddress, "LOG_LEVEL", "TRACE");
         } else {
             return Map.of("DEBUG_ADDRESS", "localhost:3000", "LOG_LEVEL", logLevel);
