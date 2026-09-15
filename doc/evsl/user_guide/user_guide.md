@@ -265,7 +265,7 @@ EXPLAIN VIRTUAL SELECT * FROM EVSL_VIRTUAL_SCHEMA.<table>
 
 ### Typed Literals in Top-Level Select Lists
 
-EVSL preserves the declared type of a literal only when it is a direct entry in the top-level select list. This applies to both local and remote virtual schemas.
+EVSL preserves the declared type of a literal only when it is a direct entry in the top-level select list.
 
 Input SQL:
 
