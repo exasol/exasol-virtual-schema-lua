@@ -42,7 +42,7 @@ Out of scope:
 
 - [x] Run the focused integration regression test and all Lua unit tests.
 - [x] Keep the OpenFastTrace trace clean.
-- [ ] Run the CI-equivalent Maven verification and shellcheck.
+- [x] Run the CI-equivalent Maven verification and shellcheck.
 
 ## Version And Changelog Update
 
