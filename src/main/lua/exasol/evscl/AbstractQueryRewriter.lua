@@ -91,6 +91,30 @@ function AbstractQueryRewriter:_expand_select_list(query)
     end
 end
 
+--- Cast top-level literals to their declared result types.
+--
+-- The Virtual Schema API provides result types for top-level select-list entries. Applying these types preserves
+-- the type of literals whose original CAST expression was removed from the push-down request.
+--
+-- @param query query with the select list to update
+-- @param select_list_data_types declared result types aligned with the select list
+-- [impl -> dsn~evsl.preserving-top-level-literal-types~0]
+function AbstractQueryRewriter:_cast_top_level_literals(query, select_list_data_types)
+    if query.selectList and select_list_data_types then
+        for index, expression in ipairs(query.selectList) do
+            local data_type = select_list_data_types[index]
+            if string.sub(expression.type, 1, 8) == "literal_" and data_type then
+                query.selectList[index] = {
+                    type = "function_scalar_cast",
+                    name = "CAST",
+                    arguments = {expression},
+                    dataType = data_type
+                }
+            end
+        end
+    end
+end
+
 --- Rewrite the original query.
 -- @param _ structure containing the original push-down query
 -- @param _ source schema the Exasol VS is put on top of

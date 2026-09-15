@@ -59,7 +59,7 @@ class ImportIT extends AbstractLuaVirtualSchemaIT {
         }
     }
 
-    // [itest -> dsn~evsl.casting-a-typed-null-literal-for-remote-import~0]
+    // [itest -> dsn~evsl.preserving-top-level-literal-types~0]
     @Test
     void testTypedNullLiteralInTopLevelSelectList() {
         final String sourceSchemaName = "TYPED_NULL_SCHEMA";

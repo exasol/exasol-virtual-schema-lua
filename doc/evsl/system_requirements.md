@@ -31,7 +31,7 @@ Needs: qr
 
 ### Virtual Schema Owners
 
-Virtual Schema Owners (short "VS Owners") have elevated rights on the database, allowing them to create, modify and drop Virtual Schemas. 
+Virtual Schema Owners (short "VS Owners") have elevated rights on the database, allowing them to create, modify and drop Virtual Schemas.
 
 ### Virtual Schema Consumers
 
@@ -107,7 +107,7 @@ Needs: dsn
 ### Defining the Remote Connection
 `req~evsl.defining-the-remote-connection~1`
 
-VS Owners can specify a [connection object](https://docs.exasol.com/db/latest/sql/create_connection.htm) in the Exasol database that defines the location of and credentials to the data source.  
+VS Owners can specify a [connection object](https://docs.exasol.com/db/latest/sql/create_connection.htm) in the Exasol database that defines the location of and credentials to the data source.
 
 Rationale:
 
@@ -145,7 +145,7 @@ Certificate validation is required to establish trusted connection to a remote E
 
 Comment:
 
-[#38](https://github.com/exasol/exasol-virtual-schema-lua/issues/36): This requirement is currently blocked by missing access for Lua to the truststore. Therefore, the `needs` part of this requirement is no yet here. 
+[#38](https://github.com/exasol/exasol-virtual-schema-lua/issues/36): This requirement is currently blocked by missing access for Lua to the truststore. Therefore, the `needs` part of this requirement is no yet here.
 
 ### Reading Source Metadata
 `req~evsl.reading-source-metadata~1`
@@ -158,7 +158,7 @@ EVSL (re-)reads the metadata from the data source whenever one of the following 
 
 Rationale:
 
-It is obvious that the metadata needs to be read upon creation. This is necessary to allow the Exasol database to map source structure and data types to the Virtual Schema. Refreshing allows updating this information, in case there is a change in the source that affects the source structure or types. Finally, changing the properties can impact which part of the source the Virtual Schema takes into account and can also affect the mapping and therefore also requires re-reading the metadata.  
+It is obvious that the metadata needs to be read upon creation. This is necessary to allow the Exasol database to map source structure and data types to the Virtual Schema. Refreshing allows updating this information, in case there is a change in the source that affects the source structure or types. Finally, changing the properties can impact which part of the source the Virtual Schema takes into account and can also affect the mapping and therefore also requires re-reading the metadata.
 
 Covers:
 
@@ -277,17 +277,18 @@ Covers:
 
 Needs: dsn
 
-### Typed `NULL` Literals in Remote Select Lists
-`req~evsl.remote-typed-null-literals~1`
+### Preserving Types of Top-Level Literals
+`req~evsl.top-level-literal-types~1`
 
-EVSL supports a typed `NULL` literal as a top-level select-list entry when querying a remote Exasol data source.
+EVSL preserves the declared result type of a literal that is a top-level select-list entry when querying a local or remote Exasol data source.
 
 Rationale:
 
-The ExaLoader that executes the remote `IMPORT` cannot transform an untyped `NULL` into the result type declared by the import. The Virtual Schema API provides the declared result type for each top-level select-list entry, allowing EVSL to preserve it in the query executed on the remote source.
+The Virtual Schema API provides the declared result type for each top-level select-list entry. A cast over a literal may be removed from the push-down request, causing the source to infer a different type. EVSL uses the declared type to preserve the original result type in the query executed on the source.
 
 Covers:
 
+* [feat~evsl.local-virtual-schema~1](#local-virtual-schema)
 * [feat~evsl.remote-virtual-schema~1](#remote-virtual-schema)
 
 Needs: scn
@@ -330,16 +331,16 @@ Needs: dsn
 
 ## Scenarios
 
-### Casting a Typed `NULL` Literal for Remote Import
-`scn~evsl.casting-a-typed-null-literal-for-remote-import~1`
+### Preserving a Top-Level Literal Type
+`scn~evsl.preserving-top-level-literal-types~1`
 
-**GIVEN** a remote EVSL virtual schema and a source table with at least one row
-**WHEN** a VS Consumer selects a typed `NULL` literal as a top-level select-list entry
-**THEN** EVSL queries the remote source with that literal cast to the result type supplied by the Virtual Schema API and returns a null result of that type.
+**GIVEN** a local or remote EVSL virtual schema and a source table with at least one row
+**WHEN** a VS Consumer selects a literal with a declared type as a top-level select-list entry
+**THEN** EVSL queries the source with that literal cast to the result type supplied by the Virtual Schema API.
 
 Covers:
 
-* [req~evsl.remote-typed-null-literals~1](#typed-null-literals-in-remote-select-lists)
+* [req~evsl.top-level-literal-types~1](#preserving-types-of-top-level-literals)
 
 Needs: dsn
 

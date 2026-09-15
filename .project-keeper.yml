@@ -8,7 +8,7 @@ build:
   runnerOs: ubuntu-24.04
   freeDiskSpace: false
   exasolDbVersions:
-  - "2026.1.1" # Latest
+  - "2026.1.2" # Latest
   - "2025.1.16" # Latest LTS
   - "8.29.13" # Latest 8.x
   workflows:

@@ -1,10 +1,10 @@
-# Exasol Virtual Schema Lua 1.0.1, released 2026-08-??
+# Exasol Virtual Schema Lua 1.0.1, released 2026-08-15
 
-Code name: Fixed vulnerability CVE-2026-86231 in com.github.mwiede:jsch:jar:2.28.5:test
+Code name: Fixed Bugs and Vulnerability CVE-2026-86231 in Test Dependency
 
 ## Summary
 
-This release fixes remote queries with typed `NULL` literals in top-level select lists.
+This release fixes local and remote queries with typed `NULL` literals in top-level select lists. The release also fixes queries with an always-false filter such as `WHERE 1 = 0`.
 
 This release fixes the following vulnerability:
 
@@ -25,6 +25,7 @@ A security flaw has been discovered in mwiede jsch up to 2.28.5. Affected is the
 ## Bug Fixes
 
 * #83: Fixed remote queries with typed `NULL` literals in top-level select lists.
+* #85: Fixed local queries with top-level literals whose declared result type differs from the literal's inferred type.
 * #86: Fixed queries with an always-false filter such as `WHERE 1 = 0`.
 
 ## Dependency Updates
@@ -33,9 +34,12 @@ A security flaw has been discovered in mwiede jsch up to 2.28.5. Affected is the
 
 * Updated `com.exasol:exasol-jdbc:26.2.8` to `26.2.9`
 * Updated `com.exasol:exasol-testcontainers:8.0.1` to `8.0.2`
-* Updated `org.junit.jupiter:junit-jupiter-api:5.14.4` to `6.1.3`
-* Updated `org.junit.jupiter:junit-jupiter-params:5.14.4` to `6.1.3`
+* Removed `org.junit.jupiter:junit-jupiter-api:5.14.4`
+* Removed `org.junit.jupiter:junit-jupiter-params:5.14.4`
+* Added `org.junit.jupiter:junit-jupiter:6.1.3`
 * Updated `org.slf4j:slf4j-jdk14:2.0.18` to `2.0.19`
+* Removed `org.testcontainers:junit-jupiter:1.21.4`
+* Added `org.testcontainers:testcontainers-junit-jupiter:2.0.5`
 
 ### Plugin Dependency Updates
 

@@ -31,6 +31,7 @@ function LocalQueryRewriter:rewrite(original_query, source_schema_id, _, _)
     self:_validate(original_query)
     local query = self:_extend_query_with_source_schema(original_query, source_schema_id)
     self:_expand_select_list(query)
+    self:_cast_top_level_literals(query, original_query.selectListDataTypes)
     local renderer = QueryRenderer:new(query, {})
     return renderer:render()
 end
