@@ -39,8 +39,9 @@ Out of scope:
 ### Verification
 
 - [x] Run focused local and remote Lua rewriter tests.
-- [ ] Run the focused local integration test against Exasol Testcontainers.
-- [ ] Run the complete Lua test suite, OpenFastTrace trace, and Maven verification.
+- [x] Run the focused local integration test against Exasol Testcontainers.
+- [x] Run the complete Lua test suite, OpenFastTrace trace, and Maven verification. The full Failsafe run exposed
+      unrelated shared-database cleanup and concurrent LuaRocks-bundling failures.
 
 ## Version And Changelog Update
 
