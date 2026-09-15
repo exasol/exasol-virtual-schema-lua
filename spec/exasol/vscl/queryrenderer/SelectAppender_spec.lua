@@ -93,6 +93,18 @@ describe("SelectAppender", function()
         assert_yields('SELECT "MONTHS"."NAME" FROM "MONTHS" WHERE ("MONTHS"."DAYS_IN_MONTH" > 30)', original_query)
     end)
 
+    -- [utest -> dsn~vscl.rendering-boolean-filter-expressions~0]
+    for _, boolean_filter in ipairs({true, false}) do
+        it("renders a boolean literal filter " .. tostring(boolean_filter), function()
+            local original_query = {
+                type = "select",
+                from = {type = "table", name = "T1"},
+                filter = {type = "literal_bool", value = boolean_filter}
+            }
+            assert_yields('SELECT * FROM "T1" WHERE ' .. tostring(boolean_filter), original_query)
+        end)
+    end
+
     it("renders nested predicate filter", function()
         local original_query = {
             type = "select",

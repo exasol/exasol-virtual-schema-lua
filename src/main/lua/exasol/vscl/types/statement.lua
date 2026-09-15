@@ -5,7 +5,7 @@ local M = {}
 ---@field type "select" | "sub_select"
 ---@field selectList SelectList[]?
 ---@field from FromClause?
----@field filter PredicateExpression?
+---@field filter Expression?
 ---@field groupBy Expression[]?
 ---@field aggregationType ("single_group" | string)?
 ---@field having any?

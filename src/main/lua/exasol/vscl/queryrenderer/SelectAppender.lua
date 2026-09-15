@@ -133,11 +133,12 @@ function SelectAppender:_append_expression(expression)
     self:_expression_appender():append_expression(expression)
 end
 
----@param filter PredicateExpression
+---@param filter Expression?
+-- [impl -> dsn~vscl.rendering-boolean-filter-expressions~0]
 function SelectAppender:_append_filter(filter)
     if filter then
         self:_append(" WHERE ")
-        self:_expression_appender():append_predicate(filter)
+        self:_expression_appender():append_expression(filter)
     end
 end
 

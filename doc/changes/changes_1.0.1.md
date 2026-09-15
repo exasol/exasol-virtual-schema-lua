@@ -1,10 +1,10 @@
 # Exasol Virtual Schema Lua 1.0.1, released 2026-08-??
 
-Code name: Fixed vulnerability CVE-2026-86231 in com.github.mwiede:jsch:jar:2.28.5:test
+Code name: Fixed Bugs and Vulnerability CVE-2026-86231 in Test Dependency
 
 ## Summary
 
-This release fixes remote queries with typed `NULL` literals in top-level select lists.
+This release fixes local and remote queries with typed `NULL` literals in top-level select lists. The release also fixes queries with an always-false filter such as `WHERE 1 = 0`.
 
 This release fixes the following vulnerability:
 
@@ -26,6 +26,7 @@ A security flaw has been discovered in mwiede jsch up to 2.28.5. Affected is the
 
 * #83: Fixed remote queries with typed `NULL` literals in top-level select lists.
 * #85: Fixed local queries with top-level literals whose declared result type differs from the literal's inferred type.
+* #86: Fixed queries with an always-false filter such as `WHERE 1 = 0`.
 
 ## Dependency Updates
 
