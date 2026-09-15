@@ -1,4 +1,4 @@
-# Exasol Virtual Schema Lua 1.0.1, released 2026-08-??
+# Exasol Virtual Schema Lua 1.0.1, released 2026-08-15
 
 Code name: Fixed Bugs and Vulnerability CVE-2026-86231 in Test Dependency
 
