@@ -57,7 +57,7 @@ class SelectIT extends AbstractLuaVirtualSchemaIT {
         final User user = createUserWithVirtualSchemaAccess("TYPED_NULL_USER", virtualSchema);
         final String sql = "SELECT CAST(NULL AS VARCHAR(50)) AS N FROM " + getVirtualSchemaName(sourceSchemaName) + ".T";
         assertQueryWithUser(sql, user, table().row((Object) null).row((Object) null).matches(TypeMatchMode.NO_JAVA_TYPE_CHECK));
-        assertPushDown(sql, user, equalTo("SELECT CAST(null AS VARCHAR(50)) FROM \"TYPED_NULL_SCHEMA\".\"T\""));
+        assertPushDown(sql, user, equalTo("SELECT CAST(NULL AS VARCHAR(50)) FROM \"TYPED_NULL_SCHEMA\".\"T\""));
     }
 
     // [itest -> dsn~evsl.local-push-down~0]

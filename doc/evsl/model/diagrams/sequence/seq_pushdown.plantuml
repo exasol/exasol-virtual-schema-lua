@@ -71,16 +71,16 @@ else no connection provided
     ExasolAdapter -> LocalQueryRewriter : rewrite (query, schema adapter notes, involved table[])
     activate LocalQueryRewriter
     ref over LocalQueryRewriter : **[[../activity/act_rewrite.svg rewrite query]]**
-    loop for each top-level literal
-        LocalQueryRewriter -> LocalQueryRewriter : cast to result column type
-        activate LocalQueryRewriter
-        deactivate LocalQueryRewriter
-    end
     create QueryRenderer
     LocalQueryRewriter -> QueryRenderer : new (query)
     activate QueryRenderer
     QueryRenderer -->> LocalQueryRewriter : instance
     deactivate QueryRenderer
+    loop for each top-level literal
+        LocalQueryRewriter -> LocalQueryRewriter : cast to result column type
+        activate LocalQueryRewriter
+        deactivate LocalQueryRewriter
+    end
     LocalQueryRewriter -> QueryRenderer : render ()
     activate QueryRenderer
     QueryRenderer -->> LocalQueryRewriter : query : SQL string
