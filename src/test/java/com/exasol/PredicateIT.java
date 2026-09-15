@@ -15,6 +15,18 @@ import static org.hamcrest.Matchers.equalTo;
 @Testcontainers
 class PredicateIT extends  AbstractLuaVirtualSchemaIT {
     @Test
+    // [itest -> dsn~vscl.rendering-boolean-filter-expressions~0]
+    void testPredicateConstantFalse() {
+        final Schema sourceSchema = createSchema("CONSTANT_FALSE_SCHEMA");
+        sourceSchema.createTable("T", "C1", "INTEGER").insert(1);
+        final VirtualSchema virtualSchema = createVirtualSchema(sourceSchema);
+        final User user = createUserWithVirtualSchemaAccess("CONSTANT_FALSE_USER", virtualSchema);
+        final String sql = "SELECT * FROM " + getVirtualSchemaName(sourceSchema) + ".T WHERE 1 = 0";
+        assertPushDown(sql, user, containsString("WHERE false"));
+        assertQueryWithUser(sql, user, table("BIGINT").matches());
+    }
+
+    @Test
     void testPredicateEqual() {
         final Schema sourceSchema = createSchema("EQUAL_SCHEMA");
         sourceSchema.createTable("T", "C1", "VARCHAR(10)").insert("Alice").insert("Bob").insert("Charly");

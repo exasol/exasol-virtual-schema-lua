@@ -1,3 +1,5 @@
+' [dsn~vscl.rendering-boolean-filter-expressions~0 -> req~vscl.render-sql-query~1 >> impl, utest, itest]
+
 @startuml
 !include ../clean.skin
 
@@ -27,11 +29,12 @@ QueryRewriter -> QueryRenderer : create(query)
     '[dsn -> req~vscl.render-sql-query~1]
     QueryRewriter -> QueryRenderer : render()
     activate QueryRenderer
+    note over QueryRenderer: Render filters as boolean expressions,\nincluding folded boolean literals.
     QueryRenderer -->> QueryRewriter : query : SQL string
     deactivate QueryRenderer
     QueryRewriter --> VirtualSchemaAdapter : query : SQL string
     deactivate QueryRewriter
 end group
 VirtualSchemaAdapter -->> RequestDispatcher : wrapped response
-deactivate VirtualSchemaAdapter 
+deactivate VirtualSchemaAdapter
 @enduml
