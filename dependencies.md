@@ -10,8 +10,7 @@
 | [Testcontainers :: JUnit Jupiter Extension][4] | [MIT][5]                          |
 | [Hamcrest][6]                                  | [BSD-3-Clause][7]                 |
 | [Matcher for SQL Result Sets][8]               | [MIT License][9]                  |
-| [JUnit Jupiter API][10]                        | [Eclipse Public License v2.0][11] |
-| [JUnit Jupiter Params][10]                     | [Eclipse Public License v2.0][11] |
+| [JUnit Jupiter (Aggregator)][10]               | [Eclipse Public License v2.0][11] |
 | [SLF4J JDK14 Provider][12]                     | [MIT][13]                         |
 | [Test Database Builder for Java][14]           | [MIT License][15]                 |
 | [Maven Project Version Getter][16]             | [MIT License][17]                 |
