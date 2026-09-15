@@ -34,6 +34,8 @@ A security flaw has been discovered in mwiede jsch up to 2.28.5. Affected is the
 * Updated `org.junit.jupiter:junit-jupiter-api:5.14.4` to `6.1.3`
 * Updated `org.junit.jupiter:junit-jupiter-params:5.14.4` to `6.1.3`
 * Updated `org.slf4j:slf4j-jdk14:2.0.18` to `2.0.19`
+* Removed `org.testcontainers:junit-jupiter:1.21.4`
+* Added `org.testcontainers:testcontainers-junit-jupiter:2.0.5`
 
 ### Plugin Dependency Updates
 
